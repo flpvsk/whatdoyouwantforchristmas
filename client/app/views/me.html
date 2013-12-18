@@ -1,9 +1,11 @@
 <div class="content">
 
     <div class="col-sm-5 col-md-4 menu hidden-xs">
+      <img class="menu-pic"
+        ng-src="/images/{{ getImage() }}.png"></img>
       <ul class="">
-        <li>моё письмо</li>
-        <li>друзья</li>
+        <li><a ng-href="#/me">Мое Письмо</a></li>
+        <li><a ng-href="#/friends">Письма Друзей</a></li>
       </ul>
     </div>
 

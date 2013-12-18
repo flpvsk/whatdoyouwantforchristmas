@@ -35,9 +35,10 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 $font-script: 'Decor', serif;
 $font-sans: 'PT Sans', sans-serif;
 
-$color-red-dark: #cb3c36;//
+$color-red-dark: #cb3c36;
 $color-turq: #61a9a5;
 $color-brown-dark: #3f1c06;
+$color-white: #fff;
 
 
 
@@ -142,15 +143,14 @@ ul {
   height: 100%;
 }
 
-.content {
-}
+.content { }
 
 // End Modules
 
 // Themes
 .card-red {
   background-color: $color-red-dark;
-  color: #fff;
+  color: $color-white;
 }
 
 .card-shadow {
@@ -185,6 +185,45 @@ ul {
 
 .menu {
   background-color: $color-red-dark;
+  @include single-box-shadow();
+  text-align: center;
+
+  font-family: $font-script;
+  font-size: 3.2em;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+    border-bottom: 1px solid transparent;
+    margin-bottom: 10px;
+  }
+
+  a {
+    color: $color-white;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  li:hover, li.current {
+    border-bottom: 1px solid $color-white;
+  }
+
+  a.current {
+
+  }
+}
+
+.menu-pic {
+  display: block;
+  height: 200px;
+  width: 200px;
+
+  margin: 20px auto;
 }
 
 // End Themes
