@@ -8,8 +8,17 @@ angular.module('clientApp')
       console.log('In controller', data);
 
       if (data.status === 'connected') {
+        console.log('phase', $scope.$$phase);
+
+        if ($scope.$$phase === '$digest') {
+          $location.path('/me');
+          $location.replace();
+          return;
+        }
+
         $scope.$apply(function () {
           $location.path('/me');
+          $location.replace();
         });
       }
     });

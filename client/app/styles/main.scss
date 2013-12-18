@@ -1,6 +1,7 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import "compass";
+
 // Core variables and mixins
 @import "sass-bootstrap/lib/variables";
 @import "sass-bootstrap/lib/mixins";
@@ -11,9 +12,14 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 // Core CSS
 @import "sass-bootstrap/lib/scaffolding";
+@import "sass-bootstrap/lib/grid";
 
 // Components
 @import "sass-bootstrap/lib/input-groups";
+
+// Utility classes
+@import "sass-bootstrap/lib/utilities";
+@import "sass-bootstrap/lib/responsive-utilities";
 
 .browsehappy {
     margin: 0.2em 0;
@@ -29,6 +35,12 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 $font-script: 'Decor', serif;
 $font-sans: 'PT Sans', sans-serif;
 
+$color-red-dark: #cb3c36;//
+$color-turq: #61a9a5;
+$color-brown-dark: #3f1c06;
+
+
+
 
 // Base
 html {
@@ -37,14 +49,53 @@ html {
 
 /* Space out content a bit */
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-image: url('/images/sweater.png');
+  background-image: url('/images/sweater.png');
 }
 
-$color-red-dark: #cb3c36;//
-$color-turq: #61a9a5;
-$color-brown-dark: #3f1c06;
+html, body {
+  height: 100%;
+}
+
+div.body-wrapper {
+  min-height: 100%;
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+}
+
+// Layout
+.content {
+  display: table;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  // padding-bottom: $size-footer-height;
+  position: relative;
+  overflow: auto;
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  // margin-bottom: $size-footer-height;
+}
+
+.main {
+  min-height: 100%;
+
+  @media screen and (min-width: 768px) {
+    margin-left: 41.66667%;
+  }
+
+  @media screen and (min-width: 992px) {
+    margin-left: 33.333333%;
+  }
+}
+
+// End Layout
 
 // Modules
 .card {
@@ -87,6 +138,15 @@ $color-brown-dark: #3f1c06;
   }
 }
 
+.sidebar {
+  height: 100%;
+}
+
+.content {
+}
+
+// End Modules
+
 // Themes
 .card-red {
   background-color: $color-red-dark;
@@ -122,6 +182,12 @@ $color-brown-dark: #3f1c06;
 .btn-turq {
   background-color: $color-turq;
 }
+
+.menu {
+  background-color: $color-red-dark;
+}
+
+// End Themes
 
 
 // State
