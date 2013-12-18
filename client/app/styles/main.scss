@@ -12,6 +12,9 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 // Core CSS
 @import "sass-bootstrap/lib/scaffolding";
 
+// Components
+@import "sass-bootstrap/lib/input-groups";
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -24,6 +27,7 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 @include font-face('Decor', font-files('Decor.ttf'));
 
 $font-script: 'Decor', serif;
+$font-sans: 'PT Sans', sans-serif;
 
 
 // Base
@@ -38,34 +42,68 @@ body {
     background-image: url('/images/sweater.png');
 }
 
+$color-red-dark: #cb3c36;//
+$color-turq: #61a9a5;
+$color-brown-dark: #3f1c06;
+
 // Modules
 .card {
   max-width: 900px;
   width: 90%;
 
-  outline: 2px dashed #61a9a5;
+  outline: 2px dashed $color-turq;
   outline-offset: -10px;
 
   padding: 20px;
 
   h1 {
     font-size: 3em;
-    padding: 0 0.1em;
     margin: 0;
     font-family: $font-script;
     text-align: center;
   }
 }
 
+.btn, .inp {
+  border: 1px solid #3f1c06;
+  padding: 0.5em;
+  font-family: $font-sans;
+  color: $color-brown-dark;
+}
 
 // Themes
 .card-red {
-  background-color: #cb3c36;
+  background-color: $color-red-dark;
   color: #fff;
 }
 
 .card-shadow {
   @include single-box-shadow();
+}
+
+.card-dm {
+  position: relative;
+  padding-top: 40px
+}
+
+.card-dm:before {
+  position: absolute;
+  content: ' ';
+  background: url('/images/dm.png') no-repeat center center;
+  height: 150px;
+
+  top: -100px;
+  left: 0;
+  right: 0;
+}
+
+.btn-large, .inp-large {
+  font-size: 1.5em;
+}
+
+
+.btn-turq {
+  background-color: $color-turq;
 }
 
 
