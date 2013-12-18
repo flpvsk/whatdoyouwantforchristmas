@@ -1,0 +1,169 @@
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+
+@import "compass";
+// Core variables and mixins
+@import "sass-bootstrap/lib/variables";
+@import "sass-bootstrap/lib/mixins";
+
+// Reset
+@import "sass-bootstrap/lib/normalize";
+@import "sass-bootstrap/lib/print";
+
+// Core CSS
+@import "sass-bootstrap/lib/scaffolding";
+
+// Components
+@import "sass-bootstrap/lib/input-groups";
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+
+// Fonts
+@include font-face('Decor', font-files('Decor.ttf'));
+
+$font-script: 'Decor', serif;
+$font-sans: 'PT Sans', sans-serif;
+
+
+// Base
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Space out content a bit */
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-image: url('/images/sweater.png');
+}
+
+$color-red-dark: #cb3c36;//
+$color-turq: #61a9a5;
+$color-brown-dark: #3f1c06;
+
+// Modules
+.card {
+  max-width: 900px;
+  width: 90%;
+
+  outline: 2px dashed $color-turq;
+  outline-offset: -10px;
+
+  padding: 20px;
+
+  h1 {
+    font-size: 3em;
+    margin: 0;
+    font-family: $font-script;
+    text-align: center;
+  }
+}
+
+.btn, .inp {
+  border: 1px solid #3f1c06;
+  padding: 0.5em;
+  font-family: $font-sans;
+  color: $color-brown-dark;
+}
+
+.form-call-to-action {
+  max-width: 700px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.form-facebook-login {
+  margin-top: 10px;
+
+  .fb-login-button {
+    width: 327px;
+    margin: auto;
+    display: block;
+  }
+}
+
+// Themes
+.card-red {
+  background-color: $color-red-dark;
+  color: #fff;
+}
+
+.card-shadow {
+  @include single-box-shadow();
+}
+
+.card-dm {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+.card-dm:before {
+  position: absolute;
+  content: ' ';
+  background: url('/images/dm.png') no-repeat center center;
+  height: 150px;
+
+  top: -100px;
+  left: 0;
+  right: 0;
+}
+
+.btn-large, .inp-large {
+  font-size: 1.5em;
+}
+
+
+.btn-turq {
+  background-color: $color-turq;
+}
+
+
+// State
+.btn:active:focus, .btn:active {
+  @include single-box-shadow($inset: true);
+}
+
+.btn:hover {
+  @include single-box-shadow();
+  border: 1px solid $color-brown-dark;
+}
+
+.v-center {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+}
+
+.h-center {
+  margin: auto;
+}
+
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: $screen-sm-min) {
+}
+
+/* Responsive: Mobile phones and down */
+@media screen and (max-width: $screen-xs) {
+  .input-group {
+    width: 100%;
+    display: block;
+
+    .form-control, .btn {
+      display: block;
+      width: 100%;
+    }
+
+    .input-group-btn:last-child > .btn {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
+}
