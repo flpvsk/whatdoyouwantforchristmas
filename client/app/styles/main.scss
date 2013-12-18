@@ -121,5 +121,23 @@ $color-brown-dark: #3f1c06;
 
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $screen-sm-min) {
+}
+
+/* Responsive: Mobile phones and down */
+@media screen and (max-width: $screen-xs) {
+  .input-group {
+    width: 100%;
+    display: block;
+
+    .form-control, .btn {
+      display: block;
+      width: 100%;
+    }
+
+    .input-group-btn:last-child > .btn {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
 }
