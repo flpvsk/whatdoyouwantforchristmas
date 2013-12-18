@@ -34,10 +34,13 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 $font-script: 'Decor', serif;
 $font-sans: 'PT Sans', sans-serif;
+$font-serif: 'PT Serif', serif;
 
 $color-red-dark: #cb3c36;
 $color-turq: #61a9a5;
 $color-brown-dark: #3f1c06;
+$color-brown-light: #734f2b;
+$color-brown-lighter: #fcf3e1;
 $color-white: #fff;
 
 
@@ -79,6 +82,7 @@ ul {
 
 .menu {
   position: absolute;
+  overflow: auto;
   top: 0;
   bottom: 0;
   // margin-bottom: $size-footer-height;
@@ -102,6 +106,7 @@ ul {
 .card {
   max-width: 900px;
   width: 90%;
+  margin: auto;
 
   outline: 2px dashed $color-turq;
   outline-offset: -10px;
@@ -112,7 +117,16 @@ ul {
     font-size: 3em;
     margin: 0;
     font-family: $font-script;
-    text-align: center;
+  }
+
+  p, ul {
+    font-size: 1.8em;
+    font-family: $font-serif;
+
+    line-height: 1.2em;
+
+    margin: 0;
+    padding: 0.2em 0;
   }
 }
 
@@ -143,7 +157,29 @@ ul {
   height: 100%;
 }
 
-.content { }
+.content {
+  padding-top: 1.5em;
+}
+
+ul.wish-list {
+  list-style: square;
+  padding-left: 2em;
+}
+
+.card-pic {
+  outline: 2px solid $color-turq;
+  outline-offset: 3px;
+  width: 50px;
+  height: 50px;
+}
+
+h2.sign {
+  display: block;
+  font-family: $font-script;
+  font-size: 2em;
+  color: $color-brown-light;
+  margin: 0;
+}
 
 // End Modules
 
@@ -151,6 +187,12 @@ ul {
 .card-red {
   background-color: $color-red-dark;
   color: $color-white;
+  text-align: center;
+}
+
+.card-default {
+  background-color: $color-brown-lighter;
+  color: $color-brown-dark;
 }
 
 .card-shadow {
@@ -189,16 +231,17 @@ ul {
   text-align: center;
 
   font-family: $font-script;
-  font-size: 3.2em;
+  font-size: 2em;
 
   ul {
     list-style: none;
     padding-left: 0;
+    font-size: 2em;
   }
 
   li {
     border-bottom: 1px solid transparent;
-    margin-bottom: 10px;
+    margin-bottom: 0.2em;
   }
 
   a {
@@ -216,6 +259,12 @@ ul {
   a.current {
 
   }
+
+
+  h1 {
+    font-size: 1.5em;
+    margin: 0;
+  }
 }
 
 .menu-pic {
@@ -223,7 +272,7 @@ ul {
   height: 200px;
   width: 200px;
 
-  margin: 20px auto;
+  margin: 2em auto;
 }
 
 // End Themes
