@@ -32,7 +32,7 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 // Fonts
 @include font-face('Decor', font-files('Decor.ttf'));
 
-$font-script: 'Decor', serif;
+$font-script: 'Lobster', cursive;
 $font-sans: 'PT Sans', sans-serif;
 $font-serif: 'PT Serif', serif;
 
@@ -98,6 +98,11 @@ ul {
   @media screen and (min-width: 992px) {
     margin-left: 33.333333%;
   }
+
+
+  @media screen and (min-width: 1170px) {
+    margin-left: 25%;
+  }
 }
 
 // End Layout
@@ -114,9 +119,10 @@ ul {
   padding: 20px;
 
   h1 {
-    font-size: 3em;
-    margin: 0;
     font-family: $font-script;
+    font-size: 3em;
+    font-weight: 200;
+    margin: 0;
   }
 
   p, ul {
@@ -177,6 +183,7 @@ h2.sign {
   display: block;
   font-family: $font-script;
   font-size: 2em;
+  font-weight: 200;
   color: $color-brown-light;
   margin: 0;
 }
@@ -193,6 +200,10 @@ h2.sign {
 .card-default {
   background-color: $color-brown-lighter;
   color: $color-brown-dark;
+
+  h1 {
+    color: $color-brown-light;
+  }
 }
 
 .card-shadow {
@@ -232,6 +243,7 @@ h2.sign {
 
   font-family: $font-script;
   font-size: 2em;
+  font-weight: 200;
 
   ul {
     list-style: none;
@@ -263,6 +275,8 @@ h2.sign {
 
   h1 {
     font-size: 1.5em;
+    font-weight: 200;
+    color: $color-brown-dark;
     margin: 0;
   }
 }
