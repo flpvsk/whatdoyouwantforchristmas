@@ -71,6 +71,22 @@ $color-brown-dark: #3f1c06;
   color: $color-brown-dark;
 }
 
+.form-call-to-action {
+  max-width: 700px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.form-facebook-login {
+  margin-top: 10px;
+
+  .fb-login-button {
+    width: 327px;
+    margin: auto;
+    display: block;
+  }
+}
+
 // Themes
 .card-red {
   background-color: $color-red-dark;
@@ -83,7 +99,8 @@ $color-brown-dark: #3f1c06;
 
 .card-dm {
   position: relative;
-  padding-top: 40px
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .card-dm:before {
@@ -114,6 +131,7 @@ $color-brown-dark: #3f1c06;
 
 .btn:hover {
   @include single-box-shadow();
+  border: 1px solid $color-brown-dark;
 }
 
 .v-center {
