@@ -1,22 +1,17 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('LoginCtrl', function ($rootScope) {
+  .controller('LoginCtrl', function ($scope, $location, Fb) {
 
-    var doc = window.document;
+    Fb.runWhenReady(function () { window.FB.XFBML.parse() });
+    Fb.getLoginStatus().done(function (data) {
+      console.log('In controller', data);
 
-    if (_.has(window, 'FB')) {
-      onFbReady();
-    } else {
-      doc.addEventListener('fb-ready', onFbReady);
-    }
-
-    function onFbReady() {
-      FB.XFBML.parse();
-
-      window.FB.getLoginStatus(function () {
-        console.log('Got login status', arguments);
-      });
-    }
+      if (data.status === 'connected') {
+        $scope.$apply(function () {
+          $location.path('/me');
+        });
+      }
+    });
 
   });
