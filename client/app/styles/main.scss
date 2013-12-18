@@ -91,16 +91,16 @@ ul {
 .main {
   min-height: 100%;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: $screen-sm-min) {
     margin-left: 41.66667%;
   }
 
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: $screen-md-min) {
     margin-left: 33.333333%;
   }
 
 
-  @media screen and (min-width: 1170px) {
+  @media screen and (min-width: $screen-lg-min) {
     margin-left: 25%;
   }
 }
