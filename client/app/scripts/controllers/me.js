@@ -21,17 +21,8 @@ angular.module('clientApp')
       return $scope.image;
     };
 
-    Fb.getLoginStatus().pipe(function (res) {
-      if (res.status !== 'connected') {
-        $scope.$apply(function () {
-          $location.path('/where-to-send');
-        });
-        return;
-      }
 
-      return Fb.getUser();
-    }).then(function (user) {
-      console.log('Got user');
+    Fb.getUser().then(function (user) {
       $scope.$apply(function () {
         $scope.user = user;
       });

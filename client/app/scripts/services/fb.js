@@ -32,7 +32,7 @@ angular.module('clientApp')
         });
       };
 
-      service.runWhenReady(onFbReady);
+      service.runWhenConnected(onFbReady);
 
       return d.promise();
     };
@@ -43,6 +43,15 @@ angular.module('clientApp')
       } else {
         doc.addEventListener('fb-ready', fn);
       }
+    };
+
+    service.runWhenConnected = function runWhenConnected(fn) {
+      if (!window.fbConnected) {
+        doc.addEventListener('fb-connected', fn);
+        return;
+      }
+
+      fn();
     };
 
 
