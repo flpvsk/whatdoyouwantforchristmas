@@ -108,6 +108,14 @@ $color-brown-dark: #3f1c06;
 
 
 // State
+.btn:active:focus, .btn:active {
+  @include single-box-shadow($inset: true);
+}
+
+.btn:hover {
+  @include single-box-shadow();
+}
+
 .v-center {
   position: absolute;
   top: 30%;
