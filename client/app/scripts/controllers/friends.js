@@ -12,7 +12,9 @@ angular.module('clientApp')
       name: 'Evgenia Salomatina',
       username: 'eugen.salomatina',
       wishlist: [{
-        descr: 'Табурет'
+        descr: 'Дешевле только тут - табуреты: табуретки для кухни, недорогой кухонный табурет, складные табуреты, дешевые табуретки  купить можно в нашем интернет-магазине',
+        type: 'link',
+        address: 'http://www.mebelklad.ru/index.php?categoryID=20'
       }, {
         descr: 'Шампиньоны, нарезанные тонко и вкусно запечёные щи!',
         givers: [{

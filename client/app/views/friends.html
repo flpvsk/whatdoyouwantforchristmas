@@ -83,7 +83,14 @@
 
       <ul class="wish-list btm-margin">
         <li ng-repeat="wish in friend.wishlist">
-          {{ wish.descr }}
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}"
+              target="_blank">{{ wish.descr }}</a>
+          </span>
 
           <p class="help help-xsmall" ng-show="!wish.givers.length">
             никто не дарит
