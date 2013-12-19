@@ -4,15 +4,7 @@ angular.module('clientApp')
   .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
     analytics.page('My Letter');
 
-    var firstWish,
-        images = [
-          'bear',
-          'bullfinch',
-          'deer',
-          'dm',
-          'penguin',
-          'snowman'
-        ];
+    var firstWish;
 
     $scope.wishlist = [];
 
@@ -37,16 +29,6 @@ angular.module('clientApp')
       wish.$markRemoved = !wish.$markRemoved;
     };
 
-    $scope.getImage = function () {
-      var n = Math.floor(Math.random() * 100) % (images.length - 1),
-          image = $scope.image;
-
-      if (image && image.length > 0) { return $scope.image; }
-
-      $scope.image = images[n];
-      return $scope.image;
-    };
-
     $scope.addingStarted = function () {
       return $scope.$adding;
     }
@@ -67,11 +49,6 @@ angular.module('clientApp')
       $scope.newWish = '';
     };
 
-
-    Fb.getUser().then(function (user) {
-      $scope.$apply(function () {
-        $scope.user = user;
-      });
-    });
+    $scope.fetchUser();
 
   });
