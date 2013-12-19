@@ -1,6 +1,7 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import "compass";
+
 // Core variables and mixins
 @import "sass-bootstrap/lib/variables";
 @import "sass-bootstrap/lib/mixins";
@@ -11,9 +12,14 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 // Core CSS
 @import "sass-bootstrap/lib/scaffolding";
+@import "sass-bootstrap/lib/grid";
 
 // Components
 @import "sass-bootstrap/lib/input-groups";
+
+// Utility classes
+@import "sass-bootstrap/lib/utilities";
+@import "sass-bootstrap/lib/responsive-utilities";
 
 .browsehappy {
     margin: 0.2em 0;
@@ -26,8 +32,18 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 // Fonts
 @include font-face('Decor', font-files('Decor.ttf'));
 
-$font-script: 'Decor', serif;
+$font-script: 'Lobster', cursive;
 $font-sans: 'PT Sans', sans-serif;
+$font-serif: 'PT Serif', serif;
+
+$color-red-dark: #cb3c36;
+$color-turq: #61a9a5;
+$color-brown-dark: #3f1c06;
+$color-brown-light: #734f2b;
+$color-brown-lighter: #fcf3e1;
+$color-white: #fff;
+
+
 
 
 // Base
@@ -37,19 +53,65 @@ html {
 
 /* Space out content a bit */
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-image: url('/images/sweater.png');
+  background-image: url('/images/sweater.png');
 }
 
-$color-red-dark: #cb3c36;//
-$color-turq: #61a9a5;
-$color-brown-dark: #3f1c06;
+html, body {
+  height: 100%;
+}
+
+div.body-wrapper {
+  min-height: 100%;
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+}
+
+// Layout
+.content {
+  display: table;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  // padding-bottom: $size-footer-height;
+  position: relative;
+  overflow: auto;
+}
+
+.menu {
+  position: absolute;
+  overflow: auto;
+  top: 0;
+  bottom: 0;
+  // margin-bottom: $size-footer-height;
+}
+
+.main {
+  min-height: 100%;
+
+  @media screen and (min-width: $screen-sm-min) {
+    margin-left: 41.66667%;
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    margin-left: 33.333333%;
+  }
+
+
+  @media screen and (min-width: $screen-lg-min) {
+    margin-left: 25%;
+  }
+}
+
+// End Layout
 
 // Modules
 .card {
   max-width: 900px;
   width: 90%;
+  margin: auto;
 
   outline: 2px dashed $color-turq;
   outline-offset: -10px;
@@ -57,10 +119,20 @@ $color-brown-dark: #3f1c06;
   padding: 20px;
 
   h1 {
-    font-size: 3em;
-    margin: 0;
     font-family: $font-script;
-    text-align: center;
+    font-size: 3em;
+    font-weight: 200;
+    margin: 0;
+  }
+
+  p, ul {
+    font-size: 1.8em;
+    font-family: $font-serif;
+
+    line-height: 1.2em;
+
+    margin: 0;
+    padding: 0.2em 0;
   }
 }
 
@@ -87,10 +159,51 @@ $color-brown-dark: #3f1c06;
   }
 }
 
+.sidebar {
+  height: 100%;
+}
+
+.content {
+  padding-top: 1.5em;
+}
+
+ul.wish-list {
+  list-style: square;
+  padding-left: 2em;
+}
+
+.card-pic {
+  outline: 2px solid $color-turq;
+  outline-offset: 3px;
+  width: 50px;
+  height: 50px;
+}
+
+h2.sign {
+  display: block;
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+  color: $color-brown-light;
+  margin: 0;
+}
+
+// End Modules
+
 // Themes
 .card-red {
   background-color: $color-red-dark;
-  color: #fff;
+  color: $color-white;
+  text-align: center;
+}
+
+.card-default {
+  background-color: $color-brown-lighter;
+  color: $color-brown-dark;
+
+  h1 {
+    color: $color-brown-light;
+  }
 }
 
 .card-shadow {
@@ -122,6 +235,61 @@ $color-brown-dark: #3f1c06;
 .btn-turq {
   background-color: $color-turq;
 }
+
+.menu {
+  background-color: $color-red-dark;
+  @include single-box-shadow();
+  text-align: center;
+
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 2em;
+  }
+
+  li {
+    border-bottom: 1px solid transparent;
+    margin-bottom: 0.2em;
+  }
+
+  a {
+    color: $color-white;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  li:hover, li.current {
+    border-bottom: 1px solid $color-white;
+  }
+
+  a.current {
+
+  }
+
+
+  h1 {
+    font-size: 1.5em;
+    font-weight: 200;
+    color: $color-brown-dark;
+    margin: 0;
+  }
+}
+
+.menu-pic {
+  display: block;
+  height: 200px;
+  width: 200px;
+
+  margin: 2em auto;
+}
+
+// End Themes
 
 
 // State

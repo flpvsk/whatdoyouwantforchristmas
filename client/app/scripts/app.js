@@ -16,6 +16,10 @@ angular.module('clientApp', [
       templateUrl: 'views/where-to-send.html',
       controller: 'LoginCtrl'
     })
+    .when('/me', {
+      templateUrl: 'views/me.html',
+      controller: 'MeCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });
@@ -35,8 +39,20 @@ angular.module('clientApp', [
 
 window.fbAsyncInit = function () {
 
-  var FB = window.FB,
-      doc = window.document;
+  function triggerEvent(name) {
+    var doc = window.document;
+    if ('createEvent' in doc) {
+      var e = doc.createEvent('HTMLEvents');
+      e.initEvent(name, false, true);
+      doc.dispatchEvent(e);
+    } else {
+      doc.fireEvent(name);
+    }
+  };
+
+  var FB = window.FB;
+
+  window.fbConnected = false;
 
   FB.init({
     appId: '558478794247173',
@@ -56,9 +72,9 @@ window.fbAsyncInit = function () {
       // app know the current login status of the person.  In this case,
       // we're handling the situation where they have logged in to the
       // app.
-      FB.api('/me', function (response) {
-        console.log('Good to see you, ' + response.name + '.');
-      });
+
+      window.fbConnected = true;
+      triggerEvent('fb-connected');
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into
       // the app, so we call FB.login() to prompt them to do so.  In
@@ -80,14 +96,7 @@ window.fbAsyncInit = function () {
     }
   });
 
+  triggerEvent('fb-ready');
   console.log('Ho ho ho, looks like I\'ve connected to FB');
-
-  if ('createEvent' in doc) {
-    var e = doc.createEvent('HTMLEvents');
-    e.initEvent('fb-ready', false, true);
-    doc.dispatchEvent(e);
-  } else {
-    doc.fireEvent('fb-ready');
-  }
 
 };

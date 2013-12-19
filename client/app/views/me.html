@@ -1,0 +1,58 @@
+<div class="content">
+
+    <div class="col-sm-5 col-md-4 col-lg-3 menu hidden-xs">
+      <h1>{{user.name || '&nbsp;'}}</h1>
+
+      <ul class="">
+        <li class="current"><a ng-href="#/me">Моё Письмо</a></li>
+        <li><a ng-href="#/friends">Друзья</a></li>
+      </ul>
+
+      <div class="menu-pic-container">
+        <img class="menu-pic"
+          ng-src="/images/{{ getImage() }}.png"></img>
+      </div>
+    </div>
+
+    <div class="col-sm-7 col-md-8 col-lg-9 main">
+      <div class="card card-default">
+
+        <div class="row">
+          <div class="col-xs-10">
+            <h1>Дорогой Дедушка Мороз!</h1>
+          </div>
+          <div class="col-xs-2">
+            <img
+              class="card-pic pull-right"
+              ng-src="http://graph.facebook.com/{{user.username}}/picture"
+              alt="Фото ребёнка" />
+          </div>
+        </div>
+
+        <p>
+          В этом году я вел себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+        <ul class="wish-list">
+          <li>Матрас</li>
+          <li>Кило войлока</li>
+          <li>Медведя</li>
+        </ul>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <h2 class="sign pull-right">С наступающим!</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <h2 class="sign pull-right">{{ user.name || '&nbsp;'}}</h2>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+</div>
