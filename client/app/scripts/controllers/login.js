@@ -4,11 +4,14 @@ angular.module('clientApp')
   .controller('LoginCtrl', function ($scope, $location, Fb) {
     analytics.page('Where To Send - Login');
 
+    window._analyticsAddCreatedDate = true;
+
     Fb.runWhenReady(function () { window.FB.XFBML.parse() });
     Fb.getLoginStatus().done(function (data) {
       console.log('In controller', data);
 
       if (data.status === 'connected') {
+        window._analyticsAddCreatedDate = false;
         console.log('phase', $scope.$$phase);
 
         if ($scope.$$phase === '$digest') {

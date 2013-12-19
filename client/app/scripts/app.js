@@ -80,6 +80,14 @@ window.fbAsyncInit = function () {
       analytics.alias(response.authResponse.userID);
 
       FB.api('/me', function (user) {
+        var created = '';
+        if (window._analyticsAddCreatedDate) {
+          window._analyticsAddCreatedDate = false;
+          created = '' + (new Date()).getTime();
+          created = created.slice(0, 10);
+          created = parseInt(created);
+          user.created_at = created;
+        }
         analytics.identify(user.id, user);
       });
 
