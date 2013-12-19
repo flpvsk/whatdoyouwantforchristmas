@@ -137,6 +137,8 @@ window.fbAsyncInit = function () {
       FB.api('/me', function (user) {
         var created = '';
         if (window._analyticsAddCreatedDate) {
+          Parse.User.current().set(user).save();
+
           window._analyticsAddCreatedDate = false;
           created = '' + (new Date()).getTime();
           created = created.slice(0, 10);
