@@ -34,11 +34,44 @@
           должен:
         </p>
 
+        <p class="help help-small">
+          нажмите на желание, чтобы вычеркнуть
+        </p>
+
         <ul class="wish-list">
-          <li>Матрас</li>
-          <li>Кило войлока</li>
-          <li>Медведя</li>
+          <li
+            class="removable"
+            ng-repeat="wish in wishlist"
+            ng-click="triggerRemoved(wish)"
+            ng-class="removedClass(wish)">
+            {{ wish.descr }}
+          </li>
         </ul>
+
+        <div class="actions">
+          <a class="action" href="javascript:void(0)"
+            ng-click="startAdd()"
+            ng-hide="addingStarted()">
+            добавить
+          </a>
+        </div>
+
+        <form class="action-form"
+          ng-submit="finishAdd()"
+          ng-show="addingStarted()">
+
+          <input class="inp inp-block" ng-model="newWish" type="text"
+            placeholder="ссылка или описание">
+
+          <button class="btn btn-block btn-turq" type="submit">
+            сохранить
+          </button>
+
+          <button class="btn btn-block btn-red" type="button"
+            ng-click="cancelAdd($event)">
+            отмена
+          </button>
+        </form>
 
         <div class="row">
           <div class="col-xs-12">
