@@ -131,8 +131,11 @@ ul {
 
     line-height: 1.2em;
 
-    margin: 0;
     padding: 0.2em 0;
+  }
+
+  p {
+    margin: 0
   }
 }
 
@@ -175,8 +178,26 @@ ul.wish-list {
     cursor: pointer;
   }
 
-  .removable:hover, .removable.removed {
+  .removable.removed {
     text-decoration: line-through;
+  }
+
+  .removable:after {
+    content: '\00d7';
+    font-weight: 800;
+    font-size: 1.5em;
+    float: right;
+  }
+
+  .removable:hover {
+    // background-color: rgba($color-turq, 0.3);
+    outline: 2px dashed $color-brown-dark;
+    outline-offset: 2px;
+
+  }
+
+  .removable.removed:after {
+    content: '';
   }
 }
 
@@ -210,7 +231,6 @@ h2.sign {
   text-decoration: underline;
   color: $color-turq;
 }
-
 
 p.help {
   font-family: $font-sans;

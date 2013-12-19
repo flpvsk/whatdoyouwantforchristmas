@@ -34,18 +34,14 @@
           должен:
         </p>
 
-        <ul class="wish-list">
+        <ul class="wish-list btm-margin">
           <li
             class="removable"
             ng-repeat="wish in wishlist"
             ng-click="triggerRemoved(wish)"
             ng-class="removedClass(wish)">
-            {{ wish.descr }}
 
-            <span class="pull-right" alt="удалить"
-              ng-hide="isRemoved(wish)">
-              &#215;
-            </span>
+            {{ wish.descr }}
           </li>
         </ul>
 
