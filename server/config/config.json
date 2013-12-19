@@ -1,0 +1,23 @@
+{
+  "port": 3000,
+  "mongoose": {
+    "uri": "mongodb://localhost/start_point",
+    "options": {
+      "server": {
+        "auto_reconnect": false,
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  },
+  "session": {
+    "secret": "KillerIsJim",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": 3600000
+    }
+  }
+}

@@ -1,0 +1,111 @@
+<div class="content">
+
+  <div class="col-sm-5 col-md-4 col-lg-3 menu hidden-xs">
+    <h1 class="user-name">{{user.name || '&nbsp;'}}</h1>
+
+    <ul class="menu-list">
+      <li class="current"><a ng-href="#/me">Моё Письмо</a></li>
+      <li><a ng-href="#/friends">Друзья</a></li>
+    </ul>
+
+    <div class="menu-pic-container">
+      <img class="menu-pic" ng-src="/images/{{ getImage() }}.png">
+    </div>
+  </div>
+
+  <div class="col-sm-7 col-md-8 col-lg-9 main">
+
+    <div class="mobile-menu visible-xs">
+      <h1 class="user-name">{{ user.name || '&nbsp;' }}</h1>
+
+      <ul class="menu-list">
+        <li class="current"><a ng-href="#/me">Моё Письмо</a></li>
+        <li><a ng-href="#/friends">Друзья</a></li>
+      </ul>
+    </div>
+
+    <div class="card card-default">
+
+      <div class="row">
+        <div class="col-xs-10">
+          <h1>Дорогой Дедушка Мороз!</h1>
+        </div>
+        <div class="col-xs-2">
+          <img class="card-pic pull-right" ng-src="http://graph.facebook.com/{{user.username}}/picture" alt="Фото ребёнка">
+        </div>
+      </div>
+
+      <div ng-hide="editingStarted()">
+        <p class="btm-margin" ng-show="letter">
+          {{ letter }}
+        </p>
+
+        <p class="btm-margin" ng-show="!letter && user.gender == 'male'">
+          В этом году я вел себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+        <p class="btm-margin" ng-show="!letter && user.gender == 'female'">
+          В этом году я вела себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+      </div>
+
+      <form class="action-form" ng-show="editingStarted()" ng-submit="finishEdit()">
+
+        <textarea ng-model="newLetter" class="inp-block btm-margin"></textarea>
+
+        <button class="btn btn-block btn-turq btm-margin" type="submit">
+          сохранить
+        </button>
+
+        <button class="btn btn-block btn-red" type="button" ng-click="cancelEdit($event)">
+          отмена
+        </button>
+
+      </form>
+
+      <ul class="wish-list btm-margin">
+        <li class="removable" ng-repeat="wish in wishlist" ng-click="triggerRemoved(wish)" ng-class="removedClass(wish)">
+          {{ wish.descr }}
+        </li>
+      </ul>
+
+      <button class="action-form btn btn-block btn-turq btm-margin" ng-click="startEdit()" ng-hide="addingStarted() || editingStarted()">
+        изменить текст
+      </button>
+
+      <button class="action-form btn btn-block btn-turq btm-margin" type="button" ng-click="startAdd()" ng-hide="addingStarted() || editingStarted()">
+        добавить желание
+      </button>
+
+      <form class="action-form" ng-submit="finishAdd()" ng-show="addingStarted()">
+
+        <input class="inp inp-block btm-margin" ng-model="newWish" type="text" placeholder="ссылка или описание">
+
+        <button class="btn btn-block btn-turq btm-margin" type="submit">
+          сохранить
+        </button>
+
+        <button class="btn btn-block btn-red" type="button" ng-click="cancelAdd($event)">
+          отмена
+        </button>
+      </form>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">С наступающим!</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">{{ user.name || '&nbsp;'}}</h2>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
