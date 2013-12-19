@@ -53,6 +53,7 @@ window.fbAsyncInit = function () {
   var FB = window.FB;
 
   window.fbConnected = false;
+
   FB.init({
     appId: '558478794247173',
     // check login status
