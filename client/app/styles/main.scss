@@ -131,16 +131,19 @@ ul {
 
     line-height: 1.2em;
 
-    margin: 0;
     padding: 0.2em 0;
+  }
+
+  p {
+    margin: 0
   }
 }
 
 .btn, .inp {
   border: 1px solid #3f1c06;
-  padding: 0.5em;
   font-family: $font-sans;
   color: $color-brown-dark;
+  padding: 0.2em 0.3em;
 }
 
 .form-call-to-action {
@@ -170,6 +173,32 @@ ul {
 ul.wish-list {
   list-style: square;
   padding-left: 2em;
+
+  .removable {
+    cursor: pointer;
+  }
+
+  .removable.removed {
+    text-decoration: line-through;
+  }
+
+  .removable:after {
+    content: '\00d7';
+    font-weight: 800;
+    font-size: 1.5em;
+    float: right;
+  }
+
+  .removable:hover {
+    // background-color: rgba($color-turq, 0.3);
+    outline: 2px dashed $color-brown-dark;
+    outline-offset: 2px;
+
+  }
+
+  .removable.removed:after {
+    content: '';
+  }
 }
 
 .card-pic {
@@ -186,6 +215,30 @@ h2.sign {
   font-weight: 200;
   color: $color-brown-light;
   margin: 0;
+}
+
+.action-form {
+  font-size: 1.8em;
+}
+
+.action {
+  font-family: $font-sans;
+  font-size: 0.9em;
+  color: $color-turq;
+}
+
+.action:hover {
+  text-decoration: underline;
+  color: $color-turq;
+}
+
+p.help {
+  font-family: $font-sans;
+  color: $color-turq;
+}
+
+p.help-small {
+  font-size: 0.9em;
 }
 
 // End Modules
@@ -227,13 +280,33 @@ h2.sign {
   right: 0;
 }
 
+
 .btn-large, .inp-large {
+  padding: 0.5em;
   font-size: 1.5em;
 }
 
+.inp-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btm-margin {
+  margin-bottom: 0.3em;
+}
 
 .btn-turq {
   background-color: $color-turq;
+}
+
+.btn-red {
+  background-color: $color-red-dark;
+  color: $color-white;
 }
 
 .menu {
