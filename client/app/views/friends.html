@@ -1,8 +1,8 @@
 <div class="content">
   <div class="col-sm-5 col-md-4 col-lg-3 menu hidden-xs">
-    <h1>{{user.name || '&nbsp;'}}</h1>
+    <h1 class="user-name">{{user.name || '&nbsp;'}}</h1>
 
-    <ul class="">
+    <ul class="menu-list">
       <li><a ng-href="#/me">Моё Письмо</a></li>
       <li class="current"><a ng-href="#/friends">Друзья</a></li>
     </ul>
@@ -14,7 +14,18 @@
   </div>
 
   <div class="col-sm-7 col-md-8 col-lg-9 main">
-    <!--div class="card card-default card-center no-outline"
+
+    <div class="mobile-menu visible-xs"
+      ng-click="showMenu = !showMenu">
+      <h1 class="user-name">{{ user.name || '&nbsp;' }}</h1>
+
+      <ul class="menu-list">
+        <li><a ng-href="#/me">Моё Письмо</a></li>
+        <li class="current"><a ng-href="#/friends">Друзья</a></li>
+      </ul>
+    </div>
+
+    <div class="card card-default card-center no-outline"
       ng-show="!friends.length && !isLoading()" >
       <h1>Ваши друзья не добавили ни одного подарка!</h1>
       <p>Поделитесь новогодним настроением, пригласите друзей написать
@@ -23,7 +34,7 @@
       <a class="btn btn-block btn-red action-form v-margin"
         href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com"
         target="_blank">пригласить друзей</a>
-    </div-->
+    </div>
 
 
     <!-- TODO: ng-repeat="friend in friends" -->

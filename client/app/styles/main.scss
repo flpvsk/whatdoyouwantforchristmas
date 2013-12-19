@@ -94,15 +94,18 @@ ul {
 
   @media screen and (min-width: $screen-sm-min) {
     margin-left: 41.66667%;
+    padding-top: 1.5em;
   }
 
   @media screen and (min-width: $screen-md-min) {
     margin-left: 33.333333%;
+    padding-top: 1.5em;
   }
 
 
   @media screen and (min-width: $screen-lg-min) {
     margin-left: 25%;
+    padding-top: 1.5em;
   }
 }
 
@@ -177,10 +180,6 @@ ul {
 
 .sidebar {
   height: 100%;
-}
-
-.content {
-  padding-top: 1.5em;
 }
 
 ul.wish-list {
@@ -265,6 +264,21 @@ p.help-small {
 
 p.help-xsmall {
   font-size: 0.7em;
+}
+
+
+.mobile-menu {
+  margin: 0 -15px;
+  text-align: center;
+  background-color: $color-red-dark;
+  margin-bottom: 1.5em;
+  cursor: pointer;
+
+  h1 {
+    font-family: $font-script;
+    margin: 0;
+  }
+
 }
 
 // End Modules
@@ -372,11 +386,25 @@ p.help-xsmall {
   font-size: 2em;
   font-weight: 200;
 
-  ul {
-    list-style: none;
-    padding-left: 0;
-    font-size: 2em;
-  }
+}
+
+
+h1.user-name {
+  font-family: $font-script;
+  font-size: 1.5em;
+  font-weight: 200;
+  color: $color-brown-dark;
+  margin: 0;
+}
+
+ul.menu-list {
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+
+  list-style: none;
+  padding-left: 0;
+  font-size: 2em;
 
   li {
     border-bottom: 1px solid transparent;
@@ -385,6 +413,8 @@ p.help-xsmall {
 
   a {
     color: $color-white;
+    display: block;
+    width: 100%;
   }
 
   a:hover {
@@ -396,15 +426,6 @@ p.help-xsmall {
   }
 
   a.current {
-
-  }
-
-
-  h1 {
-    font-size: 1.5em;
-    font-weight: 200;
-    color: $color-brown-dark;
-    margin: 0;
   }
 }
 
