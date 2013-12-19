@@ -1,5 +1,9 @@
 'use strict';
 
+Parse.initialize(
+    "YgYoJc9x58ectyxT6DCPD6uLpuH8eg4oqCICMEMc",
+    "V5oq0gX4bXZrtDxAwbWXqUhjnvhG9KY5LjDi0lif");
+
 angular.module('clientApp', [
   'ngCookies',
   'ngResource',
@@ -92,11 +96,20 @@ window.fbAsyncInit = function () {
     }
   };
 
+
   var FB = window.FB;
 
   window.fbConnected = false;
 
-  FB.init({
+  Parse.FacebookUtils.init({
+    appId      : '558478794247173', // Facebook App ID
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow Parse to access the session
+    xfbml      : true  // parse XFBML
+  });
+
+
+  /*FB.init({
     appId: '558478794247173',
     // check login status
     status: true,
@@ -104,7 +117,7 @@ window.fbAsyncInit = function () {
     cookie: true,
     // parse XFBML
     xfbml: true
-  });
+  });*/
 
   FB.Event.subscribe('auth.authResponseChange', function (response) {
     // Here we specify what we do with the response anytime this event

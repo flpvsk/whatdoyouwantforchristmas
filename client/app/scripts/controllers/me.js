@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
+  .controller('MeCtrl', function (
+        $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
 
     var firstWish,
@@ -54,9 +55,12 @@ angular.module('clientApp')
       if (URL_PATTERN.test($scope.newWish)) {
         console.log('Is URL');
       }
-      $scope.wishlist.push({ descr: $scope.newWish });
+      var wish = { descr: $scope.newWish };
+      $scope.wishlist.push();
       $scope.$action = '';
       $scope.newWish = '';
+
+      Backend.addWish(wish);
     };
 
     $scope.startEdit = function () {
