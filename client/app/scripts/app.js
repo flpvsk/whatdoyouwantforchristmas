@@ -73,7 +73,7 @@ window.fbAsyncInit = function () {
       // we're handling the situation where they have logged in to the
       // app.
 
-      console.log('FB connected');
+      console.log('FB connected', response);
       window.fbConnected = true;
       triggerEvent('fb-connected');
 
