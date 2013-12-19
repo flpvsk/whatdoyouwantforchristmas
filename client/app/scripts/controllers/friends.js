@@ -11,6 +11,8 @@ angular.module('clientApp')
     $scope.friends = [{
       name: 'Evgenia Salomatina',
       username: 'eugen.salomatina',
+      gender: 'female',
+      letter: 'Кастомное письмо. А подарки вот:',
       wishlist: [{
         descr: 'Дешевле только тут - табуреты: табуретки для кухни, недорогой кухонный табурет, складные табуреты, дешевые табуретки  купить можно в нашем интернет-магазине',
         type: 'link',
@@ -28,6 +30,7 @@ angular.module('clientApp')
     }, {
       name: 'Andrey Pushkarev',
       username: 'fealaer',
+      gender: 'male',
       wishlist: [{
         descr: 'Доску для сёрфинга'
       }, {
@@ -38,6 +41,7 @@ angular.module('clientApp')
     }, {
       name: 'Ilya Vakhrushev',
       username: 'ilya.vakhrushev.9',
+      gender: 'male',
       wishlist: [{
         descr: 'Бесконечно тонкий байк'
       }, {

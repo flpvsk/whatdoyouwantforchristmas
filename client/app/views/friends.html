@@ -76,8 +76,19 @@
         </div>
       </div>
 
-      <p>
+      <p class="btm-margin" ng-show="friend.letter">
+        {{ friend.letter }}
+      </p>
+
+      <p class="btm-margin"
+        ng-show="!friend.letter && friend.gender == 'male'">
         В этом году я вел себя хорошо. Вот что ты мне за это
+        должен:
+      </p>
+
+      <p class="btm-margin"
+        ng-show="!friend.letter && friend.gender == 'female'">
+        В этом году я вела себя хорошо. Вот что ты мне за это
         должен:
       </p>
 
