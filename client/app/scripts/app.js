@@ -73,8 +73,16 @@ window.fbAsyncInit = function () {
       // we're handling the situation where they have logged in to the
       // app.
 
+      console.log('FB connected');
       window.fbConnected = true;
       triggerEvent('fb-connected');
+
+      analytics.alias(response.authResponse.userID);
+
+      FB.api('/me', function (user) {
+        analytics.identify(user.id, user);
+      });
+
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into
       // the app, so we call FB.login() to prompt them to do so.  In

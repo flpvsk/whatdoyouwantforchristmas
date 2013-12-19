@@ -2,6 +2,8 @@
 
 angular.module('clientApp')
   .controller('MeCtrl', function ($scope, $location, Fb) {
+    analytics.page('My Letter');
+
     var images = [
       'bear',
       'bullfinch',

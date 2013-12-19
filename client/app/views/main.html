@@ -6,7 +6,9 @@
     <form class="form-call-to-action" ng-submit="saveAndContinue($event)">
       <div class="input-group">
         <input type="text" class="inp inp-large form-control"
-          placeholder="ссылка или описание">
+          placeholder="ссылка или описание"
+          required
+          ng-model="descr">
         <span class="input-group-btn">
           <button type="submit" class="btn btn-large btn-turq"
             type="button">отправить</button>
