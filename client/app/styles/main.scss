@@ -140,7 +140,7 @@ ul {
   border: 1px solid #3f1c06;
   font-family: $font-sans;
   color: $color-brown-dark;
-  padding: 0 0.3em;
+  padding: 0.2em 0.3em;
 }
 
 .form-call-to-action {
@@ -194,11 +194,6 @@ h2.sign {
   font-weight: 200;
   color: $color-brown-light;
   margin: 0;
-}
-
-.actions {
-  padding-left: 2em;
-  font-size: 1.8em;
 }
 
 .action-form {
@@ -279,6 +274,10 @@ p.help-small {
 .btn-block {
   display: block;
   width: 100%;
+}
+
+.btm-margin {
+  margin-bottom: 0.3em;
 }
 
 .btn-turq {

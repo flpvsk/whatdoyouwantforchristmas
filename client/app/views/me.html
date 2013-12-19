@@ -49,22 +49,23 @@
           </li>
         </ul>
 
-        <div class="actions">
-          <a class="action" href="javascript:void(0)"
-            ng-click="startAdd()"
-            ng-hide="addingStarted()">
-            добавить
-          </a>
-        </div>
+        <button class="action-form btn btn-block btn-turq btm-margin"
+          type="button"
+          ng-click="startAdd()"
+          ng-hide="addingStarted()">
+          добавить желание
+        </button>
 
         <form class="action-form"
           ng-submit="finishAdd()"
           ng-show="addingStarted()">
 
-          <input class="inp inp-block" ng-model="newWish" type="text"
+          <input class="inp inp-block btm-margin"
+            ng-model="newWish"
+            type="text"
             placeholder="ссылка или описание">
 
-          <button class="btn btn-block btn-turq" type="submit">
+          <button class="btn btn-block btn-turq btm-margin" type="submit">
             сохранить
           </button>
 
