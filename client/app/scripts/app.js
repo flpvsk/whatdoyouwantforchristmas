@@ -49,13 +49,21 @@ angular.module('clientApp', [
   };
 
   $rootScope.fetchUser = function () {
-    if ($rootScope.user) { return; }
+    var d = $.Deferred();
+
+    if ($rootScope.user) {
+      setTimeout(function () { d.resolve(); }, 0);
+      return d.promise();
+    }
 
     Fb.getUser().then(function (user) {
       $rootScope.$apply(function () {
         $rootScope.user = user;
+        d.resolve();
       });
     });
+
+    return d.promise();
   };
 
 });
