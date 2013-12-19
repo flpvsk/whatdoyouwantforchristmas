@@ -30,25 +30,43 @@ angular.module('clientApp')
     };
 
     $scope.addingStarted = function () {
-      return $scope.$adding;
+      return $scope.$action === 'adding a wish';
     }
 
     $scope.startAdd = function () {
-      $scope.$adding = true;
+      $scope.$action = 'adding a wish';
     };
 
     $scope.cancelAdd = function ($ev) {
       $ev.stopPropagation();
-      $scope.$adding = false;
+      $scope.$action = '';
       $scope.newWish = '';
     };
 
     $scope.finishAdd = function () {
       $scope.wishlist.push({ descr: $scope.newWish });
-      $scope.$adding = false;
+      $scope.$action = '';
       $scope.newWish = '';
     };
 
-    $scope.fetchUser();
+    $scope.startEdit = function () {
+      $scope.$action = 'editing a letter';
+    };
 
+    $scope.editingStarted = function () {
+      return $scope.$action === 'editing a letter';
+    }
+
+    $scope.finishEdit = function () {
+      $scope.$action = '';
+      $scope.letter = $scope.newLetter;
+      $scope.newLetter = '';
+    };
+
+    $scope.cancelEdit = function () {
+      $scope.$action = '';
+      $scope.newLetter = '';
+    };
+
+    $scope.fetchUser();
   });

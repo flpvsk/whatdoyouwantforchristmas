@@ -39,10 +39,43 @@
         </div>
       </div>
 
-      <p>
-        В этом году я вел себя хорошо. Вот что ты мне за это
-        должен:
-      </p>
+      <div ng-hide="editingStarted()">
+        <p class="btm-margin"
+          ng-show="letter">
+          {{ letter }}
+        </p>
+
+        <p class="btm-margin"
+          ng-show="!letter && user.gender == 'male'">
+          В этом году я вел себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+        <p class="btm-margin"
+          ng-show="!letter && user.gender == 'female'">
+          В этом году я вела себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+      </div>
+
+      <form class="action-form"
+        ng-show="editingStarted()"
+        ng-submit="finishEdit()">
+
+        <textarea ng-model="newLetter"
+          class="inp-block btm-margin"></textarea>
+
+        <button class="btn btn-block btn-turq btm-margin" type="submit">
+          сохранить
+        </button>
+
+        <button class="btn btn-block btn-red" type="button"
+          ng-click="cancelEdit($event)">
+          отмена
+        </button>
+
+      </form>
 
       <ul class="wish-list btm-margin">
         <li
@@ -56,9 +89,15 @@
       </ul>
 
       <button class="action-form btn btn-block btn-turq btm-margin"
+        ng-click="startEdit()"
+        ng-hide="addingStarted() || editingStarted()">
+        изменить текст
+      </button>
+
+      <button class="action-form btn btn-block btn-turq btm-margin"
         type="button"
         ng-click="startAdd()"
-        ng-hide="addingStarted()">
+        ng-hide="addingStarted() || editingStarted()">
         добавить желание
       </button>
 
