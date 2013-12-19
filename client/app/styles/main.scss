@@ -63,6 +63,7 @@ html, body {
 div.body-wrapper {
   min-height: 100%;
   height: 100%;
+  overflow-y: auto;
 }
 
 ul {
@@ -110,7 +111,7 @@ ul {
 // Modules
 .card {
   max-width: 900px;
-  width: 90%;
+  width: 95%;
   margin: auto;
 
   outline: 2px dashed $color-turq;
@@ -139,11 +140,23 @@ ul {
   }
 }
 
+.card.no-outline {
+  outline: none;
+}
+
 .btn, .inp {
   border: 1px solid #3f1c06;
   font-family: $font-sans;
   color: $color-brown-dark;
   padding: 0.2em 0.3em;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn {
+  text-align: center;
 }
 
 .form-call-to-action {
@@ -208,6 +221,15 @@ ul.wish-list {
   height: 50px;
 }
 
+.small-pic {
+  height: 2em;
+  width: 2em;
+}
+
+.no-decor:hover {
+  text-decoration: none;
+}
+
 h2.sign {
   display: block;
   font-family: $font-script;
@@ -241,9 +263,17 @@ p.help-small {
   font-size: 0.9em;
 }
 
+p.help-xsmall {
+  font-size: 0.7em;
+}
+
 // End Modules
 
 // Themes
+.card-center {
+  text-align: center;
+}
+
 .card-red {
   background-color: $color-red-dark;
   color: $color-white;
@@ -257,6 +287,12 @@ p.help-small {
   h1 {
     color: $color-brown-light;
   }
+}
+
+
+.card-pink {
+  background-color: $color-white;
+  color: $color-brown-dark;
 }
 
 .card-shadow {
@@ -300,12 +336,30 @@ p.help-small {
   margin-bottom: 0.3em;
 }
 
+.btm-margin-large {
+  margin-bottom: 1.5em;
+}
+
+.v-margin {
+  margin-bottom: 0.3em;
+  margin-top: 0.3em;
+}
+
 .btn-turq {
   background-color: $color-turq;
+  color: $color-brown-dark;
+}
+
+.btn-turq:hover {
+  color: $color-brown-dark;
 }
 
 .btn-red {
   background-color: $color-red-dark;
+  color: $color-white;
+}
+
+.btn-red:hover {
   color: $color-white;
 }
 

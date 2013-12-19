@@ -20,9 +20,43 @@ angular.module('clientApp', [
       templateUrl: 'views/me.html',
       controller: 'MeCtrl'
     })
+    .when('/friends', {
+      templateUrl: 'views/friends.html',
+      controller: 'FriendsCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });
+
+}).run(function ($rootScope, Fb) {
+  var images = [
+    'bear',
+    'bullfinch',
+    'deer',
+    'dm',
+    'penguin',
+    'snowman'
+  ];
+
+  $rootScope.getImage = function () {
+    var n = Math.floor(Math.random() * 100) % (images.length - 1),
+        image = $rootScope.image;
+
+    if (image && image.length > 0) { return $rootScope.image; }
+
+    $rootScope.image = images[n];
+    return $rootScope.image;
+  };
+
+  $rootScope.fetchUser = function () {
+    if ($rootScope.user) { return; }
+
+    Fb.getUser().then(function (user) {
+      $rootScope.$apply(function () {
+        $rootScope.user = user;
+      });
+    });
+  };
 
 });
 
@@ -73,7 +107,7 @@ window.fbAsyncInit = function () {
       // we're handling the situation where they have logged in to the
       // app.
 
-      console.log('FB connected');
+      console.log('FB connected', response);
       window.fbConnected = true;
       triggerEvent('fb-connected');
 
