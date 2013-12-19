@@ -80,15 +80,15 @@
 
           <p class="help help-xsmall" ng-hide="isGiver(wish)">
             <a href="javascript:void(0)"
-              ng-click="wantToGive(wish)">
+              ng-click="wantToGive(wish, friend)">
               хочу подарить
             </a>
           </p>
 
           <p class="help help-xsmall" ng-show="isGiver(wish)">
             <a href="javascript:void(0)"
-              ng-click="dontWantToGive(wish)">
-              передумал, не хочу дарить
+              ng-click="dontWantToGive(wish, friend)">
+              не хочу дарить
             </a>
           </p>
 

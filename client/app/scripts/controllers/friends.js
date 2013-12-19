@@ -2,6 +2,8 @@
 
 angular.module('clientApp')
   .controller('FriendsCtrl', function ($scope) {
+    analytics.page('Friends');
+
     $scope.fetchUser();
 
     $scope.friends = [{
@@ -55,15 +57,29 @@ angular.module('clientApp')
       });
     };
 
-    $scope.wantToGive = function (wish) {
+    $scope.wantToGive = function (wish, friend) {
       wish.givers = wish.givers || [];
       wish.givers.push($scope.user);
+      analytics.track('Wants to Give', {
+        userUsername: $scope.user.username,
+        userId: $scope.user.id,
+        wishDescr: wish.descr,
+        friendUsername: friend.username
+      });
     };
 
-    $scope.dontWantToGive = function (wish) {
+    $scope.dontWantToGive = function (wish, friend) {
       wish.givers = _.filter(wish.givers, function (giver) {
         return giver.username !== $scope.user.username;
       });
+
+      analytics.track('Does Not Want to Give', {
+        userUsername: $scope.user.username,
+        userId: $scope.user.id,
+        wishDescr: wish.descr,
+        friendUsername: friend.username
+      });
+
     };
 
   });
