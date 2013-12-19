@@ -34,10 +34,6 @@
           должен:
         </p>
 
-        <p class="help help-small">
-          нажмите на желание, чтобы вычеркнуть
-        </p>
-
         <ul class="wish-list">
           <li
             class="removable"
@@ -45,6 +41,11 @@
             ng-click="triggerRemoved(wish)"
             ng-class="removedClass(wish)">
             {{ wish.descr }}
+
+            <span class="pull-right" alt="удалить"
+              ng-hide="isRemoved(wish)">
+              &#215;
+            </span>
           </li>
         </ul>
 

@@ -24,6 +24,10 @@ angular.module('clientApp')
       return '';
     };
 
+    $scope.isRemoved = function (wish) {
+      return !!wish.$markRemoved;
+    };
+
     $scope.triggerRemoved = function (wish) {
       console.log('in trigger removed', wish);
       wish.$markRemoved = !wish.$markRemoved;
