@@ -36,8 +36,31 @@
         target="_blank">пригласить друзей</a>
     </div>
 
+    <div class="card card-pink btm-margin-large no-outline"
+      ng-show="friends.length && !introHidden()">
+      <span ng-click="hideIntro()" class="close">&#215;</span>
+      <h2 class="card-center">
+        Помоги Деду Морозу доставить подарки до твоих друзей!
+      </h2>
+      <ol class="small">
+        <li>
+          Найди друга или подругу, которой хочешь сделать подарок.
+        </li>
+        <li>
+          Выбери, что ты хотел бы подарить, из списка пожеланий.
+        </li>
+        <li>
+          Достань подарок и доставь другу в Новый Год!
+        </li>
+      </ol>
 
-    <!-- TODO: ng-repeat="friend in friends" -->
+      <p class="small sans">
+        Сотрудничай! Тебе и Деду Морозу придётся туго в этом году. Помоги
+        друзьям достать подарок и они помогут тебе.
+      </p>
+    </div>
+
+
     <div ng-repeat="friend in friends"
       class="card card-default btm-margin-large">
 

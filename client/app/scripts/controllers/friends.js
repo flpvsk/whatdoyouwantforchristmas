@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('FriendsCtrl', function ($scope) {
+  .controller('FriendsCtrl', function ($scope, LocalStorage) {
     analytics.page('Friends');
 
+    $scope.settings = LocalStorage.get('settings') || {};
+    console.log('Settings', $scope.settings);
     $scope.fetchUser();
 
     $scope.friends = [{
@@ -80,6 +82,15 @@ angular.module('clientApp')
         friendUsername: friend.username
       });
 
+    };
+
+    $scope.hideIntro = function () {
+      $scope.settings.hideFriendsIntro = true;
+      LocalStorage.put('settings', $scope.settings);
+    };
+
+    $scope.introHidden = function () {
+      return !!$scope.settings.hideFriendsIntro;
     };
 
   });

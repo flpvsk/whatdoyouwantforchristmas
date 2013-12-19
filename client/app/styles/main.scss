@@ -41,7 +41,8 @@ $color-turq: #61a9a5;
 $color-brown-dark: #3f1c06;
 $color-brown-light: #734f2b;
 $color-brown-lighter: #fcf3e1;
-$color-white: #fff;
+$color-pink: #c63f44;
+$color-white: $color-brown-lighter;
 
 
 
@@ -138,10 +139,23 @@ ul, p {
     padding: 0.2em 0;
   }
 
+  .small {
+    font-size: 1.5em;
+  }
+
+  .sans {
+    font-family: $font-sans;
+  }
+
   textarea {
     font-family: $font-serif;
     font-size: 1em;
     line-height: 1.2em;
+
+    border: 1px solid $color-brown-dark;
+    background-color: $color-white;
+    color: $color-brown-dark;
+
     padding: 0.2em;
   }
 
@@ -153,6 +167,7 @@ ul, p {
 
 .btn, .inp {
   border: 1px solid #3f1c06;
+  background-color: $color-white;
   font-family: $font-sans;
   color: $color-brown-dark;
   padding: 0.2em 0.3em;
@@ -184,6 +199,14 @@ ul, p {
 
 .sidebar {
   height: 100%;
+}
+
+
+.close {
+  font-weight: 800;
+  font-size: 2em;
+  float: right;
+  cursor: pointer;
 }
 
 ul.wish-list {
@@ -309,8 +332,13 @@ p.help-xsmall {
 
 
 .card-pink {
-  background-color: $color-white;
-  color: $color-brown-dark;
+  background-color: $color-pink;
+  color: $color-brown-lighter;
+
+  h2 {
+    font-family: $font-script;
+    font-size: 2em;
+  }
 }
 
 .card-shadow {
