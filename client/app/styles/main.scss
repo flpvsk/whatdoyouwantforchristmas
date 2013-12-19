@@ -67,7 +67,7 @@ div.body-wrapper {
   overflow-y: auto;
 }
 
-ul, p {
+ul, p, h1, h2 {
   margin: 0;
 }
 
@@ -127,7 +127,11 @@ ul, p {
     font-family: $font-script;
     font-size: 3em;
     font-weight: 200;
-    margin: 0;
+  }
+
+  h2 {
+    font-family: $font-script;
+    font-size: 2em;
   }
 
   p, ul {
@@ -238,6 +242,10 @@ ul.wish-list {
   .removable.removed:after {
     content: '';
   }
+
+  li {
+    margin-bottom: 1em;
+  }
 }
 
 .card-pic {
@@ -303,7 +311,6 @@ p.help-xsmall {
 
   h1 {
     font-family: $font-script;
-    margin: 0;
   }
 
 }
@@ -334,11 +341,6 @@ p.help-xsmall {
 .card-pink {
   background-color: $color-pink;
   color: $color-brown-lighter;
-
-  h2 {
-    font-family: $font-script;
-    font-size: 2em;
-  }
 }
 
 .card-shadow {
@@ -426,7 +428,6 @@ h1.user-name {
   font-size: 1.5em;
   font-weight: 200;
   color: $color-brown-dark;
-  margin: 0;
 }
 
 ul.menu-list {
