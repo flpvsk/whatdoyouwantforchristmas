@@ -4,7 +4,14 @@ angular.module('clientApp')
   .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
     analytics.page('My Letter');
 
-    var firstWish;
+    var firstWish,
+        URL_PATTERN = new RegExp(
+          '^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
 
     $scope.wishlist = [];
 
@@ -44,12 +51,16 @@ angular.module('clientApp')
     };
 
     $scope.finishAdd = function () {
+      if (URL_PATTERN.test($scope.newWish)) {
+        console.log('Is URL');
+      }
       $scope.wishlist.push({ descr: $scope.newWish });
       $scope.$action = '';
       $scope.newWish = '';
     };
 
     $scope.startEdit = function () {
+      $scope.newLetter = $scope.letter;
       $scope.$action = 'editing a letter';
     };
 
