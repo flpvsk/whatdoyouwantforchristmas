@@ -2,7 +2,7 @@
 
 angular
   .module('clientApp')
-  .controller('MainCtrl', function ($scope, $location) {
+  .controller('MainCtrl', function ($scope, $location, LocalStorage) {
     analytics.page('Main Landing');
 
     $scope.saveAndContinue = function ($ev) {
@@ -10,6 +10,8 @@ angular
       analytics.track('Added a Wish', {
         descr: $scope.descr
       });
+
+      LocalStorage.put('firstWish', { descr: $scope.descr });
 
       $location.path('/where-to-send');
     };

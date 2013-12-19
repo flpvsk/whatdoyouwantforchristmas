@@ -1,23 +1,27 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MeCtrl', function ($scope, $location, Fb) {
+  .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
     analytics.page('My Letter');
 
-    var images = [
-      'bear',
-      'bullfinch',
-      'deer',
-      'dm',
-      'penguin',
-      'snowman'
-    ];
+    var firstWish,
+        images = [
+          'bear',
+          'bullfinch',
+          'deer',
+          'dm',
+          'penguin',
+          'snowman'
+        ];
 
-    $scope.wishlist = [
-      { descr: 'Матрас' },
-      { descr: 'Жвачка' },
-      { descr: 'Хобот' }
-    ];
+    $scope.wishlist = [];
+
+    firstWish = LocalStorage.get('firstWish');
+
+    if (firstWish) {
+      $scope.wishlist.push(firstWish);
+      LocalStorage.remove('firstWish');
+    }
 
     $scope.removedClass = function (wish) {
       if (wish.$markRemoved) { return 'removed'; }
