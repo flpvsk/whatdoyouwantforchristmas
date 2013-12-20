@@ -18,18 +18,19 @@ angular.module('clientApp')
     $scope.fetchUser().then(function () {
       $scope.wishlist = $scope.user.wishlist;
       $scope.letter = $scope.user.letter;
+
+      firstWish = LocalStorage.get('firstWish');
+
+      if (firstWish) {
+        LocalStorage.remove('firstWish');
+
+        Backend.addWish($scope.user, { descr: $scope.newWish })
+          .then(function (wish) {
+            $scope.wishlist.push(wish);
+          });
+      }
     });
 
-    firstWish = LocalStorage.get('firstWish');
-
-    if (firstWish) {
-      LocalStorage.remove('firstWish');
-
-      Backend.addWish($scope.user, { descr: $scope.newWish })
-        .then(function (wish) {
-          $scope.wishlist.push(wish);
-        });
-    }
 
     $scope.removedClass = function (wish) {
       if (wish.$markRemoved) { return 'removed'; }
@@ -87,6 +88,7 @@ angular.module('clientApp')
 
       $scope.$action = '';
       $scope.letter = $scope.newLetter;
+      $scope.user.letter = $scope.newLetter;
       $scope.newLetter = '';
     };
 
