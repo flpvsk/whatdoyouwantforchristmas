@@ -44,6 +44,10 @@ $color-brown-lighter: #fcf3e1;
 $color-pink: #c63f44;
 $color-white: $color-brown-lighter;
 
+$color-fb-light: #879ac0;
+$color-fb-dark: #29447e;
+$color-fb-primary: #3b5998;
+
 
 
 
@@ -409,6 +413,18 @@ p.help-xsmall {
 
 .btn-red:hover {
   color: $color-white;
+}
+
+.btn-fb {
+  background-color: $color-fb-primary;
+  border-color: $color-fb-dark;
+  color: $color-white;
+  padding-left: 52px;
+
+  background-image: url(/images/fb.png);
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: -5px center;
 }
 
 .menu {
