@@ -34,3 +34,8 @@ module.exports.updateById = function mongoUpdateById(col, id, hash) {
 module.exports.findOne = function mongoFindOne(col, q, fields) {
   return Q.ninvoke(dbRef.db.collection(col), 'findOne', q, fields);
 }
+
+module.exports.find = function mongoFind(col, q, fields) {
+  var query = dbRef.db.collection(col).find(q, fields);
+  return Q.ninvoke(query, 'toArray');
+}

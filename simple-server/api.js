@@ -9,7 +9,7 @@ var express = require('express'),
 module.exports = app;
 
 app.get('/users', function (req, res, next) {
-  var fields;
+  var fields, findUser;
 
   log.debug('Searching for user', req.query);
 
@@ -17,7 +17,29 @@ app.get('/users', function (req, res, next) {
     fields = req.query.fields.split(',');
   }
 
-  return db.findOne('users', req.query.query, fields).then(
+  findUser = db.findOne('users', req.query.query, fields)
+
+  if (_.contains(fields, 'wishlist')) {
+    findUser = findUser
+      .then(function (user) {
+        log.debug('User', user);
+        return [
+          user,
+          db.find('wishes', {
+            userId: user._id
+          }, [
+            'type',
+            'descr',
+            'address'
+          ]) ];
+      })
+      .spread(function (user, wishlist) {
+        user.wishlist = wishlist;
+        return user;
+      });
+  }
+
+  return findUser.then(
     successCb(req, res, next),
     errorCb(req, res, next)
   ).done();
@@ -65,7 +87,7 @@ app.post('/users/signup', function (req, res, next) {
 app.post('/wishes', function (req, res, next) {
   var wish = req.body;
 
-  wish.user_id = db.id(wish.user_id);
+  wish.userId = db.id(wish.userId);
 
   return db.insert('wishes', wish).then(
     successCb(req, res, next, 201),

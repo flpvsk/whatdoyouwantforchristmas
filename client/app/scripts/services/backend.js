@@ -31,7 +31,7 @@ angular.module('clientApp')
             method: 'GET',
             params: {
               "query[fbId]": fbUser.id,
-              fields: 'username,id,fbId,gender'
+              fields: 'username,id,fbId,gender,wishlist,letter'
             }
           }).then(function (res) {
             d.resolve(res.data.data);
@@ -42,7 +42,8 @@ angular.module('clientApp')
       },
 
       addWish: function (user, wish) {
-        wish.user_id = user._id;
+        wish.userId = user._id;
+
         return $http({
           method: 'POST',
           url: '/api/wishes',
