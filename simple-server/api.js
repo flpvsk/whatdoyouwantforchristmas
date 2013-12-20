@@ -8,6 +8,7 @@ var express = require('express'),
 
 module.exports = app;
 
+
 app.post('/users/signup', function (req, res, next) {
   log.debug('Got new user', req.body);
 
@@ -62,7 +63,6 @@ app.get('/users', function (req, res, next) {
 });
 
 app.post('/wishes', function (req, res, next) {
-  log.debug('Got new user', req.body);
 });
 
 

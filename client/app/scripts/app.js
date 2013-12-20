@@ -58,7 +58,6 @@ angular.module('clientApp', [
 
     Backend.getCurrentUser()
       .then(function (user) {
-        console.log('Got current User', user);
         $rootScope.user = user;
         d.resolve();
       });
