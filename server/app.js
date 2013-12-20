@@ -3,7 +3,8 @@ var express = require('express'),
     path = require('path'),
     config = require('./config'),
     log = require('./lib/log')(module),
-    HttpError = require('./error').HttpError;
+    HttpError = require('./error').HttpError,
+    compass = require('node-compass');
 
 var app = express();
 
@@ -16,7 +17,14 @@ if ('production' === ENV) {
   app.use(express.logger('default'));
   app.set('views', __dirname + '../client/dist');
 } else {
+  app.use(compass({
+    project: path.join(__dirname, '../client'),
+    sass: 'app/styles',
+    css: '.tmp/styles',
+    import_path: path.join(__dirname, '../client/app/bower_components')
+  }));
   app.use(express.static(path.join(__dirname, '../client/app')));
+  app.use(express.static(path.join(__dirname, '../client/.tmp')));
   app.use(express.logger('dev'));
   app.set('views', __dirname + '../client/app');
 }
