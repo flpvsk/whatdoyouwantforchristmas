@@ -37,8 +37,6 @@ app.post('/users/signup', function (req, res, next) {
       }
     };
 
-    log.debug('1 Friend', result[0]);
-
     return db.updateById('users', userRef.user._id, updateHash);
   }).then(function () {
     log.info('User friends fetched and saved');
