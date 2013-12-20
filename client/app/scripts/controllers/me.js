@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
+  .controller('MeCtrl', function (
+        $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
+
+    Backend.signup();
 
     var firstWish,
         URL_PATTERN = new RegExp(

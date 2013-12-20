@@ -123,7 +123,7 @@ window.fbAsyncInit = function () {
 
       FB.api('/me', function (user) {
         var created = '';
-        if (window._analyticsAddCreatedDate) {
+        if (window._signedUp) {
           console.log('Adding created date');
           window._analyticsAddCreatedDate = false;
           created = '' + (new Date()).getTime();
