@@ -47,6 +47,43 @@ app.get('/users', function (req, res, next) {
 
 });
 
+
+app.get('/users/:id/friends', function (req, res, next) {
+  log.debug('In find friends');
+  return db.findById('users', req.params.id)
+    .then(function (user) {
+      var frIdList = _.map(user.fbFriends, function (friend) {
+        return friend.fbId;
+      });
+
+      return db.find('users', { fbId: { $in: frIdList } });
+    }).then(function (friends) {
+      log.debug('found friends, %s', friends.length);
+      if (!friends) { return []; }
+
+      return Q.all(_.map(friends, function (friend) {
+        log.debug('Searching wishes for', friend._id.toString(), friend);
+        return db.find('wishes', { userId: friend._id, removed: false })
+          .then(function (wishlist) {
+            console.log('Got wishlist', wishlist.length);
+            friend.wishlist = wishlist;
+            return friend;
+          });
+      }));
+    })
+    .then(function (arr) {
+      console.log('Filtering friends');
+      return _.filter(arr, function (fr) {
+        log.debug('filtering', fr);
+        return fr.wishlist.length > 0;
+      });
+    })
+    .then(
+      successCb(req, res, next)
+    ).done();
+});
+
+
 app.post('/users/signup', function (req, res, next) {
   log.debug('Got new user', req.body);
 
@@ -115,6 +152,7 @@ app.put('/wishes', function (req, res, next) {
 function successCb(req, res, next, status) {
   status = status || 200;
   return function (data) {
+    log.debug('In success cb');
     res.status(status);
     res.json({ data: data, status: status });
     res.end();

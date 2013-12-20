@@ -17,6 +17,7 @@ module.exports.wish = {};
 module.exports.wish.parse = function parseWish(wish) {
   wish.userId = db.id(wish.userId);
 
+  wish.removed = !!wish.removed;
   if (wish._id) { wish._id = db.id(wish._id); }
   if (URL_PATTERN.test(wish.descr) && !wish.address) {
     log.debug('Wish is URL, %s', wish);

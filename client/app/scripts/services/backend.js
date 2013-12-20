@@ -57,6 +57,13 @@ angular.module('clientApp')
           url: '/api/wishes',
           data: wish
         }).then(extractData);
+      },
+
+      getFriendsList: function (user) {
+        return $http({
+          method: 'GET',
+          url: '/api/users/' + user._id + '/friends'
+        }).then(extractData);
       }
     };
   });

@@ -1,6 +1,7 @@
 var mongo = require('mongodb').MongoClient,
     ObjectID = require('mongodb').ObjectID,
     Q = require('q'),
+    _ = require('underscore'),
     log = require('./log'),
     url = 'mongodb://127.0.0.1:27017/christmas',
     dbRef = {};
@@ -35,8 +36,20 @@ module.exports.findOne = function mongoFindOne(col, q, fields) {
   return Q.ninvoke(dbRef.db.collection(col), 'findOne', q, fields);
 };
 
+module.exports.findById = function mongoFindById(col, id) {
+  if (_.isString(id)) { id = new ObjectID(id); }
+  return Q.ninvoke(dbRef.db.collection(col), 'findOne', { _id: id });
+};
+
 module.exports.find = function mongoFind(col, q, fields) {
-  var query = dbRef.db.collection(col).find(q, fields);
+  var query;
+
+  if (fields) {
+    query = dbRef.db.collection(col).find(q, fields);
+  } else {
+    query = dbRef.db.collection(col).find(q);
+  }
+
   return Q.ninvoke(query, 'toArray');
 };
 

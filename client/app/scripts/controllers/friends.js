@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('FriendsCtrl', function ($scope, LocalStorage) {
+  .controller('FriendsCtrl', function ($scope, LocalStorage, Backend) {
     analytics.page('Friends');
 
     $scope.settings = LocalStorage.get('settings') || {};
     console.log('Settings', $scope.settings);
-    $scope.fetchUser();
+    $scope.fetchUser().then(function () {
+      return Backend.getFriendsList($scope.user)
+        .then(function (friends) {
+          console.log('Got friends list', friends);
+          $scope.friends = friends;
+        });
+    });
 
     $scope.friends = [{
       name: 'Evgenia Salomatina',
