@@ -43,6 +43,7 @@ angular.module('clientApp')
 
     $scope.triggerRemoved = function (wish) {
       console.log('in trigger removed', wish);
+      analytics.track('Removed a wish');
       wish.$markRemoved = !wish.$markRemoved;
 
       if (wish.$markRemoved) { wish.removed = true; }
@@ -65,6 +66,7 @@ angular.module('clientApp')
     };
 
     $scope.finishAdd = function () {
+      analytics.track('Added a wish');
       Backend.addWish($scope.user, { descr: $scope.newWish })
         .then(function (wish) {
           $scope.wishlist.push(wish);
@@ -84,6 +86,7 @@ angular.module('clientApp')
     }
 
     $scope.finishEdit = function () {
+      analytics.track('Changed a letter');
       Backend.saveLetter($scope.user, $scope.newLetter);
 
       $scope.$action = '';
