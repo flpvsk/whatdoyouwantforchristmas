@@ -19,6 +19,6 @@
   },
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=PROD node simple-server/server.js"
+    "start": "NODE_ENV=production node simple-server/server.js"
   }
 }
