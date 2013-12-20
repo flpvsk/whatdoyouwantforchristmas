@@ -51,7 +51,20 @@ angular.module('clientApp', [
 
     Backend.getCurrentUser()
       .then(function (user) {
+        var created = '';
         $rootScope.user = user;
+
+        analytics.alias(user.id);
+        if (window._signedUp) {
+          console.log('Adding created date');
+          window._signedUp = false;
+          created = '' + (new Date()).getTime();
+          created = created.slice(0, 10);
+          created = parseInt(created);
+          user.created_at = created;
+        }
+        analytics.identify(user.id, user);
+
         d.resolve();
       });
 
@@ -110,21 +123,6 @@ window.fbAsyncInit = function () {
       console.log('FB connected', response);
       window.fbConnected = true;
       triggerEvent('fb-connected');
-
-      analytics.alias(response.authResponse.userID);
-
-      FB.api('/me', function (user) {
-        var created = '';
-        if (window._signedUp) {
-          console.log('Adding created date');
-          window._analyticsAddCreatedDate = false;
-          created = '' + (new Date()).getTime();
-          created = created.slice(0, 10);
-          created = parseInt(created);
-          user.created_at = created;
-        }
-        analytics.identify(user.id, user);
-      });
 
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into
