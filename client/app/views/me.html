@@ -9,8 +9,18 @@
     </ul>
 
     <div class="menu-pic-container">
-      <img class="menu-pic"
-        ng-src="/images/{{ getImage() }}.png"></img>
+      <img class="menu-pic" src="/images/bear.png"
+        ng-show="getImage() == 0"/>
+      <img class="menu-pic" src="/images/bullfinch.png"
+        ng-show="getImage() == 1"/>
+      <img class="menu-pic" src="/images/deer.png"
+        ng-show="getImage() == 2"/>
+      <img class="menu-pic" src="/images/dm.png"
+        ng-show="getImage() == 3"/>
+      <img class="menu-pic" src="/images/penguin.png"
+        ng-show="getImage() == 4"/>
+      <img class="menu-pic" src="/images/snowman.png"
+        ng-show="getImage() == 5"/>
     </div>
   </div>
 

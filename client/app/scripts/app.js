@@ -29,23 +29,16 @@ angular.module('clientApp', [
     });
 
 }).run(function ($rootScope, $timeout, Fb, Backend) {
-  var images = [
-    'bear',
-    'bullfinch',
-    'deer',
-    'dm',
-    'penguin',
-    'snowman'
-  ];
 
   $rootScope.getImage = function () {
-    var n = Math.floor(Math.random() * 100) % (images.length - 1),
-        image = $rootScope.image;
+    var n = Math.floor(Math.random() * 100) % 5;
 
-    if (image && image.length > 0) { return $rootScope.image; }
+    if (_.has($rootScope, 'image')) {
+      return $rootScope.image;
+    }
 
-    $rootScope.image = images[n];
-    return $rootScope.image;
+    $rootScope.image = n;
+    return n;
   };
 
   $rootScope.fetchUser = function () {
