@@ -15,6 +15,10 @@ angular.module('clientApp')
 
     $scope.wishlist = [];
 
+    $scope.fetchUser().then(function () {
+      $scope.wishlist = $scope.user.wishlist;
+    });
+
     firstWish = LocalStorage.get('firstWish');
 
     if (firstWish) {

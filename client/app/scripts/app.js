@@ -28,7 +28,7 @@ angular.module('clientApp', [
       redirectTo: '/'
     });
 
-}).run(function ($rootScope, Fb, Backend) {
+}).run(function ($rootScope, $timeout, Fb, Backend) {
   var images = [
     'bear',
     'bullfinch',
@@ -52,7 +52,7 @@ angular.module('clientApp', [
     var d = $.Deferred();
 
     if ($rootScope.user) {
-      setTimeout(function () { d.resolve(); }, 0);
+      $timeout(function () { d.resolve(); }, 0);
       return d.promise();
     }
 
