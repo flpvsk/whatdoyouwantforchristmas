@@ -16,3 +16,12 @@ module.exports.insert = function mongoInsert(col, doc) {
       return res[0];
     });
 };
+
+module.exports.updateById = function mongoUpdateById(col, id, hash) {
+  log.debug('Updating', col, id);
+  return Q.ninvoke(dbRef.db.collection(col), 'update', { _id: id }, hash)
+    .then(function (res) {
+      log.debug('Update result %s', res);
+      return res;
+    });
+};

@@ -1,7 +1,9 @@
 var express = require('express'),
+    Q = require('q'),
     log = require('./log'),
     _ = require('underscore'),
     db = require('./db'),
+    fb = require('./fb'),
     app = express();
 
 module.exports = app;
@@ -10,12 +12,38 @@ app.post('/users/signup', function (req, res, next) {
   log.debug('Got new user', req.body);
 
   var user = _.omit(req.body, 'authData'),
-      authData = _.pick(req.body, 'authData');
+      userRef = {},
+      authData = req.body.authData;
+
+  if (!_.has(authData, 'accessToken')) {
+    res.status(400);
+    res.json({ status: 400, error: 'Valid authData required' });
+    return res.end();
+  }
 
   db.insert('users', user).then(
     successCb(req, res, next, 201),
     errorCb(req, res, next)
-  ).done();
+  ).then(function (user) {
+    userRef.user = user;
+  }).done();
+
+  fb.fetchFriends(authData).then(function (result) {
+    log.debug('Fetched user friends, found %d', result.length);
+
+    var updateHash = {
+      $set: {
+        fbFriends: result
+      }
+    };
+
+    log.debug('1 Friend', result[0]);
+
+    return db.updateById('users', userRef.user._id, updateHash);
+  }).then(function () {
+    log.info('User friends fetched and saved');
+  }).done();
+
 });
 
 
@@ -25,6 +53,7 @@ function successCb(req, res, next, status) {
     res.status(status);
     res.json({ data: data, status: status });
     res.end();
+    return data;
   };
 }
 
@@ -33,6 +62,6 @@ function errorCb(req, res, next, status) {
   return function (err) {
     res.status(status);
     res.json({ error: err, status: status });
-    next();
+    res.end();
   }
 }

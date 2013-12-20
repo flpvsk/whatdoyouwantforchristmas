@@ -5,7 +5,9 @@ angular.module('clientApp')
         $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
 
-    Backend.signup();
+    Fb.getLoginStatus().then(function (s) {
+      Backend.signup(s.authResponse);
+    });
 
     var firstWish,
         URL_PATTERN = new RegExp(
