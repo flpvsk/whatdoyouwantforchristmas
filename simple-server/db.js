@@ -3,7 +3,8 @@ var mongo = require('mongodb').MongoClient,
     Q = require('q'),
     _ = require('underscore'),
     log = require('./log'),
-    url = 'mongodb://127.0.0.1:27017/christmas',
+    url = (process.env['MONGOLAB_URI'] ||
+        'mongodb://localhost/christmas'),
     dbRef = {};
 
 Q.ninvoke(mongo, 'connect', url).then(function (db) {
