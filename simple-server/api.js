@@ -48,6 +48,17 @@ app.get('/users', function (req, res, next) {
 });
 
 
+app.put('/users/:id/letter', function (req, res, next) {
+  var letter = _.pick(req.body, 'letter');
+  log.debug('Updating user letter', req.params.id, letter);
+  return db.updateById('users', req.params.id, { $set: letter })
+    .then(
+      successCb(req, res, next),
+      errorCb(req, res, next)
+    ).done();
+});
+
+
 app.get('/users/:id/friends', function (req, res, next) {
   log.debug('In find friends');
   return db.findById('users', req.params.id)

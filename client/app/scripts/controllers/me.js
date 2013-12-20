@@ -17,6 +17,7 @@ angular.module('clientApp')
 
     $scope.fetchUser().then(function () {
       $scope.wishlist = $scope.user.wishlist;
+      $scope.letter = $scope.user.letter;
     });
 
     firstWish = LocalStorage.get('firstWish');
@@ -82,6 +83,8 @@ angular.module('clientApp')
     }
 
     $scope.finishEdit = function () {
+      Backend.saveLetter($scope.user, $scope.newLetter);
+
       $scope.$action = '';
       $scope.letter = $scope.newLetter;
       $scope.newLetter = '';

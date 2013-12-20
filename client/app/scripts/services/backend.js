@@ -31,7 +31,7 @@ angular.module('clientApp')
             method: 'GET',
             params: {
               "query[fbId]": fbUser.id,
-              fields: 'name,username,id,fbId,gender,wishlist,letter'
+              fields: 'name,username,id,letter,fbId,gender,wishlist'
             }
           }).then(function (res) {
             d.resolve(res.data.data);
@@ -56,6 +56,14 @@ angular.module('clientApp')
           method: 'PUT',
           url: '/api/wishes',
           data: wish
+        }).then(extractData);
+      },
+
+      saveLetter: function (user, letter) {
+        return $http({
+          method: 'PUT',
+          url: '/api/users/' + user._id + '/letter',
+          data: { letter: letter }
         }).then(extractData);
       },
 
