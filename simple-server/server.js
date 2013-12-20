@@ -6,13 +6,24 @@ var express = require('express'),
 app.use(express.logger())
   .use(express.compress())
   .use(express.methodOverride())
-  .use(express.bodyParser())
+  .use(express.bodyParser());
+
+if (process.env.NODE_ENV === 'DEV') {
   // STATIC
-  .use(express.static(path.join(__dirname, '../client/app')))
-  .use(express.static(path.join(__dirname, '../client/.tmp')))
-  // API
-  .use(express.logger())
-  .use('/api', api);
+  app.use(express.static(path.join(__dirname, '../client/app')))
+     .use(express.static(path.join(__dirname, '../client/.tmp')));
+}
+
+if (process.env.NODE_ENV === 'PROD') {
+  // STATIC
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+}
+
+
+
+// API
+app.use(express.logger())
+   .use('/api', api);
 
 
 app.listen(process.env.PORT || 3000);
