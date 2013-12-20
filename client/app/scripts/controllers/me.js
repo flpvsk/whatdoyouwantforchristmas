@@ -22,8 +22,12 @@ angular.module('clientApp')
     firstWish = LocalStorage.get('firstWish');
 
     if (firstWish) {
-      $scope.wishlist.push(firstWish);
       LocalStorage.remove('firstWish');
+
+      Backend.addWish($scope.user, { descr: $scope.newWish })
+        .then(function (wish) {
+          $scope.wishlist.push(wish);
+        });
     }
 
     $scope.removedClass = function (wish) {
@@ -38,6 +42,10 @@ angular.module('clientApp')
     $scope.triggerRemoved = function (wish) {
       console.log('in trigger removed', wish);
       wish.$markRemoved = !wish.$markRemoved;
+
+      if (wish.$markRemoved) { wish.removed = true; }
+
+      Backend.saveWish($scope.user, wish);
     };
 
     $scope.addingStarted = function () {
@@ -55,10 +63,6 @@ angular.module('clientApp')
     };
 
     $scope.finishAdd = function () {
-      if (URL_PATTERN.test($scope.newWish)) {
-        console.log('Is URL');
-      }
-
       Backend.addWish($scope.user, { descr: $scope.newWish })
         .then(function (wish) {
           $scope.wishlist.push(wish);

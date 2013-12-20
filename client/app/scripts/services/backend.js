@@ -49,6 +49,14 @@ angular.module('clientApp')
           url: '/api/wishes',
           data: wish
         }).then(extractData);
+      },
+
+      saveWish: function (user, wish) {
+        return $http({
+          method: 'PUT',
+          url: '/api/wishes',
+          data: wish
+        }).then(extractData);
       }
     };
   });

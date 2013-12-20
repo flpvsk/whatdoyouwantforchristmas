@@ -4,6 +4,7 @@ var express = require('express'),
     _ = require('underscore'),
     db = require('./db'),
     fb = require('./fb'),
+    model = require('./model'),
     app = express();
 
 module.exports = app;
@@ -85,16 +86,30 @@ app.post('/users/signup', function (req, res, next) {
 
 
 app.post('/wishes', function (req, res, next) {
-  var wish = req.body;
-
-  wish.userId = db.id(wish.userId);
-
-  return db.insert('wishes', wish).then(
-    successCb(req, res, next, 201),
-    errorCb(req, res, next)
-  );
+  return model.wish.parse(req.body)
+    .then(function (wish) {
+      return db.insert('wishes', wish);
+    })
+    .then(
+      successCb(req, res, next, 201)
+      //errorCb(req, res, next)
+    )
+    .done();
 
 });
+
+app.put('/wishes', function (req, res, next) {
+  return model.wish.parse(req.body)
+    .then(function (wish) {
+      return db.save('wishes', wish);
+    })
+    .then(
+      successCb(req, res, next)
+      //errorCb(req, res, next)
+    )
+    .done();
+});
+
 
 
 function successCb(req, res, next, status) {

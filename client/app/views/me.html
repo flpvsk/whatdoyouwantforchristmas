@@ -81,9 +81,24 @@
         <li
           class="removable"
           ng-repeat="wish in wishlist"
-          ng-click="triggerRemoved(wish)"
           ng-class="removedClass(wish)">
-          {{ wish.descr }}
+
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}"
+              target="_blank">{{ wish.descr }}</a>
+          </span>
+
+          <span class="close"
+            ng-hide="isRemoved(wish)"
+            ng-click="triggerRemoved(wish)">&#215;</span>
+          <span class="check"
+            ng-show="isRemoved(wish)"
+            ng-click="triggerRemoved(wish)">&#10004;</span>
+
         </li>
       </ul>
 
