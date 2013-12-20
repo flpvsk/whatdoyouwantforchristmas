@@ -1,4 +1,5 @@
 var mongo = require('mongodb').MongoClient,
+    ObjectID = require('mongodb').ObjectID,
     Q = require('q'),
     log = require('./log'),
     url = 'mongodb://127.0.0.1:27017/christmas',
@@ -8,6 +9,10 @@ Q.ninvoke(mongo, 'connect', url).then(function (db) {
   log.info('Mongo connected');
   dbRef.db = db;
 });
+
+module.exports.id = function mongoObjectId(str) {
+  return new ObjectID(str);
+};
 
 module.exports.insert = function mongoInsert(col, doc) {
   log.debug('Inserting into', col);

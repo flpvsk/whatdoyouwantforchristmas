@@ -8,6 +8,21 @@ var express = require('express'),
 
 module.exports = app;
 
+app.get('/users', function (req, res, next) {
+  var fields;
+
+  log.debug('Searching for user', req.query);
+
+  if (req.query.fields) {
+    fields = req.query.fields.split(',');
+  }
+
+  return db.findOne('users', req.query.query, fields).then(
+    successCb(req, res, next),
+    errorCb(req, res, next)
+  ).done();
+
+});
 
 app.post('/users/signup', function (req, res, next) {
   log.debug('Got new user', req.body);
@@ -46,23 +61,17 @@ app.post('/users/signup', function (req, res, next) {
 });
 
 
-app.get('/users', function (req, res, next) {
-  var fields;
-
-  log.debug('Searching for user', req.query);
-
-  if (req.query.fields) {
-    fields = req.query.fields.split(',');
-  }
-
-  return db.findOne('users', req.query.query, fields).then(
-    successCb(req, res, next),
-    errorCb(req, res, next)
-  ).done();
-
-});
 
 app.post('/wishes', function (req, res, next) {
+  var wish = req.body;
+
+  wish.user_id = db.id(wish.user_id);
+
+  return db.insert('wishes', wish).then(
+    successCb(req, res, next, 201),
+    errorCb(req, res, next)
+  );
+
 });
 
 

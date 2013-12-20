@@ -42,8 +42,12 @@ angular.module('clientApp')
       },
 
       addWish: function (user, wish) {
-        return $http({ method: 'POST', url: '/api/wishes', data: wish })
-          .then(extractData);
+        wish.user_id = user._id;
+        return $http({
+          method: 'POST',
+          url: '/api/wishes',
+          data: wish
+        }).then(extractData);
       }
     };
   });
