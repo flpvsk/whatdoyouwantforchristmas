@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'DEV') {
      .use(express.static(path.join(__dirname, '../client/.tmp')));
 }
 
-if (process.env.NODE_ENV === 'PROD') {
+if (process.env.NODE_ENV === 'production') {
   // STATIC
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
