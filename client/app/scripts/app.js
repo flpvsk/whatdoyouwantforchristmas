@@ -28,40 +28,32 @@ angular.module('clientApp', [
       redirectTo: '/'
     });
 
-}).run(function ($rootScope, Fb) {
-  var images = [
-    'bear',
-    'bullfinch',
-    'deer',
-    'dm',
-    'penguin',
-    'snowman'
-  ];
+}).run(function ($rootScope, $timeout, Fb, Backend) {
 
   $rootScope.getImage = function () {
-    var n = Math.floor(Math.random() * 100) % (images.length - 1),
-        image = $rootScope.image;
+    var n = Math.floor(Math.random() * 100) % 5;
 
-    if (image && image.length > 0) { return $rootScope.image; }
+    if (_.has($rootScope, 'image')) {
+      return $rootScope.image;
+    }
 
-    $rootScope.image = images[n];
-    return $rootScope.image;
+    $rootScope.image = n;
+    return n;
   };
 
   $rootScope.fetchUser = function () {
     var d = $.Deferred();
 
     if ($rootScope.user) {
-      setTimeout(function () { d.resolve(); }, 0);
+      $timeout(function () { d.resolve(); }, 0);
       return d.promise();
     }
 
-    Fb.getUser().then(function (user) {
-      $rootScope.$apply(function () {
+    Backend.getCurrentUser()
+      .then(function (user) {
         $rootScope.user = user;
         d.resolve();
       });
-    });
 
     return d.promise();
   };
@@ -123,7 +115,7 @@ window.fbAsyncInit = function () {
 
       FB.api('/me', function (user) {
         var created = '';
-        if (window._analyticsAddCreatedDate) {
+        if (window._signedUp) {
           console.log('Adding created date');
           window._analyticsAddCreatedDate = false;
           created = '' + (new Date()).getTime();

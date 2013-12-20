@@ -211,8 +211,17 @@ ul, p, h1, h2 {
 
 
 .close {
+  font-family: $font-sans;
   font-weight: 800;
-  font-size: 2em;
+  font-size: 1.8em;
+  float: right;
+  cursor: pointer;
+}
+
+.check {
+  font-family: $font-sans;
+  font-weight: 800;
+  font-size: 1em;
   float: right;
   cursor: pointer;
 }
@@ -221,20 +230,16 @@ ul.wish-list {
   list-style: square;
   padding-left: 2em;
 
-  .removable {
-    cursor: pointer;
-  }
-
   .removable.removed {
     text-decoration: line-through;
   }
 
-  .removable:after {
-    content: '\00d7';
-    font-weight: 800;
-    font-size: 1.5em;
-    float: right;
-  }
+  // .removable:after {
+  //   content: '\00d7';
+  //   font-weight: 800;
+  //   font-size: 1.5em;
+  //   float: right;
+  // }
 
   .removable:hover {
     // background-color: rgba($color-turq, 0.3);
@@ -312,6 +317,7 @@ p.help-xsmall {
   background-color: $color-red-dark;
   margin-bottom: 1.5em;
   cursor: pointer;
+  @include single-box-shadow();
 
   h1 {
     font-family: $font-script;

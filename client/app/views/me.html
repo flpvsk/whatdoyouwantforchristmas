@@ -9,8 +9,18 @@
     </ul>
 
     <div class="menu-pic-container">
-      <img class="menu-pic"
-        ng-src="/images/{{ getImage() }}.png"></img>
+      <img class="menu-pic" src="/images/bear.png"
+        ng-show="getImage() == 0"/>
+      <img class="menu-pic" src="/images/bullfinch.png"
+        ng-show="getImage() == 1"/>
+      <img class="menu-pic" src="/images/deer.png"
+        ng-show="getImage() == 2"/>
+      <img class="menu-pic" src="/images/dm.png"
+        ng-show="getImage() == 3"/>
+      <img class="menu-pic" src="/images/penguin.png"
+        ng-show="getImage() == 4"/>
+      <img class="menu-pic" src="/images/snowman.png"
+        ng-show="getImage() == 5"/>
     </div>
   </div>
 
@@ -34,6 +44,7 @@
         <div class="col-xs-2">
           <img
             class="card-pic pull-right"
+            ng-show="user.username"
             ng-src="http://graph.facebook.com/{{user.username}}/picture"
             alt="Фото ребёнка" />
         </div>
@@ -81,9 +92,24 @@
         <li
           class="removable"
           ng-repeat="wish in wishlist"
-          ng-click="triggerRemoved(wish)"
           ng-class="removedClass(wish)">
-          {{ wish.descr }}
+
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}"
+              target="_blank">{{ wish.descr }}</a>
+          </span>
+
+          <span class="close"
+            ng-hide="isRemoved(wish)"
+            ng-click="triggerRemoved(wish)">&#215;</span>
+          <span class="check"
+            ng-show="isRemoved(wish)"
+            ng-click="triggerRemoved(wish)">&#10004;</span>
+
         </li>
       </ul>
 

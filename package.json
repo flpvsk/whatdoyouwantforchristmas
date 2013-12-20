@@ -1,17 +1,17 @@
 {
   "name": "whatdoyouwantforchristmas",
-  "version": "0.0.1",
+  "version": "0.0.0",
+  "description": "",
+  "main": "simple-server/server.js",
+  "author": "",
+  "license": "BSD-2-Clause",
   "dependencies": {
-    "express": "~3.4.0",
-    "async": "~0.2.9",
-    "nconf": "~0.6.8",
+    "express": "~3.4.7",
     "winston": "~0.7.2",
-    "mongodb": "~1.3.19",
-    "connect-mongo": "~0.4.0",
-    "mongoose": "~3.8.0"
-  },
-  "devDependencies": {
-    "node-compass": "https://github.com/fealaer/node-compass/tarball/feature/option_import_path"
+    "underscore": "~1.5.2",
+    "mongodb": "~1.3.23",
+    "q": "~0.9.7",
+    "request": "~2.30.0"
   },
   "engines": {
     "node": ">=0.10.0",
@@ -19,6 +19,6 @@
   },
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node server/app.js"
+    "start": "NODE_ENV=PROD node simple-server/server.js"
   }
 }

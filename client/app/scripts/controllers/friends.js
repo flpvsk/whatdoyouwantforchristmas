@@ -1,13 +1,22 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('FriendsCtrl', function ($scope, LocalStorage) {
+  .controller('FriendsCtrl', function ($scope, LocalStorage, Backend) {
     analytics.page('Friends');
 
     $scope.settings = LocalStorage.get('settings') || {};
-    console.log('Settings', $scope.settings);
-    $scope.fetchUser();
 
+    $scope.$loading = true;
+    $scope.fetchUser().then(function () {
+      return Backend.getFriendsList($scope.user)
+        .then(function (friends) {
+          console.log('Got friends list', friends);
+          $scope.friends = friends;
+          $scope.$loading = false;
+        });
+    });
+
+    /*
     $scope.friends = [{
       name: 'Evgenia Salomatina',
       username: 'eugen.salomatina',
@@ -52,9 +61,10 @@ angular.module('clientApp')
         descr: 'Кофе'
       }]
     }];
+    */
 
     $scope.isLoading = function () {
-      return false;
+      return !!$scope.$loading;
     };
 
     $scope.isGiver = function (wish) {
@@ -68,6 +78,9 @@ angular.module('clientApp')
     $scope.wantToGive = function (wish, friend) {
       wish.givers = wish.givers || [];
       wish.givers.push($scope.user);
+
+      Backend.addGiver($scope.user, wish);
+
       analytics.track('Wants to Give', {
         userUsername: $scope.user.username,
         userId: $scope.user.id,
@@ -80,6 +93,8 @@ angular.module('clientApp')
       wish.givers = _.filter(wish.givers, function (giver) {
         return giver.username !== $scope.user.username;
       });
+
+      Backend.removeGiver($scope.user, wish);
 
       analytics.track('Does Not Want to Give', {
         userUsername: $scope.user.username,
