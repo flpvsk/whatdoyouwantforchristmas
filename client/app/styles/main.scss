@@ -317,6 +317,7 @@ p.help-xsmall {
   background-color: $color-red-dark;
   margin-bottom: 1.5em;
   cursor: pointer;
+  @include single-box-shadow();
 
   h1 {
     font-family: $font-script;
