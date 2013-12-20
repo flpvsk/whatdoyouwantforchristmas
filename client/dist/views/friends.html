@@ -8,8 +8,14 @@
     </ul>
 
     <div class="menu-pic-container">
-      <img class="menu-pic" ng-src="/images/{{ getImage() }}.png">
+      <img class="menu-pic" src="/images/03313551.bear.png" ng-show="getImage() == 0">
+      <img class="menu-pic" src="/images/01d79623.bullfinch.png" ng-show="getImage() == 1">
+      <img class="menu-pic" src="/images/1f32d1a1.deer.png" ng-show="getImage() == 2">
+      <img class="menu-pic" src="/images/8dc667c5.dm.png" ng-show="getImage() == 3">
+      <img class="menu-pic" src="/images/542121e9.penguin.png" ng-show="getImage() == 4">
+      <img class="menu-pic" src="/images/8444baa2.snowman.png" ng-show="getImage() == 5">
     </div>
+
   </div>
 
   <div class="col-sm-7 col-md-8 col-lg-9 main">
