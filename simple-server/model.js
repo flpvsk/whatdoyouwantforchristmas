@@ -36,4 +36,3 @@ module.exports.wish.parse = function parseWish(wish) {
 
   return Q.when(wish);
 }
-

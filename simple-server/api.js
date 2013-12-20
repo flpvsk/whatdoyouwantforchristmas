@@ -68,7 +68,7 @@ app.get('/users/:id/friends', function (req, res, next) {
             console.log('Got wishlist', wishlist.length);
             friend.wishlist = wishlist;
             return friend;
-          });
+          })
       }));
     })
     .then(function (arr) {
@@ -79,7 +79,8 @@ app.get('/users/:id/friends', function (req, res, next) {
       });
     })
     .then(
-      successCb(req, res, next)
+      successCb(req, res, next),
+      errorCb(req, res, next)
     ).done();
 });
 
@@ -92,9 +93,7 @@ app.post('/users/signup', function (req, res, next) {
       authData = req.body.authData;
 
   if (!_.has(authData, 'accessToken')) {
-    res.status(400);
-    res.json({ status: 400, error: 'Valid authData required' });
-    return res.end();
+    return errorResponse(res, 400, 'Valid authData required');
   }
 
   db.insert('users', user).then(
@@ -128,8 +127,8 @@ app.post('/wishes', function (req, res, next) {
       return db.insert('wishes', wish);
     })
     .then(
-      successCb(req, res, next, 201)
-      //errorCb(req, res, next)
+      successCb(req, res, next, 201),
+      errorCb(req, res, next)
     )
     .done();
 
@@ -138,12 +137,40 @@ app.post('/wishes', function (req, res, next) {
 app.put('/wishes', function (req, res, next) {
   return model.wish.parse(req.body)
     .then(function (wish) {
+      wish.updated = new Date();
       return db.save('wishes', wish);
     })
     .then(
-      successCb(req, res, next)
-      //errorCb(req, res, next)
+      successCb(req, res, next),
+      errorCb(req, res, next)
     )
+    .done();
+});
+
+
+app.put('/wishes/:id/givers', function (req, res, next) {
+  if (!req.body._id) {
+    return errorResponse(res, 400, 'Giver _id required');
+  }
+
+  var user = _.pick(req.body, '_id', 'username', 'gender', 'name', 'fbId');
+  user._id = db.id(user._id);
+
+  var hash = {
+    $addToSet: {
+      givers: user
+    }
+  };
+
+  return db.update('wishes', { _id: db.id(req.params.id) }, hash);
+});
+
+app.delete('/wishes/:id/givers/:userId', function (req, res, next) {
+  var hash = {
+    $pull: { givers: { _id: db.id(req.params.userId) } }
+  };
+  return db.update('wishes', { _id: db.id(req.params.id) }, hash)
+    .then(successCb(req, res, next), errorCb(req, res, next))
     .done();
 });
 
@@ -163,8 +190,13 @@ function successCb(req, res, next, status) {
 function errorCb(req, res, next, status) {
   status = status || 500;
   return function (err) {
-    res.status(status);
-    res.json({ error: err, status: status });
-    res.end();
+    return errorResponse(res, status, err);
   }
+}
+
+function errorResponse(res, status, err) {
+  status = status || 500;
+  res.status(status);
+  res.json({ error: err, status: status });
+  return res.end();
 }

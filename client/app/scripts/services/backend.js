@@ -64,6 +64,24 @@ angular.module('clientApp')
           method: 'GET',
           url: '/api/users/' + user._id + '/friends'
         }).then(extractData);
+      },
+
+      addGiver: function (user, wish) {
+        return $http({
+          method: 'PUT',
+          url: '/api/wishes/' + wish._id + '/givers',
+          data: _.pick(
+            user,
+            '_id', 'fbId', 'username', 'name', 'gender'
+          )}).then(extractData);
+      },
+
+      removeGiver: function (user, wish) {
+        console.log('Removing giver', _.pick(user, '_id'));
+        return $http({
+          method: 'DELETE',
+          url: '/api/wishes/' + wish._id + '/givers/' + user._id
+        }).then(extractData);
       }
     };
   });
