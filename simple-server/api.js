@@ -45,6 +45,27 @@ app.post('/users/signup', function (req, res, next) {
 });
 
 
+app.get('/users', function (req, res, next) {
+  var fields;
+
+  log.debug('Searching for user', req.query);
+
+  if (req.query.fields) {
+    fields = req.query.fields.split(',');
+  }
+
+  return db.findOne('users', req.query.query, fields).then(
+    successCb(req, res, next),
+    errorCb(req, res, next)
+  ).done();
+
+});
+
+app.post('/wishes', function (req, res, next) {
+  log.debug('Got new user', req.body);
+});
+
+
 function successCb(req, res, next, status) {
   status = status || 200;
   return function (data) {

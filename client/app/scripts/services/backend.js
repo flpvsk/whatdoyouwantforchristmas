@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('clientApp')
-  .service('Backend', function Backend(Fb) {
+  .service('Backend', function Backend(Fb, $http) {
+
+    function extractData(res) {
+      console.log('Extracting', res.data);
+      return res.data.data;
+    }
+
     return {
       signup: function (authData) {
         Fb.getUser().pipe(function (fbUser) {
@@ -9,15 +15,35 @@ angular.module('clientApp')
           fbUser.authData = authData;
           fbUser = _.omit(fbUser, 'id');
 
-          return $.ajax({
+          return $http({
             url: '/api/users/signup',
-            contentType: 'application/json',
             method: 'POST',
             data: angular.toJson(fbUser)
           });
-        }).pipe(function (res) {
-          return res.data;
+        }).pipe(extractData);
+      },
+
+      getCurrentUser: function () {
+        var d = $.Deferred();
+        Fb.getUser().pipe(function (fbUser) {
+          $http({
+            url: '/api/users',
+            method: 'GET',
+            params: {
+              "query[fbId]": fbUser.id,
+              fields: 'username,id,fbId,gender'
+            }
+          }).then(function (res) {
+            d.resolve(res.data.data);
+          });
         });
+
+        return d.promise();
+      },
+
+      addWish: function (user, wish) {
+        return $http({ method: 'POST', url: '/api/wishes', data: wish })
+          .then(extractData);
       }
     };
   });

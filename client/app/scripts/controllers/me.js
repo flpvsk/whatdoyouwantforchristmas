@@ -54,7 +54,12 @@ angular.module('clientApp')
       if (URL_PATTERN.test($scope.newWish)) {
         console.log('Is URL');
       }
-      $scope.wishlist.push({ descr: $scope.newWish });
+
+      Backend.addWish($scope.user, { descr: $scope.newWish })
+        .then(function (wish) {
+          $scope.wishlist.push(data);
+        });
+
       $scope.$action = '';
       $scope.newWish = '';
     };

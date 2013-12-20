@@ -3,11 +3,15 @@ var express = require('express'),
     api = require('./api'),
     app = express();
 
-app.use(express.bodyParser())
+app.use(express.logger())
+  .use(express.compress())
+  .use(express.methodOverride())
+  .use(express.bodyParser())
   // STATIC
   .use(express.static(path.join(__dirname, '../client/app')))
   .use(express.static(path.join(__dirname, '../client/.tmp')))
   // API
+  .use(express.logger())
   .use('/api', api);
 
 

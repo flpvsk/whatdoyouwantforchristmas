@@ -28,7 +28,7 @@ angular.module('clientApp', [
       redirectTo: '/'
     });
 
-}).run(function ($rootScope, Fb) {
+}).run(function ($rootScope, Fb, Backend) {
   var images = [
     'bear',
     'bullfinch',
@@ -56,12 +56,12 @@ angular.module('clientApp', [
       return d.promise();
     }
 
-    Fb.getUser().then(function (user) {
-      $rootScope.$apply(function () {
+    Backend.getCurrentUser()
+      .then(function (user) {
+        console.log('Got current User', user);
         $rootScope.user = user;
         d.resolve();
       });
-    });
 
     return d.promise();
   };
