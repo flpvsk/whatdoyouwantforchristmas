@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MeCtrl', function ($scope, $location, Fb, LocalStorage) {
+  .controller('MeCtrl', function (
+        $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
-
     var firstWish,
         URL_PATTERN = new RegExp(
           '^(https?:\\/\\/)?'+ // protocol
@@ -15,11 +15,20 @@ angular.module('clientApp')
 
     $scope.wishlist = [];
 
+    $scope.fetchUser().then(function () {
+      $scope.wishlist = $scope.user.wishlist;
+      $scope.letter = $scope.user.letter;
+    });
+
     firstWish = LocalStorage.get('firstWish');
 
     if (firstWish) {
-      $scope.wishlist.push(firstWish);
       LocalStorage.remove('firstWish');
+
+      Backend.addWish($scope.user, { descr: $scope.newWish })
+        .then(function (wish) {
+          $scope.wishlist.push(wish);
+        });
     }
 
     $scope.removedClass = function (wish) {
@@ -34,6 +43,10 @@ angular.module('clientApp')
     $scope.triggerRemoved = function (wish) {
       console.log('in trigger removed', wish);
       wish.$markRemoved = !wish.$markRemoved;
+
+      if (wish.$markRemoved) { wish.removed = true; }
+
+      Backend.saveWish($scope.user, wish);
     };
 
     $scope.addingStarted = function () {
@@ -51,10 +64,11 @@ angular.module('clientApp')
     };
 
     $scope.finishAdd = function () {
-      if (URL_PATTERN.test($scope.newWish)) {
-        console.log('Is URL');
-      }
-      $scope.wishlist.push({ descr: $scope.newWish });
+      Backend.addWish($scope.user, { descr: $scope.newWish })
+        .then(function (wish) {
+          $scope.wishlist.push(wish);
+        });
+
       $scope.$action = '';
       $scope.newWish = '';
     };
@@ -69,6 +83,8 @@ angular.module('clientApp')
     }
 
     $scope.finishEdit = function () {
+      Backend.saveLetter($scope.user, $scope.newLetter);
+
       $scope.$action = '';
       $scope.letter = $scope.newLetter;
       $scope.newLetter = '';

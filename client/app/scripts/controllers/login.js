@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('LoginCtrl', function ($scope, $location, Fb) {
+  .controller('LoginCtrl', function ($scope, $location, Fb, Backend) {
     function goToMyLetter() {
         if ($scope.$$phase === '$digest') {
           $location.path('/me');
@@ -16,7 +16,7 @@ angular.module('clientApp')
     }
 
     analytics.page('Where To Send - Login');
-    window._analyticsAddCreatedDate = false;
+    window._signedUp = false;
 
     Fb.getLoginStatus().done(function (data) {
       console.log('In controller', data);
@@ -28,12 +28,13 @@ angular.module('clientApp')
     });
 
     $scope.login = function () {
-      window._analyticsAddCreatedDate = true;
+      window._signedUp = true;
 
       Fb.login(function (response) {
 
         if (response.authResponse) {
           goToMyLetter();
+          Backend.signup(response.authResponse);
         } else {
           $scope.$apply(function () {
             $scope.showError = true;
