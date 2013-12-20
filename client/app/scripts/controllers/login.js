@@ -33,7 +33,7 @@ angular.module('clientApp')
       Fb.login(function (response) {
 
         if (response.authResponse) {
-          //goToMyLetter();
+          goToMyLetter();
           Backend.signup(response.authResponse);
         } else {
           $scope.$apply(function () {

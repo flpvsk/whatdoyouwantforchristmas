@@ -4,11 +4,6 @@ angular.module('clientApp')
   .controller('MeCtrl', function (
         $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
-
-    Fb.getLoginStatus().then(function (s) {
-      Backend.signup(s.authResponse);
-    });
-
     var firstWish,
         URL_PATTERN = new RegExp(
           '^(https?:\\/\\/)?'+ // protocol
