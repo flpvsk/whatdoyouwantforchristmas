@@ -54,6 +54,12 @@ angular.module('clientApp')
       fn();
     };
 
+    service.login = function (fn, opts) {
+      service.runWhenReady(function () {
+        window.FB.login(fn, opts);
+      });
+    };
+
 
     return service;
   });
