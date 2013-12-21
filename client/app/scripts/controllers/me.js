@@ -4,6 +4,11 @@ angular.module('clientApp')
   .controller('MeCtrl', function (
         $scope, $location, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
+
+    Fb.getLoginStatus().done(function (data) {
+      if (data.status !== 'connected') { $scope.goToLogin(); }
+    });
+
     var firstWish;
 
     $scope.wishlist = [];

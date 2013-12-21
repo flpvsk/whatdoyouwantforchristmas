@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('FriendsCtrl', function ($scope, LocalStorage, Backend) {
+  .controller('FriendsCtrl', function ($scope, LocalStorage, Fb, Backend) {
     analytics.page('Friends');
 
     $scope.settings = LocalStorage.get('settings') || {};
+
+    Fb.getLoginStatus().done(function (data) {
+      if (data.status !== 'connected') { $scope.goToLogin(); }
+    });
 
     $scope.$loading = true;
     $scope.fetchUser().then(function () {

@@ -3,16 +3,6 @@
 angular.module('clientApp')
   .controller('LoginCtrl', function ($scope, $location, Fb, Backend) {
     function goToMyLetter() {
-        if ($scope.$$phase === '$digest') {
-          $location.path('/me');
-          $location.replace();
-          return;
-        }
-
-        $scope.$apply(function () {
-          $location.path('/me');
-          $location.replace();
-        });
     }
 
     analytics.page('Where To Send - Login');
@@ -22,7 +12,7 @@ angular.module('clientApp')
       console.log('In controller', data);
 
       if (data.status === 'connected') {
-        goToMyLetter();
+        $scope.goToMyLetter();
       }
 
     });
