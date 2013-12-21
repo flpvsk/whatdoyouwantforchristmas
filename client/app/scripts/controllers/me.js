@@ -46,8 +46,7 @@ angular.module('clientApp')
       analytics.track('Removed a wish');
       wish.$markRemoved = !wish.$markRemoved;
 
-      if (wish.$markRemoved) { wish.removed = true; }
-
+      wish.removed = wish.$markRemoved;
       Backend.saveWish($scope.user, wish);
     };
 
