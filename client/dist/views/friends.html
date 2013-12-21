@@ -70,7 +70,9 @@
           <h1>Дорогой Дедушка Мороз!</h1>
         </div>
         <div class="col-xs-2">
-          <img class="card-pic pull-right" ng-src="//graph.facebook.com/{{friend.username}}/picture" alt="Фото ребёнка">
+          <a class="no-decor" title="{{friend.name}}" ng-href="//facebook.com/{{friend.username}}" target="_blank">
+            <img class="card-pic pull-right" ng-src="//graph.facebook.com/{{friend.username}}/picture" alt="Фото ребёнка">
+          </a>
         </div>
       </div>
 
