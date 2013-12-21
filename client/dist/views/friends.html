@@ -98,7 +98,7 @@
           </span>
 
           <span ng-show="wish.type == 'link'">
-            <a ng-href="{{ wish.address }}" target="_blank">{{ wish.descr }}</a>
+            <a ng-href="{{ wish.address }}" ng-bind-html="wish.descr"></a>
           </span>
 
           <p class="help help-xsmall" ng-show="!wish.givers.length">

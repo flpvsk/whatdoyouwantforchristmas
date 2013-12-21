@@ -79,7 +79,7 @@
           </span>
 
           <span ng-show="wish.type == 'link'">
-            <a ng-href="{{ wish.address }}" target="_blank">{{ wish.descr }}</a>
+            <a ng-href="{{ wish.address }}" target="_blank" ng-bind-html="wish.descr"></a>
           </span>
 
           <span class="close" ng-hide="isRemoved(wish)" ng-click="removeWish(wish, $event)">&#215;</span>
