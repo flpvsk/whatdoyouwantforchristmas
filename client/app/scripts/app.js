@@ -79,14 +79,6 @@ angular.module('clientApp', [
         $rootScope.user = user;
 
         user.id = user._id;
-        if (window._signedUp) {
-          console.log('Adding created date');
-          window._signedUp = false;
-          created = '' + (new Date()).getTime();
-          created = created.slice(0, 10);
-          created = parseInt(created);
-          user.created_at = created;
-        }
         analytics.identify(user.id, user);
 
         d.resolve();

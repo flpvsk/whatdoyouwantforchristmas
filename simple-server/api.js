@@ -16,7 +16,6 @@ app.get('/users', function (req, res, next) {
   if (req.query.fields) {
     fields = req.query.fields.split(',');
   }
-
   findUser = db.findOne('users', req.query.query, fields)
 
   if (_.contains(fields, 'wishlist')) {
@@ -39,10 +38,16 @@ app.get('/users', function (req, res, next) {
       });
   }
 
-  return findUser.then(
-    successCb(req, res, next),
-    errorCb(req, res, next)
-  ).done();
+  return findUser
+    .then(function (user) {
+      console.log('Adding created date');
+      user.created_at = user._id.getTimestamp().getTime() / 1000;
+      return user;
+    })
+    .then(
+      successCb(req, res, next),
+      errorCb(req, res, next)
+    ).done();
 
 });
 
@@ -98,7 +103,7 @@ app.get('/users/:id/friends', function (req, res, next) {
 app.post('/users/signup', function (req, res, next) {
   log.debug('Signup called', req.body);
 
-  var user = _.omit(req.body, 'authData'),
+  var userData = _.omit(req.body, 'authData'),
       userRef = {},
       authData = req.body.authData;
 
@@ -106,7 +111,7 @@ app.post('/users/signup', function (req, res, next) {
     return errorResponse(res, 400, 'Valid authData required');
   }
 
-  db.findOne('users', _.pick(user, 'fbId'))
+  db.findOne('users', _.pick(userData, 'fbId'))
     .then(function (user) {
       console.log('User exists');
       if (user) {
@@ -116,12 +121,18 @@ app.post('/users/signup', function (req, res, next) {
             errorCb(req, res, next)
           );
       }
-      return db.insert('users', user)
+      return db.insert('users', userData)
+        .then(function (user) {
+          userRef.user = user;
+          return user;
+        })
         .then(
           successCb(req, res, next, 201),
           errorCb(req, res, next)
         ) // answer client before fbFetch
-        .then(model.user.fetchFbFriends(user, authData))
+        .then(function () {
+          return model.user.fetchFbFriends(userRef.user, authData);
+        });
     })
     .done();
 
