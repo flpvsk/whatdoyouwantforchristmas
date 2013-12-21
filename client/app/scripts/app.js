@@ -75,12 +75,9 @@ angular.module('clientApp', [
 
     Backend.getCurrentUser()
       .then(function (user) {
-        var created = '';
         $rootScope.user = user;
-
         user.id = user._id;
         analytics.identify(user.id, user);
-
         d.resolve();
       });
 
