@@ -1,6 +1,7 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import "compass";
+@import "animate";
 
 // Core variables and mixins
 @import "sass-bootstrap/lib/variables";
@@ -253,6 +254,7 @@ ul.wish-list {
   }
 
   li {
+    height: 100%;
     margin-bottom: 1em;
   }
 }

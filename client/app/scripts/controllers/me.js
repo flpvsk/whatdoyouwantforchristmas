@@ -2,7 +2,7 @@
 
 angular.module('clientApp')
   .controller('MeCtrl', function (
-        $scope, $location, Fb, LocalStorage, Backend) {
+        $scope, $location, $timeout, Fb, LocalStorage, Backend) {
     analytics.page('My Letter');
 
     Fb.getLoginStatus().done(function (data) {
@@ -33,21 +33,75 @@ angular.module('clientApp')
 
 
     $scope.removedClass = function (wish) {
-      if (wish.$markRemoved) { return 'removed'; }
+      if (wish.removed) { return 'removed'; }
       return '';
     };
 
     $scope.isRemoved = function (wish) {
-      return !!wish.$markRemoved;
+      return !!wish.removed;
     };
 
-    $scope.triggerRemoved = function (wish) {
-      console.log('in trigger removed', wish);
+    $scope.removeWish = function (wish, $ev) {
+      console.log('Removed a wish');
       analytics.track('Removed a wish');
-      wish.$markRemoved = !wish.$markRemoved;
 
-      wish.removed = wish.$markRemoved;
-      Backend.saveWish($scope.user, wish);
+      wish.removed = true;
+      wish.$hideAction = true;
+      $timeout.cancel(wish.$disapear);
+
+      wish.$disapear = $timeout(function () {
+        var $li = $($ev.target).parents('li'),
+            endEvents = [
+              "webkitAnimationEnd",
+              "MSAnimationEnd",
+              "animationend",
+              "oanimationend"
+            ];
+
+        console.log('In timeout', $li, $ev.target);
+        $li.addClass('fadeOutUp');
+
+        // cross-browser animation end...
+        _.forEach(endEvents, function (evName) {
+          $li.on(evName, function () {
+            console.log('Animation end');
+            $li.remove();
+
+            $scope.wishlist = _.filter($scope.wishlist, function (wish) {
+              return !wish.removed;
+            });
+          });
+        });
+      }, 1000);
+
+      Backend.saveWish($scope.user, wish)
+        .then(function () {
+          console.log('Saved');
+          wish.$hideAction = false;
+        });
+    };
+
+
+    $scope.restoreWish = function (wish, $ev) {
+      console.log('Restored a wish');
+      analytics.track('Restored a wish');
+
+      $($ev).parents('li').removeClass('fadeOutUp');
+      $timeout.cancel(wish.$disapear);
+
+      wish.removed = false;
+      wish.$hideAction = true;
+
+      Backend.saveWish($scope.user, wish)
+        .then(function () {
+          console.log('Saved');
+          wish.$hideAction = false;
+        });
+
+    };
+
+    $scope.showWishAction = function (wish) {
+      return !wish.$hideAction;
     };
 
     $scope.addingStarted = function () {

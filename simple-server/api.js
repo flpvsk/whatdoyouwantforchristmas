@@ -25,7 +25,8 @@ app.get('/users', function (req, res, next) {
         return [
           user,
           db.find('wishes', {
-            userId: user._id
+            userId: user._id,
+            removed: false
           }, [
             'type',
             'descr',
@@ -156,13 +157,17 @@ app.post('/wishes', function (req, res, next) {
 app.put('/wishes/:id', function (req, res, next) {
   return model.wish.parse(req.body)
     .then(function (wish) {
-      wish.updated = new Date();
-      return db.save('wishes', wish);
+      var hash = {
+        $set: {
+          updated: new Date(),
+          removed: wish.removed
+        }
+      };
+
+      log.debug('Update wish. Removed?', hash);
+      return db.updateById('wishes', req.params.id, hash);
     })
-    .then(
-      successCb(req, res, next),
-      errorCb(req, res, next)
-    )
+    .then(successCb(req, res, next))
     .done();
 });
 

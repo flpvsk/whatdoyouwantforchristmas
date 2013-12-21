@@ -91,7 +91,7 @@
 
       <ul class="wish-list btm-margin">
         <li
-          class="removable"
+          class="removable animated"
           ng-repeat="wish in wishlist"
           ng-class="removedClass(wish)">
 
@@ -104,12 +104,14 @@
               target="_blank">{{ wish.descr }}</a>
           </span>
 
-          <span class="close"
-            ng-hide="isRemoved(wish)"
-            ng-click="triggerRemoved(wish)">&#215;</span>
-          <span class="check"
-            ng-show="isRemoved(wish)"
-            ng-click="triggerRemoved(wish)">&#10004;</span>
+          <span ng-show="showWishAction(wish)">
+            <span class="close"
+              ng-hide="isRemoved(wish)"
+              ng-click="removeWish(wish, $event)">&#215;</span>
+            <span class="check"
+              ng-show="isRemoved(wish)"
+              ng-click="restoreWish(wish, $event)">&#10004;</span>
+          </span>
 
         </li>
       </ul>

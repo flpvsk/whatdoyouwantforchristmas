@@ -18,7 +18,7 @@ module.exports.id = function mongoObjectId(str) {
 
 module.exports.insert = function mongoInsert(col, doc) {
   log.debug('Inserting into', col);
-  return Q.ninvoke(dbRef.db.collection(col), 'insert', doc)
+  return Q.ninvoke(dbRef.db.collection(col), 'insert', doc, { safe: true })
     .then(function (res) {
       return res[0];
     });
@@ -26,12 +26,13 @@ module.exports.insert = function mongoInsert(col, doc) {
 
 module.exports.updateById = function mongoUpdateById(col, id, hash) {
   log.debug('Updating', col, id);
+  var dbCol = dbRef.db.collection(col);
 
   if (_.isString(id)) {
     id = new ObjectID(id);
   }
 
-  return Q.ninvoke(dbRef.db.collection(col), 'update', { _id: id }, hash)
+  return Q.ninvoke(dbCol, 'update', { _id: id }, hash, { safe: true })
     .then(function (res) {
       log.debug('Update result %s', res);
       return res;
@@ -40,9 +41,11 @@ module.exports.updateById = function mongoUpdateById(col, id, hash) {
 
 module.exports.update = function mongoUpdate(col, query, hash) {
   log.debug('Updating', query, hash);
+  var dbCol = dbRef.db.collection(col);
 
-  return Q.ninvoke(dbRef.db.collection(col), 'update', query, hash, {
-    multi: true
+  return Q.ninvoke(dbCol, 'update', query, hash, {
+    multi: true,
+    safe: true
   });
 };
 
