@@ -31,7 +31,7 @@ angular.module('clientApp')
             method: 'GET',
             params: {
               "query[fbId]": fbUser.id,
-              fields: 'name,username,id,letter,fbId,gender,wishlist'
+              fields: 'name,username,id,email,letter,fbId,gender,wishlist'
             }
           }).then(function (res) {
             d.resolve(res.data.data);
