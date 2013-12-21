@@ -29,6 +29,7 @@ angular.module('clientApp')
 
     $scope.login = function () {
       window._signedUp = true;
+      analytics.track('Clicked login button');
 
       Fb.login(function (response) {
 
@@ -36,6 +37,7 @@ angular.module('clientApp')
           goToMyLetter();
           Backend.signup(response.authResponse);
         } else {
+          analytics.track('Got login error');
           $scope.$apply(function () {
             $scope.showError = true;
           });
