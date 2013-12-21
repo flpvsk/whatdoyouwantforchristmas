@@ -145,7 +145,7 @@ app.post('/wishes', function (req, res, next) {
 
 });
 
-app.put('/wishes', function (req, res, next) {
+app.put('/wishes/:id', function (req, res, next) {
   return model.wish.parse(req.body)
     .then(function (wish) {
       wish.updated = new Date();

@@ -57,7 +57,7 @@ angular.module('clientApp')
       saveWish: function (user, wish) {
         return $http({
           method: 'PUT',
-          url: '/api/wishes',
+          url: '/api/wishes/' + wish._id,
           data: wish
         }).then(extractData);
       },
