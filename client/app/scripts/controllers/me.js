@@ -65,6 +65,7 @@ angular.module('clientApp')
       Backend.addWish($scope.user, { descr: $scope.newWish })
         .then(function (wish) {
           $scope.wishlist.push(wish);
+          $scope.user.wishlist.push(wish);
         });
 
       $scope.$action = '';
