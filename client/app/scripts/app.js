@@ -28,7 +28,7 @@ angular.module('clientApp', [
       redirectTo: '/'
     });
 
-}).run(function ($rootScope, $timeout, Fb, Backend) {
+}).run(function ($rootScope, $timeout, $location, Fb, Backend) {
 
   $rootScope.getImage = function () {
     var n = Math.floor(Math.random() * 100) % 5;
@@ -39,6 +39,30 @@ angular.module('clientApp', [
 
     $rootScope.image = n;
     return n;
+  };
+
+  $rootScope.goToMyLetter = function () {
+    if ($rootScope.$$phase === '$digest') {
+      $location.path('/me');
+      $location.replace();
+      return;
+    }
+
+    $rootScope.$apply(function () {
+      $location.path('/me');
+      $location.replace();
+    });
+  };
+
+
+  $rootScope.goToLogin = function () {
+    if ($rootScope.$$phase === '$digest') {
+      $location.path('/where-to-send');
+    }
+
+    $rootScope.$apply(function () {
+      $location.path('/where-to-send');
+    });
   };
 
   $rootScope.fetchUser = function () {
