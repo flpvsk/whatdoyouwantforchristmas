@@ -1,0 +1,144 @@
+<div class="content">
+
+  <div class="col-sm-5 col-md-4 col-lg-3 menu hidden-xs">
+    <h1 class="user-name">{{user.name || '&nbsp;'}}</h1>
+
+    <ul class="menu-list">
+      <li class="current"><a ng-href="#/me">Моё Письмо</a></li>
+      <li><a ng-href="#/friends">Друзья</a></li>
+    </ul>
+
+    <div class="menu-pic-container">
+      <img class="menu-pic" src="/images/03313551.bear.png" ng-show="getImage() == 0">
+      <img class="menu-pic" src="/images/01d79623.bullfinch.png" ng-show="getImage() == 1">
+      <img class="menu-pic" src="/images/1f32d1a1.deer.png" ng-show="getImage() == 2">
+      <img class="menu-pic" src="/images/8dc667c5.dm.png" ng-show="getImage() == 3">
+      <img class="menu-pic" src="/images/542121e9.penguin.png" ng-show="getImage() == 4">
+      <img class="menu-pic" src="/images/8444baa2.snowman.png" ng-show="getImage() == 5">
+    </div>
+  </div>
+
+  <div class="col-sm-7 col-md-8 col-lg-9 main">
+
+    <div class="mobile-menu visible-xs">
+      <h1 class="user-name">{{ user.name || '&nbsp;' }}</h1>
+
+      <ul class="menu-list">
+        <li class="current"><a ng-href="#/me">Моё Письмо</a></li>
+        <li><a ng-href="#/friends">Друзья</a></li>
+      </ul>
+    </div>
+
+    <div class="card card-default">
+
+      <div class="row">
+        <div class="col-xs-10">
+          <h1>Дорогой Дедушка Мороз!</h1>
+        </div>
+        <div class="col-xs-2">
+          <img class="card-pic pull-right" ng-show="user.username" ng-src="http://graph.facebook.com/{{user.username}}/picture" alt="Фото ребёнка">
+        </div>
+      </div>
+
+      <div ng-hide="editingStarted()">
+        <p class="btm-margin" ng-show="letter">
+          {{ letter }}
+        </p>
+
+        <p class="btm-margin" ng-show="!letter && user.gender == 'male'">
+          В этом году я вел себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+        <p class="btm-margin" ng-show="!letter && user.gender == 'female'">
+          В этом году я вела себя хорошо. Вот что ты мне за это
+          должен:
+        </p>
+
+      </div>
+
+      <form class="action-form" ng-show="editingStarted()" ng-submit="finishEdit()">
+
+        <textarea ng-model="newLetter" class="inp-block btm-margin"></textarea>
+
+        <button class="btn btn-block btn-turq btm-margin" type="submit">
+          сохранить
+        </button>
+
+        <button class="btn btn-block btn-red" type="button" ng-click="cancelEdit($event)">
+          отмена
+        </button>
+
+      </form>
+
+      <ul class="wish-list btm-margin">
+        <li class="removable" ng-repeat="wish in wishlist" ng-class="removedClass(wish)">
+
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}" target="_blank">{{ wish.descr }}</a>
+          </span>
+
+          <span class="close" ng-hide="isRemoved(wish)" ng-click="triggerRemoved(wish)">&#215;</span>
+          <span class="check" ng-show="isRemoved(wish)" ng-click="triggerRemoved(wish)">&#10004;</span>
+
+        </li>
+      </ul>
+
+      <button class="action-form btn btn-block btn-turq btm-margin" ng-click="startEdit()" ng-hide="addingStarted() || editingStarted()">
+        изменить текст
+      </button>
+
+      <button class="action-form btn btn-block btn-turq btm-margin" type="button" ng-click="startAdd()" ng-hide="addingStarted() || editingStarted()">
+        добавить желание
+      </button>
+
+      <form class="action-form" ng-submit="finishAdd()" ng-show="addingStarted()">
+
+        <input class="inp inp-block btm-margin" ng-model="newWish" type="text" placeholder="ссылка или описание">
+
+        <button class="btn btn-block btn-turq btm-margin" type="submit">
+          сохранить
+        </button>
+
+        <button class="btn btn-block btn-red" type="button" ng-click="cancelAdd($event)">
+          отмена
+        </button>
+      </form>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">С наступающим!</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">{{ user.name || '&nbsp;'}}</h2>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="card card-default btm-margin-large no-outline card-center" ng-show="friends.length">
+
+      <h2 class="btm-margin">
+        Не полагайся на Почту России!
+      </h2>
+
+      <p>
+        Расскажи друзьям, они доставят письмо Деду Морозу в два счёта!
+      </p>
+
+      <a class="btn btn-red btn-block btn-large" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwhatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Drussian-post%26utm_campaign%3Dnew-year">
+        Рассказать друзьям
+      </a>
+    </div>
+
+  </div>
+
+</div>
