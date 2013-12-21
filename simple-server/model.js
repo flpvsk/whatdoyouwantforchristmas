@@ -28,7 +28,7 @@ module.exports.wish.parse = function parseWish(wish) {
 
         if (res.headers['content-type'].indexOf('1251') > 0) {
           log.debug('1251 Detected');
-          body = iconv.iconv.decode(res.body, 'win1251');
+          body = iconv.decode(res.body, 'win1251');
         }
 
         return htmlUtils.getTitle(body);
