@@ -49,7 +49,7 @@ module.exports.wish.parse = function parseWish(wish) {
 module.exports.user.fetchFbFriends = function fetchFriends(user, authData) {
   log.debug('Entering fetchFbFriends fbId=%s', user.fbId);
 
-  fb.fetchFriends(authData)
+  return fb.fetchFriends(authData)
     .then(function (result) {
       log.debug('Fetched user friends, found %d', result.length);
 
@@ -63,6 +63,5 @@ module.exports.user.fetchFbFriends = function fetchFriends(user, authData) {
     })
     .then(function () {
       log.info('User friends fetched and saved');
-    })
-    .done();
+    });
 };
