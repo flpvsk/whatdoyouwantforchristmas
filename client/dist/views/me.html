@@ -59,7 +59,7 @@
 
       <form class="action-form" ng-show="editingStarted()" ng-submit="finishEdit()">
 
-        <textarea ng-model="newLetter" class="inp-block btm-margin"></textarea>
+        <textarea ng-model="newLetter" required="" class="inp-block btm-margin"></textarea>
 
         <button class="btn btn-block btn-turq btm-margin" type="submit">
           сохранить
@@ -98,7 +98,7 @@
 
       <form class="action-form" ng-submit="finishAdd()" ng-show="addingStarted()">
 
-        <input class="inp inp-block btm-margin" ng-model="newWish" type="text" placeholder="ссылка или описание">
+        <input class="inp inp-block btm-margin" ng-model="newWish" type="text" required="" placeholder="ссылка или описание">
 
         <button class="btn btn-block btn-turq btm-margin" type="submit">
           сохранить
