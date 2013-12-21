@@ -104,14 +104,12 @@
               target="_blank">{{ wish.descr }}</a>
           </span>
 
-          <span ng-show="showWishAction(wish)">
-            <span class="close"
-              ng-hide="isRemoved(wish)"
-              ng-click="removeWish(wish, $event)">&#215;</span>
-            <span class="check"
-              ng-show="isRemoved(wish)"
-              ng-click="restoreWish(wish, $event)">&#10004;</span>
-          </span>
+          <span class="close"
+            ng-hide="isRemoved(wish)"
+            ng-click="removeWish(wish, $event)">&#215;</span>
+          <span class="check"
+            ng-show="isRemoved(wish)"
+            ng-click="restoreWish(wish, $event)">&#10004;</span>
 
         </li>
       </ul>

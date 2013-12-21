@@ -46,7 +46,6 @@ angular.module('clientApp')
       analytics.track('Removed a wish');
 
       wish.removed = true;
-      wish.$hideAction = true;
       $timeout.cancel(wish.$disapear);
 
       wish.$disapear = $timeout(function () {
@@ -72,12 +71,11 @@ angular.module('clientApp')
             });
           });
         });
-      }, 1000);
+      }, 1500);
 
       Backend.saveWish($scope.user, wish)
         .then(function () {
           console.log('Saved');
-          wish.$hideAction = false;
         });
     };
 
@@ -90,18 +88,12 @@ angular.module('clientApp')
       $timeout.cancel(wish.$disapear);
 
       wish.removed = false;
-      wish.$hideAction = true;
 
       Backend.saveWish($scope.user, wish)
         .then(function () {
           console.log('Saved');
-          wish.$hideAction = false;
         });
 
-    };
-
-    $scope.showWishAction = function (wish) {
-      return !wish.$hideAction;
     };
 
     $scope.addingStarted = function () {
