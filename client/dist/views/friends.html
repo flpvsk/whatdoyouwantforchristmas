@@ -1,0 +1,166 @@
+<div class="content">
+  <div class="col-sm-5 col-md-4 col-lg-3 menu hidden-xs">
+    <h1 class="user-name">{{user.name || '&nbsp;'}}</h1>
+
+    <ul class="menu-list">
+      <li><a ng-href="#/me">Моё Письмо</a></li>
+      <li class="current"><a ng-href="#/friends">Друзья</a></li>
+    </ul>
+
+    <div class="menu-pic-container">
+      <img class="menu-pic" src="/images/03313551.bear.png" ng-show="getImage() == 0">
+      <img class="menu-pic" src="/images/01d79623.bullfinch.png" ng-show="getImage() == 1">
+      <img class="menu-pic" src="/images/1f32d1a1.deer.png" ng-show="getImage() == 2">
+      <img class="menu-pic" src="/images/8dc667c5.dm.png" ng-show="getImage() == 3">
+      <img class="menu-pic" src="/images/542121e9.penguin.png" ng-show="getImage() == 4">
+      <img class="menu-pic" src="/images/8444baa2.snowman.png" ng-show="getImage() == 5">
+    </div>
+
+  </div>
+
+  <div class="col-sm-7 col-md-8 col-lg-9 main">
+
+    <div class="mobile-menu visible-xs" ng-click="showMenu = !showMenu">
+      <h1 class="user-name">{{ user.name || '&nbsp;' }}</h1>
+
+      <ul class="menu-list">
+        <li><a ng-href="#/me">Моё Письмо</a></li>
+        <li class="current"><a ng-href="#/friends">Друзья</a></li>
+      </ul>
+    </div>
+
+    <div class="card card-default card-center no-outline" ng-show="!friends.length && !isLoading()">
+      <h1>Ваши друзья не добавили ни одного подарка!</h1>
+      <p>Поделитесь новогодним настроением, пригласите друзей написать
+      письмо старине Морозу!</p>
+
+      <a class="btn btn-block btn-red action-form v-margin" target="_blank" href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Dno-friends-registered%26utm_campaign%3Dnew%2Byear&display=popup">
+        пригласить друзей
+      </a>
+    </div>
+
+    <div class="card card-pink btm-margin-large no-outline" ng-show="friends.length && !introHidden()">
+      <span ng-click="hideIntro()" class="close">&#215;</span>
+      <h2 class="card-center">
+        Помоги Деду Морозу доставить подарки твоим друзьям!
+      </h2>
+      <ol class="small sans">
+        <li>
+          Найди друзей, которым хочешь сделать подарок.
+        </li>
+        <li>
+          Выбери, что ты хотел бы подарить, из списка пожеланий.
+        </li>
+        <li>
+          Достань подарок и доставь другу в Новый Год!
+        </li>
+      </ol>
+
+      <p class="small sans">
+        Сотрудничай! Тебе и Деду Морозу придётся туго в этом году. Помоги
+        друзьям сделать подарок и они помогут тебе.
+      </p>
+    </div>
+
+
+    <div ng-repeat="friend in friends" class="card card-default btm-margin-large">
+
+      <div class="row">
+        <div class="col-xs-10">
+          <h1>Дорогой Дедушка Мороз!</h1>
+        </div>
+        <div class="col-xs-2">
+          <a class="no-decor" title="{{friend.name}}" ng-href="//facebook.com/{{friend.username}}" target="_blank">
+            <img class="card-pic pull-right" ng-src="//graph.facebook.com/{{friend.username}}/picture" alt="Фото ребёнка">
+          </a>
+        </div>
+      </div>
+
+      <p class="btm-margin" ng-show="friend.letter">
+        {{ friend.letter }}
+      </p>
+
+      <p class="btm-margin" ng-show="!friend.letter && friend.gender == 'male'">
+        В этом году я вел себя хорошо. Вот что ты мне за это
+        должен:
+      </p>
+
+      <p class="btm-margin" ng-show="!friend.letter && friend.gender == 'female'">
+        В этом году я вела себя хорошо. Вот что ты мне за это
+        должен:
+      </p>
+
+      <ul class="wish-list btm-margin">
+        <li ng-repeat="wish in friend.wishlist">
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}" target="_blank">{{ wish.descr }}</a>
+          </span>
+
+          <p class="help help-xsmall" ng-show="!wish.givers.length">
+            никто не дарит
+          </p>
+
+          <p class="help help-xsmall" ng-show="wish.givers.length > 0">
+            <!--span ng-show="wish.givers.length == 1">дарит</span>
+            <span ng-show="wish.givers.length > 1">дарят</span-->
+
+            <a class="no-decor" title="{{giver.name}}" ng-repeat="giver in wish.givers" ng-href="//facebook.com/{{giver.username}}" target="_blank">
+              <img class="small-pic" alt="{{ giver.name }}" ng-src="//graph.facebook.com/{{giver.username}}/picture">
+            </a>
+
+            <!--span ng-show="isGiver(wish) && wish.givers.length == 1">
+              этот подарок с меня
+            </span>
+
+            <span ng-show="isGiver(wish) && wish.givers.length > 1">
+              мы с друзьями поможем Деду Морозу с этим
+            </span-->
+          </p>
+
+
+          <p class="help help-xsmall" ng-hide="isGiver(wish)">
+            <a href="javascript:void(0)" ng-click="wantToGive(wish, friend)">
+              хочу подарить
+            </a>
+          </p>
+
+          <p class="help help-xsmall" ng-show="isGiver(wish)">
+            <a href="javascript:void(0)" ng-click="dontWantToGive(wish, friend)">
+              не хочу дарить
+            </a>
+          </p>
+
+        </li>
+      </ul>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">С наступающим!</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <a href="//facebook.com/{{ friend.username }}" target="_blank">
+            <h2 class="sign pull-right">{{ friend.name || '&nbsp;'}}</h2>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-default btm-margin-large no-outline card-center" ng-show="friends.length">
+      <h2 class="btm-margin">
+        Не нашёл того, кому хочешь сделать подарок?
+      </h2>
+
+      <a class="btn btn-red btn-block btn-large" target="_blank" href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Dfriend-missing%26utm_campaign%3Dnew%2Byear&display=popup">
+        Пригласи друзей c Фейсбуха!
+      </a>
+    </div>
+
+  </div>
+</div>
