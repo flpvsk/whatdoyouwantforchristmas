@@ -47,7 +47,12 @@ module.exports.update = function mongoUpdate(col, query, hash) {
 };
 
 module.exports.findOne = function mongoFindOne(col, q, fields) {
-  return Q.ninvoke(dbRef.db.collection(col), 'findOne', q, fields);
+
+  if (fields) {
+    return Q.ninvoke(dbRef.db.collection(col), 'findOne', q, fields);
+  } else {
+    return Q.ninvoke(dbRef.db.collection(col), 'findOne', q);
+  }
 };
 
 module.exports.findById = function mongoFindById(col, id) {
