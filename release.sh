@@ -4,4 +4,5 @@ cd ..
 git add -u .
 git add .
 git commit -m 'Build'
-git push heroku
+git push --set-upstream heroku master
+git push
