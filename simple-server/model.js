@@ -2,6 +2,7 @@ var request = require('request'),
     Q = require('q'),
     htmlUtils = require('./html-utils'),
     db = require('./db'),
+    fb = require('./fb'),
     log = require('./log'),
     iconv = require('iconv-lite'),
     URL_PATTERN = new RegExp(
@@ -14,6 +15,7 @@ var request = require('request'),
 
 
 module.exports.wish = {};
+module.exports.user = {};
 
 module.exports.wish.parse = function parseWish(wish) {
   wish.userId = db.id(wish.userId);
@@ -43,3 +45,24 @@ module.exports.wish.parse = function parseWish(wish) {
 
   return Q.when(wish);
 }
+
+module.exports.user.fetchFbFriends = function fetchFriends(user, authData) {
+  log.debug('Entering fetchFbFriends fbId=%s', user.fbId);
+
+  fb.fetchFriends(authData)
+    .then(function (result) {
+      log.debug('Fetched user friends, found %d', result.length);
+
+      var updateHash = {
+        $set: {
+          fbFriends: result
+        }
+      };
+
+      return db.updateById('users', user._id, updateHash);
+    })
+    .then(function () {
+      log.info('User friends fetched and saved');
+    })
+    .done();
+};

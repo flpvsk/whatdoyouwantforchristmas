@@ -3,7 +3,6 @@ var express = require('express'),
     log = require('./log'),
     _ = require('underscore'),
     db = require('./db'),
-    fb = require('./fb'),
     model = require('./model'),
     app = express();
 
@@ -97,7 +96,7 @@ app.get('/users/:id/friends', function (req, res, next) {
 
 
 app.post('/users/signup', function (req, res, next) {
-  log.debug('Got new user', req.body);
+  log.debug('Signup called', req.body);
 
   var user = _.omit(req.body, 'authData'),
       userRef = {},
@@ -107,26 +106,24 @@ app.post('/users/signup', function (req, res, next) {
     return errorResponse(res, 400, 'Valid authData required');
   }
 
-  db.insert('users', user).then(
-    successCb(req, res, next, 201),
-    errorCb(req, res, next)
-  ).then(function (user) {
-    userRef.user = user;
-  }).done();
-
-  fb.fetchFriends(authData).then(function (result) {
-    log.debug('Fetched user friends, found %d', result.length);
-
-    var updateHash = {
-      $set: {
-        fbFriends: result
+  db.findOne('users', _.pick(user, 'fbId'))
+    .then(function (user) {
+      console.log('User exists');
+      if (user) {
+        return Q.when(user)
+          .then(
+            successCb(req, res, next),
+            errorCb(req, res, next)
+          );
       }
-    };
-
-    return db.updateById('users', userRef.user._id, updateHash);
-  }).then(function () {
-    log.info('User friends fetched and saved');
-  }).done();
+      return db.insert('users', user)
+        .then(
+          successCb(req, res, next, 201),
+          errorCb(req, res, next)
+        ) // answer client before fbFetch
+        .then(model.user.fetchFbFriends(user, authData))
+    })
+    .done();
 
 });
 

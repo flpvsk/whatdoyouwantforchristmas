@@ -19,8 +19,8 @@ angular.module('clientApp')
             url: '/api/users/signup',
             method: 'POST',
             data: angular.toJson(fbUser)
-          });
-        }).pipe(extractData);
+          }).then(extractData);
+        });
       },
 
       getCurrentUser: function () {
