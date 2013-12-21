@@ -3,6 +3,7 @@ var request = require('request'),
     htmlUtils = require('./html-utils'),
     db = require('./db'),
     log = require('./log'),
+    iconv = require('iconv-lite'),
     URL_PATTERN = new RegExp(
       '^(https?:\\/\\/)?'+ // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -22,8 +23,14 @@ module.exports.wish.parse = function parseWish(wish) {
   if (URL_PATTERN.test(wish.descr) && !wish.address) {
     log.debug('Wish is URL, %s', wish);
 
-    return Q.nfcall(request, wish.descr)
+    return Q.nfcall(request, wish.descr, { encoding: null })
       .spread(function (res, body) {
+
+        if (res.headers['content-type'].indexOf('1251') > 0) {
+          log.debug('1251 Detected');
+          body = iconv.iconv.decode(res.body, 'win1251');
+        }
+
         return htmlUtils.getTitle(body);
       })
       .then(function (title) {
