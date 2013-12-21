@@ -1,0 +1,540 @@
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+
+@import "compass";
+
+// Core variables and mixins
+@import "sass-bootstrap/lib/variables";
+@import "sass-bootstrap/lib/mixins";
+
+// Reset
+@import "sass-bootstrap/lib/normalize";
+@import "sass-bootstrap/lib/print";
+
+// Core CSS
+@import "sass-bootstrap/lib/scaffolding";
+@import "sass-bootstrap/lib/grid";
+
+// Components
+@import "sass-bootstrap/lib/input-groups";
+
+// Utility classes
+@import "sass-bootstrap/lib/utilities";
+@import "sass-bootstrap/lib/responsive-utilities";
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+
+// Fonts
+@include font-face('Decor', font-files('Decor.ttf'));
+
+$font-script: 'Lobster', cursive;
+$font-sans: 'PT Sans', sans-serif;
+$font-serif: 'PT Serif', serif;
+
+$color-red-dark: #cb3c36;
+$color-turq: #61a9a5;
+$color-brown-dark: #3f1c06;
+$color-brown-light: #734f2b;
+$color-brown-lighter: #fcf3e1;
+$color-pink: #c63f44;
+$color-white: $color-brown-lighter;
+
+$color-fb-light: #879ac0;
+$color-fb-dark: #29447e;
+$color-fb-primary: #3b5998;
+
+
+
+
+// Base
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Space out content a bit */
+body {
+  background-image: url('/images/sweater.png');
+}
+
+html, body {
+  height: 100%;
+}
+
+div.body-wrapper {
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+ul, p, h1, h2 {
+  margin: 0;
+}
+
+// Layout
+.content {
+  display: table;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  // padding-bottom: $size-footer-height;
+  position: relative;
+  overflow: auto;
+}
+
+.menu {
+  position: absolute;
+  overflow: auto;
+  top: 0;
+  bottom: 0;
+  // margin-bottom: $size-footer-height;
+}
+
+.main {
+  min-height: 100%;
+
+  @media screen and (min-width: $screen-sm-min) {
+    margin-left: 41.66667%;
+    padding-top: 1.5em;
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    margin-left: 33.333333%;
+    padding-top: 1.5em;
+  }
+
+
+  @media screen and (min-width: $screen-lg-min) {
+    margin-left: 25%;
+    padding-top: 1.5em;
+  }
+}
+
+// End Layout
+
+// Modules
+.card {
+  max-width: 900px;
+  width: 95%;
+  margin: auto;
+
+  outline: 2px dashed $color-turq;
+  outline-offset: -10px;
+
+  padding: 20px;
+
+  h1 {
+    font-family: $font-script;
+    font-size: 3em;
+    font-weight: 200;
+  }
+
+  h2 {
+    font-family: $font-script;
+    font-size: 2em;
+  }
+
+  p, ul {
+    font-size: 1.8em;
+    font-family: $font-serif;
+
+    line-height: 1.2em;
+
+    padding: 0.2em 0;
+  }
+
+  .small {
+    font-size: 1.5em;
+  }
+
+  .sans {
+    font-family: $font-sans;
+  }
+
+  textarea {
+    font-family: $font-serif;
+    font-size: 1em;
+    line-height: 1.2em;
+
+    border: 1px solid $color-brown-dark;
+    background-color: $color-white;
+    color: $color-brown-dark;
+
+    padding: 0.2em;
+  }
+
+}
+
+.card.no-outline {
+  outline: none;
+}
+
+.btn, .inp {
+  border: 1px solid #3f1c06;
+  background-color: $color-white;
+  font-family: $font-sans;
+  color: $color-brown-dark;
+  padding: 0.2em 0.3em;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn {
+  text-align: center;
+}
+
+.form-call-to-action {
+  max-width: 700px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.form-facebook-login {
+  margin-top: 10px;
+
+  .fb-login-button {
+    width: 327px;
+    margin: auto;
+    display: block;
+  }
+}
+
+.sidebar {
+  height: 100%;
+}
+
+
+.close {
+  font-family: $font-sans;
+  font-weight: 800;
+  font-size: 1.8em;
+  float: right;
+  cursor: pointer;
+}
+
+.check {
+  font-family: $font-sans;
+  font-weight: 800;
+  font-size: 1em;
+  float: right;
+  cursor: pointer;
+}
+
+ul.wish-list {
+  list-style: square;
+  padding-left: 2em;
+
+  .removable.removed {
+    text-decoration: line-through;
+  }
+
+  // .removable:after {
+  //   content: '\00d7';
+  //   font-weight: 800;
+  //   font-size: 1.5em;
+  //   float: right;
+  // }
+
+  .removable:hover {
+    // background-color: rgba($color-turq, 0.3);
+    outline: 2px dashed $color-brown-dark;
+    outline-offset: 2px;
+
+  }
+
+  .removable.removed:after {
+    content: '';
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
+}
+
+.card-pic {
+  outline: 2px solid $color-turq;
+  outline-offset: 3px;
+  width: 50px;
+  height: 50px;
+}
+
+.small-pic {
+  height: 2em;
+  width: 2em;
+}
+
+.no-decor:hover {
+  text-decoration: none;
+}
+
+h2.sign {
+  display: block;
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+  color: $color-brown-light;
+  margin: 0;
+}
+
+.action-form {
+  font-size: 1.8em;
+}
+
+.action {
+  font-family: $font-sans;
+  font-size: 0.9em;
+  color: $color-turq;
+}
+
+.action:hover {
+  text-decoration: underline;
+  color: $color-turq;
+}
+
+p.help {
+  font-family: $font-sans;
+  color: $color-turq;
+}
+
+p.help-small {
+  font-size: 0.9em;
+}
+
+p.help-xsmall {
+  font-size: 0.7em;
+}
+
+
+.mobile-menu {
+  margin: 0 -15px;
+  text-align: center;
+  background-color: $color-red-dark;
+  margin-bottom: 1.5em;
+  cursor: pointer;
+  @include single-box-shadow();
+
+  h1 {
+    font-family: $font-script;
+  }
+
+}
+
+// End Modules
+
+// Themes
+.card-center {
+  text-align: center;
+}
+
+.card-red {
+  background-color: $color-red-dark;
+  color: $color-white;
+  text-align: center;
+}
+
+.card-default {
+  background-color: $color-brown-lighter;
+  color: $color-brown-dark;
+
+  h1 {
+    color: $color-brown-light;
+  }
+}
+
+
+.card-pink {
+  background-color: $color-pink;
+  color: $color-brown-lighter;
+}
+
+.card-shadow {
+  @include single-box-shadow();
+}
+
+.card-dm {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+.card-dm:before {
+  position: absolute;
+  content: ' ';
+  background: url('/images/dm.png') no-repeat center center;
+  height: 150px;
+
+  top: -100px;
+  left: 0;
+  right: 0;
+}
+
+
+.btn-large, .inp-large {
+  padding: 0.5em;
+  font-size: 1.5em;
+}
+
+.inp-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btm-margin {
+  margin-bottom: 0.3em;
+}
+
+.btm-margin-large {
+  margin-bottom: 1.5em;
+}
+
+.v-margin {
+  margin-bottom: 0.3em;
+  margin-top: 0.3em;
+}
+
+.btn-turq {
+  background-color: $color-turq;
+  color: $color-brown-dark;
+}
+
+.btn-turq:hover {
+  color: $color-brown-dark;
+}
+
+.btn-red {
+  background-color: $color-red-dark;
+  color: $color-white;
+}
+
+.btn-red:hover {
+  color: $color-white;
+}
+
+.btn-fb {
+  background-color: $color-fb-primary;
+  border-color: $color-fb-dark;
+  color: #fff;
+  padding-left: 52px;
+
+  background-image: url(/images/fb.png);
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: -5px center;
+}
+
+.menu {
+  background-color: $color-red-dark;
+  @include single-box-shadow();
+  text-align: center;
+
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+
+}
+
+
+h1.user-name {
+  font-family: $font-script;
+  font-size: 1.5em;
+  font-weight: 200;
+  color: $color-brown-dark;
+}
+
+ul.menu-list {
+  font-family: $font-script;
+  font-size: 2em;
+  font-weight: 200;
+
+  list-style: none;
+  padding-left: 0;
+  font-size: 2em;
+
+  li {
+    border-bottom: 1px solid transparent;
+    margin-bottom: 0.2em;
+  }
+
+  a {
+    color: $color-white;
+    display: block;
+    width: 100%;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  li:hover, li.current {
+    border-bottom: 1px solid $color-white;
+  }
+
+  a.current {
+  }
+}
+
+.menu-pic {
+  display: block;
+  height: 200px;
+  width: 200px;
+
+  margin: 2em auto;
+}
+
+// End Themes
+
+
+// State
+.btn:active:focus, .btn:active {
+  @include single-box-shadow($inset: true);
+}
+
+.btn:hover {
+  @include single-box-shadow();
+  border: 1px solid $color-brown-dark;
+}
+
+.v-center {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+}
+
+.h-center {
+  margin: auto;
+}
+
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: $screen-sm-min) {
+}
+
+/* Responsive: Mobile phones and down */
+@media screen and (max-width: $screen-xs) {
+  .input-group {
+    width: 100%;
+    display: block;
+
+    .form-control, .btn {
+      display: block;
+      width: 100%;
+    }
+
+    .input-group-btn:last-child > .btn {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
+}
