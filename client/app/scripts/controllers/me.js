@@ -12,6 +12,7 @@ angular.module('clientApp')
     var firstWish;
 
     $scope.wishlist = [];
+    $scope.letter = '';
 
     $scope.fetchUser().then(function () {
       $scope.wishlist = _.filter($scope.user.wishlist, function (wish) {
@@ -141,10 +142,47 @@ angular.module('clientApp')
       $scope.newLetter = '';
     };
 
+    $scope.hasLetter = function () {
+      $scope.letter = $scope.letter || '';
+      return $scope.letter.length || $scope.wishlist.length;
+    };
+
     $scope.cancelEdit = function () {
       $scope.$action = '';
       $scope.newLetter = '';
     };
 
-    $scope.fetchUser();
+    $scope.shareLetterOnFb = function () {
+      analytics.track('Clicked Share a Letter');
+
+      var url, caption;
+
+      url = (
+        'http://www.whatdoyouwantforchristmas.net/letters/' +
+        $scope.user._id
+      );
+
+      caption = 'Дорогой Дедушка Мороз!<center></center>';
+
+      if ($scope.letter.length) {
+        caption += $scope.letter;
+      } else {
+        caption += $scope.getDefaultLetter();
+      }
+
+      _.forEach($scope.wishlist, function (wish) {
+        caption = (
+          caption +
+          '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
+          wish.descr
+        );
+      });
+
+
+      FB.ui({
+        method: 'feed',
+        link: url,
+        caption: caption,
+      }, function(response){});
+    };
   });

@@ -65,3 +65,13 @@ module.exports.user.fetchFbFriends = function fetchFriends(user, authData) {
       log.info('User friends fetched and saved');
     });
 };
+
+module.exports.user.fetchWishes = function fetchWishes (user) {
+    log.debug('Searching wishes for', user._id.toString(), user);
+    return db.find('wishes', { userId: user._id, removed: false })
+      .then(function (wishlist) {
+        console.log('Got wishlist', wishlist.length);
+        user.wishlist = wishlist;
+        return user;
+      });
+};

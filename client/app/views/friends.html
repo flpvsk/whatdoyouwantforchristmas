@@ -37,7 +37,7 @@
     </div>
 
     <div class="card card-default card-center no-outline"
-      ng-show="!friends.length && !isLoading()" >
+      ng-show="!friends.length && !isLoading() && !friendId" >
       <h1>Ваши друзья не добавили ни одного подарка!</h1>
       <p>Поделитесь новогодним настроением, пригласите друзей написать
       письмо старине Морозу!</p>
@@ -181,7 +181,7 @@
     </div>
 
     <div class="card card-default btm-margin-large no-outline card-center"
-      ng-show="friends.length">
+      ng-show="friends.length && !friendId">
       <h2 class="btm-margin">
         Не нашёл того, кому хочешь сделать подарок?
       </h2>
@@ -190,6 +190,18 @@
         target="_blank"
         href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Dfriend-missing%26utm_campaign%3Dnew%2Byear&display=popup" >
         Пригласи друзей c Фейсбуха!
+      </a>
+    </div>
+
+    <div class="card card-default btm-margin-large no-outline card-center"
+      ng-show="!friends.length && !isLoading() && friendId">
+      <h2 class="btm-margin">
+        Этого человека нет у тебя в друзьях или что-то пошло не так
+      </h2>
+
+      <a class="btn btn-turq btn-block btn-large"
+        href="#/friends" >
+        Вернуться к друзьям
       </a>
     </div>
 
