@@ -155,7 +155,7 @@ angular.module('clientApp')
     $scope.shareLetterOnFb = function () {
       analytics.track('Clicked Share a Letter');
 
-      var url, caption, cutEnd;
+      var url, description, cutEnd;
 
       url = (
         'http://www.whatdoyouwantforchristmas.net/#/letters/' +
@@ -164,34 +164,34 @@ angular.module('clientApp')
         '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      caption = 'Дорогой Дедушка Мороз!<center></center>';
+      description = 'Дорогой Дедушка Мороз!<center></center>';
 
       if ($scope.letter.length) {
-        caption += $scope.letter;
+        description += $scope.letter;
       } else {
-        caption += $scope.getDefaultLetter($scope.user);
+        description += $scope.getDefaultLetter($scope.user);
       }
 
       _.forEach($scope.wishlist, function (wish) {
-        caption = (
-          caption +
+        description = (
+          description +
           '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
           wish.descr
         );
       });
 
-      caption = caption.slice(0, 200);
+      description = description.slice(0, 100);
       cutEnd = _.max([
-        caption.lastIndexOf('</center>') + 9,
-        caption.lastIndexOf(' ')
+        description.lastIndexOf('</center>') + 9,
+        description.lastIndexOf(' ')
       ]);
-      caption = caption.slice(0, cutEnd);
+      description = description.slice(0, cutEnd);
 
       FB.ui({
         method: 'feed',
         link: url,
         caption: 'Письмо Деду Морозу',
-        description: caption
+        description: description + '...'
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
