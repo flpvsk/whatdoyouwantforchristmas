@@ -16,6 +16,10 @@ angular.module('clientApp', [
       templateUrl: 'views/where-to-send.html',
       controller: 'LoginCtrl'
     })
+    .when('/login', {
+      templateUrl: 'views/login.html',
+      controller: 'LoginCtrl'
+    })
     .when('/me', {
       templateUrl: 'views/me.html',
       controller: 'MeCtrl'

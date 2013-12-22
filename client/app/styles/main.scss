@@ -304,6 +304,10 @@ p.help {
   color: $color-turq;
 }
 
+p.help-medium {
+  font-size: 1.4em;
+}
+
 p.help-small {
   font-size: 0.9em;
 }
@@ -338,6 +342,10 @@ p.help-xsmall {
   background-color: $color-red-dark;
   color: $color-white;
   text-align: center;
+
+  a {
+    color: $color-fb-light;
+  }
 }
 
 .card-default {
