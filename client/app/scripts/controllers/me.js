@@ -162,7 +162,7 @@ angular.module('clientApp')
         $scope.user._id
       );
 
-      caption = 'Дорогой Дедушка Мороз!<center></center>';
+      caption = 'Дорогой Дедушка Мороз! <center></center>';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
