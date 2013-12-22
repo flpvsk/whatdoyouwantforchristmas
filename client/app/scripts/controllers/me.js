@@ -164,7 +164,7 @@ angular.module('clientApp')
         '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      caption = 'Дорогой Дедушка Мороз! ';
+      caption = 'Дорогой Дедушка Мороз!&nbsp;';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
@@ -183,7 +183,7 @@ angular.module('clientApp')
       FB.ui({
         method: 'feed',
         link: url,
-        caption: 'Моё письмо Деду Морозу'
+        caption: $scope.letter
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
