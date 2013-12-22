@@ -180,7 +180,7 @@ angular.module('clientApp')
         );
       });
 
-      description = description.slice(0, 150);
+      description = description.slice(0, 125);
       cutEnd = _.max([
         description.lastIndexOf('</center>') + 9,
         description.lastIndexOf(' ')
