@@ -35,7 +35,7 @@
       </ul>
     </div>
 
-    <div class="card card-default">
+    <div class="card card-default btm-margin-large">
 
       <div class="row">
         <div class="col-xs-10">
@@ -51,21 +51,13 @@
       </div>
 
       <div ng-hide="editingStarted()">
-        <p class="btm-margin"
-          ng-show="letter">
+
+        <p class="btm-margin" ng-show="letter.length">
           {{ letter }}
         </p>
 
-        <p class="btm-margin"
-          ng-show="!letter && user.gender == 'male'">
-          В этом году я вел себя хорошо. Вот что ты мне за это
-          должен:
-        </p>
-
-        <p class="btm-margin"
-          ng-show="!letter && user.gender == 'female'">
-          В этом году я вела себя хорошо. Вот что ты мне за это
-          должен:
+        <p class="btm-margin" ng-hide="letter.length">
+          {{ getDefaultLetter() }}
         </p>
 
       </div>
@@ -115,19 +107,6 @@
         </li>
       </ul>
 
-      <button class="action-form btn btn-block btn-turq btm-margin"
-        ng-click="startEdit()"
-        ng-hide="addingStarted() || editingStarted()">
-        изменить текст
-      </button>
-
-      <button class="action-form btn btn-block btn-turq btm-margin"
-        type="button"
-        ng-click="startAdd()"
-        ng-hide="addingStarted() || editingStarted()">
-        добавить желание
-      </button>
-
       <form class="action-form"
         ng-submit="finishAdd()"
         ng-show="addingStarted()">
@@ -154,31 +133,53 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row btm-margin-large">
         <div class="col-xs-12">
           <h2 class="sign pull-right">{{ user.name || '&nbsp;'}}</h2>
         </div>
       </div>
 
+      <button class="action-form btn btn-block btn-turq btm-margin"
+        ng-click="startEdit()"
+        ng-hide="addingStarted() || editingStarted()">
+        изменить текст
+      </button>
+
+      <button class="action-form btn btn-block btn-turq btm-margin"
+        type="button"
+        ng-click="startAdd()"
+        ng-hide="addingStarted() || editingStarted()">
+        добавить желание
+      </button>
+
     </div>
 
 
     <div class="card card-default btm-margin-large no-outline card-center"
-      ng-show="friends.length">
+       ng-hide="addingStarted() || editingStarted() || !hasLetter()">
 
       <h2 class="btm-margin">
         Не полагайся на Почту России!
       </h2>
 
-      <p>
+      <p class="btm-margin-medium">
         Расскажи друзьям, они доставят письмо Деду Морозу в два счёта!
       </p>
 
-      <a class="btn btn-red btn-block btn-large"
+      <!--a class="btn btn-red btn-block btn-large"
         target="_blank"
         href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Drussian-post%26utm_campaign%3Dnew%2Byear&display=popup" >
         Рассказать друзьям
-      </a>
+      </a-->
+
+      <button class="action-form btn btn-fb btm-margin"
+        type="button"
+        ng-click="shareLetterOnFb()">
+
+        запостить письмо
+
+      </button>
+
     </div>
 
   </div>
