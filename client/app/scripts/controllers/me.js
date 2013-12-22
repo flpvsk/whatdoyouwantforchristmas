@@ -159,10 +159,7 @@ angular.module('clientApp')
 
       url = (
         'http://www.whatdoyouwantforchristmas.net/#/letters/' +
-        $scope.user._id +
-        '?utm_source=facebook&utm_medium=invite' +
-        '&utm_content=letter&utm_campaign=new%20year'
-      );
+        $scope.user._id);
 
       caption = 'Дорогой Дедушка Мороз!<center>&nbsp;</center>';
 
