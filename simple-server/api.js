@@ -82,7 +82,7 @@ app.get('/users/:id/friends', function (req, res, next) {
       console.log('Filtering friends');
       return _.filter(arr, function (fr) {
         log.debug('filtering', fr);
-        return fr.wishlist.length > 0;
+        return fr.wishlist.length > 0 || (fr.letter || '').length > 0;
       });
     })
     .then(
