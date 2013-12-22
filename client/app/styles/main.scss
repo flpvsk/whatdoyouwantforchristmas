@@ -454,6 +454,10 @@ p.help-xsmall {
   background-position: -5px center;
 }
 
+.btn-fb:hover {
+  color: #fff;
+}
+
 .menu {
   background-color: $color-red-dark;
   @include single-box-shadow();

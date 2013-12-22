@@ -27,6 +27,33 @@ angular.module('clientApp')
         });
     });
 
+    $scope.shareOnFacebook = function (utmContent) {
+      var link = (
+          'www.whatdoyouwantforchristmas.net/' +
+          '?utm_source=facebook&utm_medium=invite' +
+          '&utm_campaign=new%20year&utm_content=' + utmContent);
+
+      analytics.track('Share invite on facebook clicked', {
+        content: utmContent
+      });
+
+      FB.ui({
+        method: 'feed',
+        link: link,
+        caption: 'Новый Год на носу, пора писать письмо Деду Морозу!'
+      }, function(response) {
+        if (response && response.post_id) {
+          analytics.track('Shared invite on facebook', {
+            content: utmContent
+          });
+        } else {
+          analytics.track('Canceled invite sharing', {
+            content: utmContent
+          });
+        }
+      });
+    };
+
     /*
     $scope.friends = [{
       name: 'Evgenia Salomatina',

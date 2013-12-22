@@ -159,10 +159,12 @@ angular.module('clientApp')
 
       url = (
         'http://www.whatdoyouwantforchristmas.net/#/letters/' +
-        $scope.user._id
+        $scope.user._id +
+        '?utm_source=facebook&utm_medium=invite' +
+        '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      caption = 'Дорогой Дедушка Мороз! <center></center>';
+      caption = 'Дорогой Дедушка Мороз!<center>&nbsp;</center>';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
@@ -173,16 +175,21 @@ angular.module('clientApp')
       _.forEach($scope.wishlist, function (wish) {
         caption = (
           caption +
-          '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
+          '<center>&nbsp;</center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
           wish.descr
         );
       });
-
 
       FB.ui({
         method: 'feed',
         link: url,
         caption: caption,
-      }, function(response){});
+      }, function(response) {
+        if (response && response.post_id) {
+          analytics.track('Shared letter on facebook');
+        } else {
+          analytics.track('Canceled letter sharing');
+        }
+      });
     };
   });
