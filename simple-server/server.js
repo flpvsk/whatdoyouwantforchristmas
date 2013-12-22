@@ -19,11 +19,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
 
-
-
 // API
-app.use(express.logger())
-   .use('/api', api);
-
+app.use('/api', api);
 
 app.listen(process.env.PORT || 3000);

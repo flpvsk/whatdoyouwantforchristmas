@@ -70,10 +70,13 @@ angular.module('clientApp')
         }).then(extractData);
       },
 
-      getFriendsList: function (user) {
+      getFriendsList: function (user, friendId) {
+        var url = '/api/users/' + user._id + '/friends';
+
         return $http({
           method: 'GET',
-          url: '/api/users/' + user._id + '/friends'
+          url: url,
+          params: { friendId: friendId }
         }).then(extractData);
       },
 
@@ -93,6 +96,14 @@ angular.module('clientApp')
           method: 'DELETE',
           url: '/api/wishes/' + wish._id + '/givers/' + user._id
         }).then(extractData);
-      }
+      },
+
+      getUser: function (userId) {
+        return $http({
+          method: 'GET',
+          url: '/api/users/' + userId
+        }).then(extractData);
+      },
     };
+
   });

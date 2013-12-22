@@ -152,26 +152,6 @@ angular.module('clientApp')
       $scope.newLetter = '';
     };
 
-    $scope.getDefaultLetter = function () {
-      if (!$scope.user) { return ''; }
-
-      if ($scope.user.gender === 'male') {
-        return (
-            'В этом году я вел себя хорошо. ' +
-            'Вот что ты мне за это должен:'
-        );
-      }
-
-      if ($scope.user.gender === 'female') {
-        return (
-            'В этом году я вела себя хорошо. ' +
-            'Вот что ты мне за это должен:'
-        );
-      }
-
-      return ('Это был отличный год! Если решишь зайти, захвати:');
-    }
-
     $scope.shareLetterOnFb = function () {
       analytics.track('Clicked Share a Letter');
 

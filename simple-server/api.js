@@ -19,24 +19,7 @@ app.get('/users', function (req, res, next) {
   findUser = db.findOne('users', req.query.query, fields)
 
   if (_.contains(fields, 'wishlist')) {
-    findUser = findUser
-      .then(function (user) {
-        log.debug('User', user);
-        return [
-          user,
-          db.find('wishes', {
-            userId: user._id,
-            removed: false
-          }, [
-            'type',
-            'descr',
-            'address'
-          ]) ];
-      })
-      .spread(function (user, wishlist) {
-        user.wishlist = wishlist;
-        return user;
-      });
+    findUser = findUser.then(model.user.fetchWishes);
   }
 
   return findUser
@@ -53,6 +36,14 @@ app.get('/users', function (req, res, next) {
 });
 
 
+app.get('/users/:id', function (req, res, next) {
+  var id = db.id(req.params.id);
+  return db.findOne('users', { '_id': id })
+    .then(model.user.fetchWishes)
+    .then(successCb(req, res, next), errorCb(req, res, next));
+});
+
+
 app.put('/users/:id/letter', function (req, res, next) {
   var letter = _.pick(req.body, 'letter');
   log.debug('Updating user letter', req.params.id, letter);
@@ -65,7 +56,9 @@ app.put('/users/:id/letter', function (req, res, next) {
 
 
 app.get('/users/:id/friends', function (req, res, next) {
-  log.debug('In find friends');
+  var friendId = req.query.friendId;
+
+  log.debug('In find friends', friendId);
   return db.findById('users', req.params.id)
     .then(function (user) {
       var frIdList = _.map(user.fbFriends, function (friend) {
@@ -74,18 +67,16 @@ app.get('/users/:id/friends', function (req, res, next) {
 
       return db.find('users', { fbId: { $in: frIdList } });
     }).then(function (friends) {
+      if (friendId) {
+        friends = _.filter(friends, function (fr) {
+          return fr._id.toString() === friendId;
+        });
+      }
+
       log.debug('found friends, %s', friends.length);
       if (!friends) { return []; }
 
-      return Q.all(_.map(friends, function (friend) {
-        log.debug('Searching wishes for', friend._id.toString(), friend);
-        return db.find('wishes', { userId: friend._id, removed: false })
-          .then(function (wishlist) {
-            console.log('Got wishlist', wishlist.length);
-            friend.wishlist = wishlist;
-            return friend;
-          })
-      }));
+      return Q.all(_.map(friends, model.user.fetchWishes));
     })
     .then(function (arr) {
       console.log('Filtering friends');
