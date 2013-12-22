@@ -166,6 +166,7 @@ ul, p, h1, h2 {
     color: $color-brown-dark;
 
     padding: 0.2em;
+    @include border-radius(0);
   }
 
 }
@@ -180,6 +181,8 @@ ul, p, h1, h2 {
   font-family: $font-sans;
   color: $color-brown-dark;
   padding: 0.2em 0.3em;
+
+  @include border-radius(0);
 }
 
 .btn:hover {
