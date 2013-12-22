@@ -159,20 +159,23 @@ angular.module('clientApp')
 
       url = (
         'http://www.whatdoyouwantforchristmas.net/#/letters/' +
-        $scope.user._id);
+        $scope.user._id +
+        '?utm_source=facebook&utm_medium=invite' +
+        '&utm_content=letter&utm_campaign=new%20year'
+      );
 
-      caption = 'Дорогой Дедушка Мороз!<center>&nbsp;</center>';
+      caption = 'Дорогой Дедушка Мороз!&nbsp;<center></center>';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
       } else {
-        caption += $scope.getDefaultLetter();
+        caption += $scope.getDefaultLetter($scope.user);
       }
 
       _.forEach($scope.wishlist, function (wish) {
         caption = (
           caption +
-          '<center>&nbsp;</center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
+          '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
           wish.descr
         );
       });
