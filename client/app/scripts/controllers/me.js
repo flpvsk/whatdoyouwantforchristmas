@@ -183,7 +183,7 @@ angular.module('clientApp')
       FB.ui({
         method: 'feed',
         link: url,
-        caption: caption
+        caption: 'Моё письмо Деду Морозу'
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
