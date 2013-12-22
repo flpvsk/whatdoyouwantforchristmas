@@ -1,0 +1,68 @@
+<div class="content">
+
+    <div class="card card-default top-margin-large btm-margin-large">
+
+      <div class="row">
+        <div class="col-xs-10">
+          <h1>Дорогой Дедушка Мороз!</h1>
+        </div>
+        <div class="col-xs-2">
+          <img class="card-pic pull-right" ng-show="owner.username" ng-src="http://graph.facebook.com/{{owner.username}}/picture" alt="Фото ребёнка">
+        </div>
+      </div>
+
+      <p class="btm-margin" ng-show="owner.letter.length">
+        {{ owner.letter }}
+      </p>
+
+      <p class="btm-margin" ng-hide="owner.letter.length">
+        {{ getDefaultLetter(owner) }}
+      </p>
+
+
+      <ul class="wish-list btm-margin">
+        <li ng-repeat="wish in owner.wishlist">
+
+          <span ng-hide="wish.type == 'link'">
+            {{ wish.descr }}
+          </span>
+
+          <span ng-show="wish.type == 'link'">
+            <a ng-href="{{ wish.address }}" target="_blank" ng-bind-html="wish.descr"></a>
+          </span>
+
+        </li>
+      </ul>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">С наступающим!</h2>
+        </div>
+      </div>
+
+      <div class="row btm-margin-large">
+        <div class="col-xs-12">
+          <h2 class="sign pull-right">{{ owner.name || '&nbsp;'}}</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card card-red btm-margin-large card-center">
+
+      <h1 class="btm-margin">
+        Написать Деду Морозу!
+      </h1>
+
+      <p class="btm-margin-medium">
+        И посмотреть, что написали другие друзья.
+      </p>
+
+      <button class="action-form btn btn-fb btm-margin" type="button" ng-click="login()">
+        войти
+      </button>
+
+    </div>
+
+
+</div>
