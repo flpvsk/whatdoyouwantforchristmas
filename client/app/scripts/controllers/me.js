@@ -180,18 +180,21 @@ angular.module('clientApp')
         );
       });
 
-      description = description.slice(0, 105);
-      cutEnd = _.max([
-        description.lastIndexOf('</center>') + 9,
-        description.lastIndexOf(' ')
-      ]);
-      description = description.slice(0, cutEnd);
+      if (description.length > 105) {
+        description = description.slice(0, 105);
+        cutEnd = _.max([
+          description.lastIndexOf('</center>') + 9,
+          description.lastIndexOf(' ')
+        ]);
+        description = description.slice(0, cutEnd);
+        description += '&hellip;'
+      }
 
       FB.ui({
         method: 'feed',
         link: url,
         caption: 'Письмо Деду Морозу',
-        description: description + '...'
+        description: description
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
