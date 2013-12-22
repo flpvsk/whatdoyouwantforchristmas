@@ -164,7 +164,7 @@ angular.module('clientApp')
         '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      caption = 'Дорогой Дедушка Мороз!&nbsp;<center></center>';
+      caption = 'Дорогой Дедушка Мороз!&nbsp;<center>&nbsp;</center>';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
@@ -175,15 +175,14 @@ angular.module('clientApp')
       _.forEach($scope.wishlist, function (wish) {
         caption = (
           caption +
-          '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
+          '<center>&nbsp;</center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
           wish.descr
         );
       });
 
       FB.ui({
         method: 'feed',
-        link: url,
-        caption: caption
+        link: url
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
