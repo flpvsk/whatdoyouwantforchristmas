@@ -1,0 +1,24 @@
+<div class="v-center">
+  <div class="h-center card card-red card-shadow card-dm">
+    <h1>Ну чтож, будь по-твоему&hellip;</h1>
+
+    <p ng-show="showError">
+      Хмм.. войти не получилось, попробуйте позже.
+    </p>
+
+    <form ng-hide="showError" class="form-facebook-login">
+      <button class="btn btn-large btn-fb" ng-click="login()">
+        Войти через Фейсбух!
+      </button>
+      <!--div class="fb-login-button"
+        data-size="xlarge"
+        data-width="327"
+        data-max-rows="1"
+        data-show-faces="true"
+        data-scope="email"-->
+
+      </form></div>
+    
+
+
+  </div>
