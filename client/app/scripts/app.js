@@ -28,11 +28,39 @@ angular.module('clientApp', [
       templateUrl: 'views/friends.html',
       controller: 'FriendsCtrl'
     })
+    .when('/friends/:friendId', {
+      templateUrl: 'views/friends.html',
+      controller: 'FriendsCtrl'
+    })
+    .when('/letters/:userId', {
+      templateUrl: 'views/letters.html',
+      controller: 'LettersCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });
 
 }).run(function ($rootScope, $timeout, $location, Fb, Backend) {
+
+  $rootScope.getDefaultLetter = function (user) {
+    if (!user) { return ''; }
+
+    if (user.gender === 'male') {
+      return (
+          'В этом году я вел себя хорошо. ' +
+          'Вот что ты мне за это должен:'
+      );
+    }
+
+    if (user.gender === 'female') {
+      return (
+          'В этом году я вела себя хорошо. ' +
+          'Вот что ты мне за это должен:'
+      );
+    }
+
+    return ('Это был отличный год! Если решишь зайти, захвати:');
+  }
 
   $rootScope.getImage = function () {
     var n = Math.floor(Math.random() * 100) % 5;
@@ -45,14 +73,13 @@ angular.module('clientApp', [
     return n;
   };
 
-  $rootScope.goToMyLetter = function () {
-    if ($rootScope.$$phase === '$digest') {
-      $location.path('/me');
-      $location.replace();
-      return;
-    }
+  $rootScope.$safeApply = function (fn) {
+    if ($rootScope.$$phase === '$digest') { return fn(); }
+    $rootScope.$apply(fn);
+  };
 
-    $rootScope.$apply(function () {
+  $rootScope.goToMyLetter = function () {
+    $rootScope.$safeApply(function () {
       $location.path('/me');
       $location.replace();
     });
@@ -60,11 +87,7 @@ angular.module('clientApp', [
 
 
   $rootScope.goToLogin = function () {
-    if ($rootScope.$$phase === '$digest') {
-      $location.path('/where-to-send');
-    }
-
-    $rootScope.$apply(function () {
+    $rootScope.$safeApply(function () {
       $location.path('/where-to-send');
     });
   };
