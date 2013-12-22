@@ -158,7 +158,7 @@ angular.module('clientApp')
       var url, caption;
 
       url = (
-        'http://www.whatdoyouwantforchristmas.net/letters/' +
+        'http://www.whatdoyouwantforchristmas.net/#/letters/' +
         $scope.user._id
       );
 
