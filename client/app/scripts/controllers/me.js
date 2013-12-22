@@ -164,7 +164,7 @@ angular.module('clientApp')
         '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      caption = 'Дорогой Дедушка Мороз!&nbsp;';
+      caption = 'Дорогой Дедушка Мороз!<center></center>';
 
       if ($scope.letter.length) {
         caption += $scope.letter;
@@ -172,17 +172,18 @@ angular.module('clientApp')
         caption += $scope.getDefaultLetter($scope.user);
       }
 
-      // _.forEach($scope.wishlist, function (wish) {
-      //   caption = (
-      //     caption +
-      //     '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
-      //     wish.descr
-      //   );
-      // });
+      _.forEach($scope.wishlist, function (wish) {
+        caption = (
+          caption +
+          '<center></center>&nbsp;&nbsp;*&nbsp;&nbsp;' +
+          wish.descr
+        );
+      });
 
       FB.ui({
         method: 'feed',
         link: url,
+        caption: 'Письмо Деду Морозу',
         description: caption
       }, function(response) {
         if (response && response.post_id) {
