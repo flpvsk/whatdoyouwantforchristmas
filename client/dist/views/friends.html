@@ -30,13 +30,17 @@
     </div>
 
     <div class="card card-default card-center no-outline" ng-show="!friends.length && !isLoading() && !friendId">
-      <h1>Ваши друзья не добавили ни одного подарка!</h1>
-      <p>Поделитесь новогодним настроением, пригласите друзей написать
-      письмо старине Морозу!</p>
 
-      <a class="btn btn-block btn-red action-form v-margin" target="_blank" href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Dno-friends-registered%26utm_campaign%3Dnew%2Byear&display=popup">
+      <h1>Твои друзья не добавили ни одного подарка!</h1>
+
+      <p class="btm-margin-large">
+        Поделись новогодним настроением, пригласи друзей написать
+        письмо старине Морозу!
+      </p>
+
+      <button class="btn btn-fb btm-margin btn-large" ng-click="shareOnFacebook('no-friends-registered')">
         пригласить друзей
-      </a>
+      </button>
     </div>
 
     <div class="card card-pink btm-margin-large no-outline" ng-show="friends.length && !introHidden()">
@@ -154,22 +158,27 @@
     </div>
 
     <div class="card card-default btm-margin-large no-outline card-center" ng-show="friends.length && !friendId">
-      <h2 class="btm-margin">
-        Не нашёл того, кому хочешь сделать подарок?
+
+      <h2 ng-show="user.gender == 'male'" class="btm-margin-large">
+        Не нашёл того, кому хочешь сделать подарок? Ну так пригласи!
       </h2>
 
-      <a class="btn btn-red btn-block btn-large" target="_blank" href="https://www.facebook.com/sharer.php?app_id=113869198637480&sdk=joey&u=http%3A%2F%2Fwww.whatdoyouwantforchristmas.net%2F%3Futm_source%3Dfacebook%26utm_medium%3Dinvite%26utm_content%3Dfriend-missing%26utm_campaign%3Dnew%2Byear&display=popup">
-        Пригласи друзей c Фейсбуха!
-      </a>
+      <h2 ng-show="user.gender == 'female'" class="btm-margin-large">
+        Не нашла того, кому хочешь сделать подарок? Ну так пригласи!
+      </h2>
+
+      <button class="btn btn-fb btn-large btm-margin" ng-click="shareOnFacebook('friend-missing')">
+        пригласить друзей
+      </button>
     </div>
 
     <div class="card card-default btm-margin-large no-outline card-center" ng-show="!friends.length && !isLoading() && friendId">
-      <h2 class="btm-margin">
+      <h2 class="btm-margin-large">
         Этого человека нет у тебя в друзьях или что-то пошло не так
       </h2>
 
       <a class="btn btn-turq btn-block btn-large" href="#/friends">
-        Вернуться к друзьям
+        вернуться к моим друзьям
       </a>
     </div>
 
