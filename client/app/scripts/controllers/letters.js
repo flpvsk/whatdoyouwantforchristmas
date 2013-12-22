@@ -8,18 +8,35 @@ angular.module('clientApp')
       userId: $routeParams.userId
     });
 
-    Fb.getLoginStatus().done(function (data) {
-      if (data.status === 'connected') {
-        $scope.$safeApply(function () {
-          $location.path('/friends/' + $routeParams.userId);
-          $location.replace();
-        });
-      }
-    });
-
     Backend.getUser($routeParams.userId)
       .then(function (user) {
         $scope.owner = user;
       });
+
+    $scope.login = function () {
+      window._signedUp = true;
+      analytics.track('Clicked login button');
+
+      Fb.login(function (response) {
+
+        if (response.authResponse) {
+          analytics.track('Logged in');
+
+          $scope.$safeApply(function () {
+            $location.path('/friends/' + $routeParams.userId);
+            $location.replace();
+          });
+
+          Backend.signup(response.authResponse);
+        } else {
+          analytics.track('Got login error');
+          $scope.$apply(function () {
+            $scope.showError = true;
+          });
+        }
+
+      }, { scope: 'email' });
+    };
+
 
   });
