@@ -155,7 +155,7 @@ angular.module('clientApp')
     $scope.shareLetterOnFb = function () {
       analytics.track('Clicked Share a Letter');
 
-      var url, caption;
+      var url, caption, cutEnd;
 
       url = (
         'http://www.whatdoyouwantforchristmas.net/#/letters/' +
@@ -179,6 +179,13 @@ angular.module('clientApp')
           wish.descr
         );
       });
+
+      caption = caption.slice(0, 200);
+      cutEnd = _.max([
+        caption.lastIndexOf('</center>') + 9,
+        caption.lastIndexOf(' ')
+      ]);
+      caption = caption.slice(0, cutEnd);
 
       FB.ui({
         method: 'feed',
