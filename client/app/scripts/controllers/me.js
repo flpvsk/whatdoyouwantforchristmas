@@ -183,7 +183,7 @@ angular.module('clientApp')
       FB.ui({
         method: 'feed',
         link: url,
-        caption: caption,
+        caption: caption
       }, function(response) {
         if (response && response.post_id) {
           analytics.track('Shared letter on facebook');
