@@ -92,6 +92,16 @@ app.get('/users/:id/friends', function (req, res, next) {
 });
 
 
+app.get('/users/:id/wishes', function (req, res, next) {
+  return db.find('wishes', { userId: db.id(req.params.id), removed: false })
+    .then(function (wishlist) {
+      return Q.all(_.map(wishlist, model.wish.convertGivers));
+    })
+    .then(successCb(req, res, next), errorCb(req, res, next))
+    .done();
+});
+
+
 app.post('/users/signup', function (req, res, next) {
   log.debug('Signup called', req.body);
 
@@ -207,7 +217,8 @@ function successCb(req, res, next, status) {
 function errorCb(req, res, next, status) {
   status = status || 500;
   return function (err) {
-    return errorResponse(res, status, err);
+    errorResponse(res, status, err);
+    throw err;
   }
 }
 

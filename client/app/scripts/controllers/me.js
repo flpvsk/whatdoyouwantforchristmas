@@ -14,23 +14,28 @@ angular.module('clientApp')
     $scope.wishlist = [];
     $scope.letter = '';
 
-    $scope.fetchUser().then(function () {
-      $scope.wishlist = _.filter($scope.user.wishlist, function (wish) {
-        return !wish.removed;
+    $scope.fetchUser()
+      .then(function () {
+        $scope.letter = $scope.user.letter;
+
+        firstWish = LocalStorage.get('firstWish');
+
+        if (firstWish) {
+          LocalStorage.remove('firstWish');
+
+          Backend.addWish($scope.user, firstWish)
+            .then(function (wish) {
+              $scope.wishlist.push(wish);
+            });
+        }
+
+        return Backend.getWishlist($scope.user)
+                .then(function (wishlist) {
+                  console.log('Got wishlist', wishlist);
+                  $scope.wishlist = wishlist;
+                });
       });
-      $scope.letter = $scope.user.letter;
 
-      firstWish = LocalStorage.get('firstWish');
-
-      if (firstWish) {
-        LocalStorage.remove('firstWish');
-
-        Backend.addWish($scope.user, firstWish)
-          .then(function (wish) {
-            $scope.wishlist.push(wish);
-          });
-      }
-    });
 
 
     $scope.removedClass = function (wish) {
@@ -203,4 +208,7 @@ angular.module('clientApp')
         }
       });
     };
+
+
+    $scope.random = Math.floor(Math.random() * 10);
   });
