@@ -78,7 +78,40 @@
           </span>
 
           <span class="close" ng-hide="isRemoved(wish)" ng-click="removeWish(wish, $event)">&#215;</span>
+
           <span class="check" ng-show="isRemoved(wish)" ng-click="restoreWish(wish, $event)">&#10004;</span>
+
+          <p class="help help-small" ng-show="wish.giversType == 'o'">
+            помощник Дедушке нашёлся
+          </p>
+
+          <p class="help help-small" ng-show="wish.giversType == 'om'">
+            Леший напал на след, кажись
+          </p>
+
+          <p class="help help-small" ng-show="wish.giversType == 'of'">
+            Снегурочка обещала помочь Деду с этим
+          </p>
+
+          <p class="help help-small" ng-show="wish.giversType == 't'">
+            Двое Из Ларца отправились на поиски
+          </p>
+
+          <p class="help help-small" ng-show="wish.giversType == 's'">
+            рыщут, зайчата
+          </p>
+
+          <p class="help help-small" ng-show="!wish.giversType && random < 4">
+            помощь бы не помешала
+          </p>
+
+          <p class="help help-small" ng-show="!wish.giversType && random >= 4 && random < 8">
+            пока нет новостей
+          </p>
+
+          <p class="help help-small" ng-show="!wish.giversType && random >= 8">
+            ты точно этого хочешь?
+          </p>
 
         </li>
       </ul>
