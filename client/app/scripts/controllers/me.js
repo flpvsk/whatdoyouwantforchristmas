@@ -164,7 +164,7 @@ angular.module('clientApp')
         '&utm_content=letter&utm_campaign=new%20year'
       );
 
-      description = 'Дорогой Дедушка Мороз!<center></center>';
+      description = 'Дорогой Дедушка Мороз! <center></center>';
 
       if (($scope.letter || '').length) {
         description += $scope.letter;
