@@ -166,7 +166,7 @@ angular.module('clientApp')
 
       description = 'Дорогой Дедушка Мороз!<center></center>';
 
-      if ($scope.letter.length) {
+      if (($scope.letter || '').length) {
         description += $scope.letter;
       } else {
         description += $scope.getDefaultLetter($scope.user);
