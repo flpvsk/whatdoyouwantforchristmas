@@ -1,3 +1,5 @@
+require('newrelic');
+
 var express = require('express'),
     path = require('path'),
     api = require('./api'),
