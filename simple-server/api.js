@@ -105,14 +105,16 @@ app.post('/users/signup', function (req, res, next) {
 
   db.findOne('users', _.pick(userData, 'fbId'))
     .then(function (user) {
-      console.log('User exists');
       if (user) {
+        log.debug('User exists');
         return Q.when(user)
           .then(
             successCb(req, res, next),
             errorCb(req, res, next)
           );
       }
+
+      log.debug('User does not exist');
       return db.insert('users', userData)
         .then(function (user) {
           userRef.user = user;
