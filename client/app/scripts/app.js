@@ -151,6 +151,10 @@ window.fbAsyncInit = function () {
     xfbml: true
   });
 
+  window.fbReady = true;
+  triggerEvent('fb-ready');
+  console.log('Ho ho ho, looks like I\'ve connected to FB');
+
   FB.Event.subscribe('auth.authResponseChange', function (response) {
     // Here we specify what we do with the response anytime this event
     // occurs.
@@ -185,8 +189,5 @@ window.fbAsyncInit = function () {
       window.location.hash = '/where-to-send';
     }
   });
-
-  triggerEvent('fb-ready');
-  console.log('Ho ho ho, looks like I\'ve connected to FB');
 
 };

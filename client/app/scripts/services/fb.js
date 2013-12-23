@@ -38,7 +38,7 @@ angular.module('clientApp')
     };
 
     service.runWhenReady = function runWhenReady(fn) {
-      if (_.has(window, 'FB')) {
+      if (window.fbReady) {
         fn();
       } else {
         doc.addEventListener('fb-ready', fn);

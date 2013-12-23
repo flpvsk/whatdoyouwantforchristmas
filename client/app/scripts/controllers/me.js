@@ -23,6 +23,7 @@ angular.module('clientApp')
         if (firstWish) {
           LocalStorage.remove('firstWish');
 
+          analytics.track('First wish saved');
           Backend.addWish($scope.user, firstWish)
             .then(function (wish) {
               $scope.wishlist.push(wish);

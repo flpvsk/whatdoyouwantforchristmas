@@ -11,7 +11,7 @@ angular
 
     $scope.saveAndContinue = function ($ev) {
 
-      analytics.track('Added a Wish', {
+      analytics.track('Added first wish', {
         descr: $scope.descr
       });
 
