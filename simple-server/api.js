@@ -170,7 +170,7 @@ app.put('/wishes/:id', function (req, res, next) {
       log.debug('Update wish. Removed?', hash);
       return db.updateById('wishes', req.params.id, hash);
     })
-    .then(successCb(req, res, next))
+    .then(successCb(req, res, next), errorCb(req, res, next))
     .done();
 });
 
@@ -189,7 +189,9 @@ app.put('/wishes/:id/givers', function (req, res, next) {
     }
   };
 
-  return db.update('wishes', { _id: db.id(req.params.id) }, hash);
+  return db.update('wishes', { _id: db.id(req.params.id) }, hash)
+    .then(successCb(req, res, next), errorCb(req, res, next))
+    .done();
 });
 
 app.delete('/wishes/:id/givers/:userId', function (req, res, next) {
