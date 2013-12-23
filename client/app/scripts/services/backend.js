@@ -33,7 +33,7 @@ angular.module('clientApp')
               "query[fbId]": fbUser.id,
               fields: (
                 'name,first_name,last_name,username,id,email,' +
-                'letter,fbId,gender,wishlist'
+                'letter,fbId,gender'
               )
             }
           }).then(function (res) {
@@ -104,6 +104,13 @@ angular.module('clientApp')
           url: '/api/users/' + userId
         }).then(extractData);
       },
+
+      getWishlist: function (user) {
+        return $http({
+          method: 'GET',
+          url: '/api/users/' + user._id + '/wishes'
+        }).then(extractData);
+      }
     };
 
   });

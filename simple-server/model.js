@@ -5,6 +5,7 @@ var request = require('request'),
     fb = require('./fb'),
     log = require('./log'),
     iconv = require('iconv-lite'),
+    _ = require('underscore'),
     URL_PATTERN = new RegExp(
       '^(https?:\\/\\/)?'+ // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -45,6 +46,31 @@ module.exports.wish.parse = function parseWish(wish) {
 
   return Q.when(wish);
 }
+
+module.exports.wish.convertGivers = function convertGivers (wish) {
+  var givers = wish.givers || [];
+
+  if (!givers.length) {
+    return _.omit(wish, 'givers');
+  }
+
+  if (givers.length === 1) {
+    wish.giversType = 'o';
+    if (wish.givers[0].gender === 'male') { wish.giversType += 'm'; }
+    if (wish.givers[0].gender === 'female') { wish.giversType += 'f'; }
+  }
+
+  if (givers.length === 2) {
+    wish.giversType = 't';
+  }
+
+  if (givers.length > 2) {
+    wish.giversType = 's';
+  }
+
+  return _.omit(wish, 'givers');
+};
+
 
 module.exports.user.fetchFbFriends = function fetchFriends(user, authData) {
   log.debug('Entering fetchFbFriends fbId=%s', user.fbId);
