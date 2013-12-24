@@ -181,6 +181,7 @@ ul, p, h1, h2 {
   font-family: $font-sans;
   color: $color-brown-dark;
   padding: 0.2em 0.3em;
+  line-height: 1.35em;
 
   @include border-radius(0);
 }
@@ -547,7 +548,7 @@ ul.menu-list {
 }
 
 /* Responsive: Mobile phones and down */
-@media screen and (max-width: $screen-xs) {
+@media screen and (max-width: $screen-sm) {
   .input-group {
     width: 100%;
     display: block;
