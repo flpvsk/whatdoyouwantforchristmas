@@ -375,6 +375,14 @@ p.help-xsmall {
   position: relative;
   padding-top: 50px;
   padding-bottom: 40px;
+  outline: none !important;
+}
+
+.card-dm {
+  border: 3px dashed $color-turq;
+  @include box-shadow(
+    0 0 0 10px $color-red-dark,
+    0px 0px 15px 10px #333333);
 }
 
 .card-dm:before {
