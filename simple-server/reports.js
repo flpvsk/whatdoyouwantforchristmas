@@ -212,6 +212,16 @@ function addNotif(about, type) {
       type: type
     };
 
+    analytics.identify({
+      userId : friend._id.toString(),
+      traits : {
+        email : friend.email,
+        name : friend.name,
+        first_name: friend.first_name,
+        gender : friend.gender
+      }
+    });
+
     about.user = _.omit(about, 'wishlist');
     about.user = _.pick(about.user, '_id', 'name', 'gender');
     about.wishlist = _.map(about.wishlist, function (w) {
