@@ -4,7 +4,7 @@ var mongo = require('mongodb').MongoClient,
     _ = require('underscore'),
     log = require('./log'),
     url = (process.env['MONGOLAB_URI'] ||
-        'mongodb://localhost/christmas'),
+        'mongodb://localhost/christmas-staging'),
     dbRef = {};
 
 Q.ninvoke(mongo, 'connect', url).then(function (db) {
@@ -79,3 +79,12 @@ module.exports.save = function mongoSave(col, obj) {
   return Q.ninvoke(dbRef.db.collection(col), 'save', obj);
 };
 
+module.exports.aggregate = function mongoAggregate(col, pipe) {
+  return Q.ninvoke(dbRef.db.collection(col), 'aggregate', pipe);
+};
+
+module.exports.createIfNotExist = function (col, query, hash) {
+  return Q.ninvoke(dbRef.db.collection(col), 'update', query, hash, {
+    'upsert': true
+  });
+};
