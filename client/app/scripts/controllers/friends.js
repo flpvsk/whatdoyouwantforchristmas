@@ -14,7 +14,16 @@ angular.module('clientApp')
 
 
     Fb.getLoginStatus().done(function (data) {
-      if (data.status !== 'connected') { $scope.goToLogin(); }
+      if (data.status !== 'connected' && !friendId) {
+        $scope.goToLogin();
+      }
+
+      if (data.status !== 'connected' && friendId) {
+        $scope.$safeApply(function () {
+          $location.path('/letters/' + friendId);
+          $location.replace();
+        });
+      }
     });
 
     $scope.$loading = true;
