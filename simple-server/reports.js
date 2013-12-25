@@ -125,11 +125,11 @@ app.use('/newsletters/no-givers', function (req, res, next) {
         subj += ' ждёт ';
 
         if (friend.gender === 'male') {
-          body += 'Пришло письмо от твоего друга! ';
+          body += 'Мне пришло письмо от твоего друга! ';
           body += 'Поможешь найти ему подарок?';
         }
         if (friend.gender == 'female') {
-          body += 'Пришло письмо от твоей подруги! ';
+          body += 'Мне пришло письмо от твоей подруги! ';
           body += 'Поможешь найти ей подарок?';
         }
       }
@@ -141,7 +141,7 @@ app.use('/newsletters/no-givers', function (req, res, next) {
         );
         subj += ' ждут ';
 
-        body += 'Пришли письма от твоих друзей! ';
+        body += 'Мне пришли письма от твоих друзей! ';
         body += 'Поможешь найти им подарки?';
       }
 
@@ -169,7 +169,7 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
         subj += ' ждут ';
 
-        body += 'Пришли письма от твоих друзей! ';
+        body += 'Мне пришли письма от твоих друзей! ';
         body += 'Поможешь найти им подарки?';
       }
 
