@@ -181,15 +181,6 @@ app.use('/newsletters/no-givers', function (req, res, next) {
       //   group._id, subj, body, {}
       // );
 
-      group.about = _.map(group.about, function (about) {
-        about.user = _.pick(about.user, '_id', 'name', 'gender');
-        about.wishlist = _.map(about.wishlist, function (w) {
-          return _.omit(w, 'givers');
-        });
-
-        return about;
-      });
-
       analytics.track({
         'userId': group._id.toString(),
         'event': 'Encourage giving',
@@ -221,11 +212,17 @@ function addNotif(about, type) {
       type: type
     };
 
+    about.user = _.omit(about, 'wishlist');
+    about.user = _.pick(about.user, '_id', 'name', 'gender');
+    about.wishlist = _.map(about.wishlist, function (w) {
+      return _.omit(w, 'givers');
+    });
+
     return db.createIfNotExist('notifs', queryAndHash, {
       '$setOnInsert': {
         sent: false,
         aboutWishlist: about.wishlist,
-        aboutUser: _.omit(about, 'wishlist')
+        aboutUser: about.user
       }
     });
   };
