@@ -114,7 +114,7 @@ app.use('/newsletters/no-givers', function (req, res, next) {
     ]);
   })
   .then(function (grouped) {
-    log.log('debug', 'Gropued %d', grouped.length, {});
+    log.log('debug', 'Grouped %d', grouped.length, {});
     _.forEach(grouped, function (group) {
       var subj = '', body = '', friend, lastDigit;
 
@@ -227,8 +227,6 @@ function addNotif(about, type) {
         aboutWishlist: about.wishlist,
         aboutUser: _.omit(about, 'wishlist')
       }
-    }).then(function (res) {
-      log.log('debug', 'Result %j', res, {});
     });
   };
 
