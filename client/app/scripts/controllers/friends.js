@@ -2,7 +2,7 @@
 
 angular.module('clientApp')
   .controller('FriendsCtrl', function (
-        $scope, $routeParams, LocalStorage, Fb, Backend) {
+        $scope, $routeParams, $location, LocalStorage, Fb, Backend) {
     analytics.page('Friends', {
       friendId: $routeParams.friendId
     });
@@ -14,7 +14,16 @@ angular.module('clientApp')
 
 
     Fb.getLoginStatus().done(function (data) {
-      if (data.status !== 'connected') { $scope.goToLogin(); }
+      if (data.status !== 'connected' && !friendId) {
+        $scope.goToLogin();
+      }
+
+      if (data.status !== 'connected' && friendId) {
+        $scope.$safeApply(function () {
+          $location.path('/letters/' + friendId);
+          $location.replace();
+        });
+      }
     });
 
     $scope.$loading = true;

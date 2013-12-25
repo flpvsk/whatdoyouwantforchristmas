@@ -3,6 +3,7 @@ require('newrelic');
 var express = require('express'),
     path = require('path'),
     api = require('./api'),
+    reports = require('./reports'),
     app = express();
 
 app.use(express.logger())
@@ -23,5 +24,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // API
 app.use('/api', api);
+
+
+// REPORTS
+app.use('/reports', reports);
 
 app.listen(process.env.PORT || 3000);
