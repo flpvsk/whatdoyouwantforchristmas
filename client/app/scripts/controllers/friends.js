@@ -2,7 +2,7 @@
 
 angular.module('clientApp')
   .controller('FriendsCtrl', function (
-        $scope, $routeParams, LocalStorage, Fb, Backend) {
+        $scope, $routeParams, $location, LocalStorage, Fb, Backend) {
     analytics.page('Friends', {
       friendId: $routeParams.friendId
     });
