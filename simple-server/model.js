@@ -101,3 +101,17 @@ module.exports.user.fetchWishes = function fetchWishes (user) {
         return user;
       });
 };
+
+module.exports.user.pickFields = function pick(user) {
+  return _.pick(user,
+      'letter',
+      'name',
+      'first_name',
+      'last_name',
+      'created_at',
+      'username',
+      'gender',
+      'fbId',
+      '_id',
+      'wishlist');
+}

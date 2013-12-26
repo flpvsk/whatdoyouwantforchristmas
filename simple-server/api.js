@@ -28,6 +28,7 @@ app.get('/users', function (req, res, next) {
       user.created_at = user._id.getTimestamp().getTime() / 1000;
       return user;
     })
+    .then(model.user.pickFields)
     .then(
       successCb(req, res, next),
       errorCb(req, res, next)
@@ -40,6 +41,7 @@ app.get('/users/:id', function (req, res, next) {
   var id = db.id(req.params.id);
   return db.findOne('users', { '_id': id })
     .then(model.user.fetchWishes)
+    .then(model.user.pickFields)
     .then(successCb(req, res, next), errorCb(req, res, next));
 });
 
@@ -84,6 +86,9 @@ app.get('/users/:id/friends', function (req, res, next) {
         log.debug('filtering', fr);
         return fr.wishlist.length > 0 || (fr.letter || '').length > 0;
       });
+    })
+    .then(function (arr) {
+      return _.map(arr, model.user.pickFields);
     })
     .then(
       successCb(req, res, next),
@@ -130,6 +135,7 @@ app.post('/users/signup', function (req, res, next) {
           userRef.user = user;
           return user;
         })
+        .then(model.user.pickFields)
         .then(
           successCb(req, res, next, 201),
           errorCb(req, res, next)
