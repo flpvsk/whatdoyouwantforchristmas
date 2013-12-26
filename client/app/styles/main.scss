@@ -32,6 +32,8 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 // Fonts
 @include font-face('Decor', font-files('Decor.ttf'));
+@include font-face('PT Sans', font-files('PTC55F_W.ttf'));
+@include font-face('PT Serif', font-files('PTF55F_W.ttf'));
 
 $font-script: 'Lobster', cursive;
 $font-sans: 'PT Sans', sans-serif;
