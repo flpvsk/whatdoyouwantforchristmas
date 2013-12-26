@@ -207,6 +207,111 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 });
 
 
+
+app.use('/newsletters/no-letter', function (req, res, next) {
+  if (req.query.key !== process.env.MAIL_KEY &&
+      process.env.NODE_ENV !== 'DEV') {
+    res.status(403);
+    res.end();
+  }
+  res.end();
+
+  return db.find('users', { 'letter': { '$exists': false }  })
+    .then(function (noLetterUsers) {
+      return Q.all(_.map(noLetterUsers, function (user) {
+        var fbFrIdList = _.map(user.fbFriends, function (f) {
+          return f.fbId;
+        });
+        log.log('debug', 'Searching for friends for %s', user.username, {});
+        return db.find('users', {
+          'fbId': { '$in': fbFrIdList },
+          'letter': { '$exists': true }
+        }).then(function (friends) {
+
+          if (!friends.length) { return; }
+
+          var data = _.map(friends, function (friend) {
+            return _.pick(friend, 'name', '_id', 'gender', 'letter');
+          });
+
+          log.debug('adding notif');
+          return addNotif(null, { 'examples': data }, 'no-letter')(user);
+        });
+      }));
+    })
+    .then(function () {
+      return db.find('notifs', { 'type': 'no-letter', 'sent': false });
+    })
+    .then(function (notifs) {
+      _.forEach(notifs, function (notif) {
+        var subj = 'Смотри, что ',
+            frStr = '',
+            frOverTwo,
+            name;
+
+        if (notif.examples.length == 1) {
+          name = notif.examples[0].name;
+          if (notif.examples[0].gender === 'female') {
+            subj += 'твоя подруга ' + name + ' написала ';
+          } else {
+            subj += 'твой друг ' + name + ' написал ';
+          }
+        }
+
+        if (notif.examples.length === 2) {
+          frStr = _.map(
+            notif.examples,
+            function (e) { return e.name; }).join(' и ');
+
+          subj += 'твои друзья ' + frStr + ' написали ';
+        }
+
+
+        if (notif.examples.length > 2) {
+          frOverTwo = notif.examples.slice(2).length;
+
+          frStr = _.map(
+            notif.examples.slice(0, 2),
+            function (e) { return e.name; }).join(', ');
+
+          frStr += ' и ещё ';
+
+          if (frOverTwo === 1) {
+            frStr += '1 друг ';
+          }
+
+          if (_.contains([ 2, 3, 4 ], frOverTwo)) {
+            frStr += frOverTwo + ' друга ';
+          }
+
+          if (frOverTwo > 4) {
+            frStr += frOverTwo + ' друзей ';
+          }
+
+
+          subj += frStr;
+          subj += 'написали ';
+        }
+
+        subj += 'Деду Морозу!'
+
+        log.log('debug', 'Subj: %s', subj);
+
+        analytics.track({
+          'userId': notif.to.toString(),
+          'event': 'Encourage writing a letter',
+          'properties': {
+            'subj': subj,
+            'examples': notif.examples
+          }
+        });
+
+      });
+    });
+
+});
+
+
 function addNotif(aboutId, insertData, type) {
 
   return function (to) {
