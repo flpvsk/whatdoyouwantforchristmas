@@ -89,7 +89,16 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
       return db.find('users', { 'fbId': { '$in': frFbIdList } })
         .then(function (friends) {
-          return Q.all(_.map(friends, addNotif(noGiver, 'no-giver')));
+          var data = {};
+
+          data.aboutUser = _.pick(noGiver, '_id', 'name', 'gender');
+          data.aboutWishlist = _.map(noGiver.wishlist, function (w) {
+            return _.omit(w, 'givers');
+          });
+
+          return Q.all(
+            _.map(friends, addNotif(data._id, data, 'no-giver'))
+          );
         });
     }));
   })
@@ -175,11 +184,13 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
       subj += 'подарков в этот Новый Год!';
 
-      // log.log(
-      //   'debug',
-      //   'TO: %s, subj: `%s`, body: `%s`',
-      //   group._id, subj, body, {}
-      // );
+      log.log(
+        'debug',
+        'TO: %s, subj: `%s`, body: `%s`',
+        group._id, subj, body, {}
+      );
+
+      return;
 
       analytics.track({
         'userId': group._id.toString(),
@@ -196,45 +207,38 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 });
 
 
-function addNotif(about, type) {
+function addNotif(aboutId, insertData, type) {
 
-  return function (friend) {
+  return function (to) {
     log.log(
         'debug',
         'Adding notification to %s about %s type %s',
-        friend.username,
-        about.username,
+        to.username,
+        aboutId,
         type, {});
 
     var queryAndHash = {
-      to: friend._id,
-      about: about._id,
+      to: to._id,
+      about: aboutId,
       type: type
-    };
+    }, insertHash = { 'sent': false };
 
     analytics.identify({
-      userId : friend._id.toString(),
+      userId : to._id.toString(),
       traits : {
-        email : friend.email,
-        name : friend.name,
-        first_name: friend.first_name,
-        gender : friend.gender
+        email : to.email,
+        name : to.name,
+        first_name: to.first_name,
+        gender : to.gender
       }
     });
 
-    about.user = _.omit(about, 'wishlist');
-    about.user = _.pick(about.user, '_id', 'name', 'gender');
-    about.wishlist = _.map(about.wishlist, function (w) {
-      return _.omit(w, 'givers');
-    });
+    insertHash = _.extend(insertHash, insertData);
 
     return db.createIfNotExist('notifs', queryAndHash, {
-      '$setOnInsert': {
-        sent: false,
-        aboutWishlist: about.wishlist,
-        aboutUser: about.user
-      }
+      '$setOnInsert': insertHash
     });
   };
 
 };
+
