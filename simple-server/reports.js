@@ -89,7 +89,16 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
       return db.find('users', { 'fbId': { '$in': frFbIdList } })
         .then(function (friends) {
-          return Q.all(_.map(friends, addNotif(noGiver, 'no-giver')));
+          var data = {};
+
+          data.aboutUser = _.pick(noGiver, '_id', 'name', 'gender');
+          data.aboutWishlist = _.map(noGiver.wishlist, function (w) {
+            return _.omit(w, 'givers');
+          });
+
+          return Q.all(
+            _.map(friends, addNotif(data._id, data, 'no-giver'))
+          );
         });
     }));
   })
@@ -175,11 +184,13 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
       subj += 'подарков в этот Новый Год!';
 
-      // log.log(
-      //   'debug',
-      //   'TO: %s, subj: `%s`, body: `%s`',
-      //   group._id, subj, body, {}
-      // );
+      log.log(
+        'debug',
+        'TO: %s, subj: `%s`, body: `%s`',
+        group._id, subj, body, {}
+      );
+
+      return;
 
       analytics.track({
         'userId': group._id.toString(),
@@ -196,45 +207,143 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 });
 
 
-function addNotif(about, type) {
 
-  return function (friend) {
+app.use('/newsletters/no-letter', function (req, res, next) {
+  if (req.query.key !== process.env.MAIL_KEY &&
+      process.env.NODE_ENV !== 'DEV') {
+    res.status(403);
+    res.end();
+  }
+  res.end();
+
+  return db.find('users', { 'letter': { '$exists': false }  })
+    .then(function (noLetterUsers) {
+      return Q.all(_.map(noLetterUsers, function (user) {
+        var fbFrIdList = _.map(user.fbFriends, function (f) {
+          return f.fbId;
+        });
+        log.log('debug', 'Searching for friends for %s', user.username, {});
+        return db.find('users', {
+          'fbId': { '$in': fbFrIdList },
+          'letter': { '$exists': true }
+        }).then(function (friends) {
+
+          if (!friends.length) { return; }
+
+          var data = _.map(friends, function (friend) {
+            return _.pick(friend, 'name', '_id', 'gender', 'letter');
+          });
+
+          log.debug('adding notif');
+          return addNotif(null, { 'examples': data }, 'no-letter')(user);
+        });
+      }));
+    })
+    .then(function () {
+      return db.find('notifs', { 'type': 'no-letter', 'sent': false });
+    })
+    .then(function (notifs) {
+      _.forEach(notifs, function (notif) {
+        var subj = 'Смотри, что ',
+            frStr = '',
+            frOverTwo,
+            name;
+
+        if (notif.examples.length == 1) {
+          name = notif.examples[0].name;
+          if (notif.examples[0].gender === 'female') {
+            subj += 'твоя подруга ' + name + ' написала ';
+          } else {
+            subj += 'твой друг ' + name + ' написал ';
+          }
+        }
+
+        if (notif.examples.length === 2) {
+          frStr = _.map(
+            notif.examples,
+            function (e) { return e.name; }).join(' и ');
+
+          subj += 'твои друзья ' + frStr + ' написали ';
+        }
+
+
+        if (notif.examples.length > 2) {
+          frOverTwo = notif.examples.slice(2).length;
+
+          frStr = _.map(
+            notif.examples.slice(0, 2),
+            function (e) { return e.name; }).join(', ');
+
+          frStr += ' и ещё ';
+
+          if (frOverTwo === 1) {
+            frStr += '1 друг ';
+          }
+
+          if (_.contains([ 2, 3, 4 ], frOverTwo)) {
+            frStr += frOverTwo + ' друга ';
+          }
+
+          if (frOverTwo > 4) {
+            frStr += frOverTwo + ' друзей ';
+          }
+
+
+          subj += frStr;
+          subj += 'написали ';
+        }
+
+        subj += 'Деду Морозу!'
+
+        log.log('debug', 'Subj: %s', subj);
+
+        analytics.track({
+          'userId': notif.to.toString(),
+          'event': 'Encourage writing a letter',
+          'properties': {
+            'subj': subj,
+            'examples': notif.examples
+          }
+        });
+
+      });
+    });
+
+});
+
+
+function addNotif(aboutId, insertData, type) {
+
+  return function (to) {
     log.log(
         'debug',
         'Adding notification to %s about %s type %s',
-        friend.username,
-        about.username,
+        to.username,
+        aboutId,
         type, {});
 
     var queryAndHash = {
-      to: friend._id,
-      about: about._id,
+      to: to._id,
+      about: aboutId,
       type: type
-    };
+    }, insertHash = { 'sent': false };
 
     analytics.identify({
-      userId : friend._id.toString(),
+      userId : to._id.toString(),
       traits : {
-        email : friend.email,
-        name : friend.name,
-        first_name: friend.first_name,
-        gender : friend.gender
+        email : to.email,
+        name : to.name,
+        first_name: to.first_name,
+        gender : to.gender
       }
     });
 
-    about.user = _.omit(about, 'wishlist');
-    about.user = _.pick(about.user, '_id', 'name', 'gender');
-    about.wishlist = _.map(about.wishlist, function (w) {
-      return _.omit(w, 'givers');
-    });
+    insertHash = _.extend(insertHash, insertData);
 
     return db.createIfNotExist('notifs', queryAndHash, {
-      '$setOnInsert': {
-        sent: false,
-        aboutWishlist: about.wishlist,
-        aboutUser: about.user
-      }
+      '$setOnInsert': insertHash
     });
   };
 
 };
+
