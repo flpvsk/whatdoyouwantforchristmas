@@ -12,11 +12,8 @@ module.exports = app;
 analytics.init({ secret: 'uh8upim5t8' });
 
 app.use('/newsletters/no-givers', function (req, res, next) {
-  if (req.query.key !== process.env.MAIL_KEY &&
-      process.env.NODE_ENV !== 'DEV') {
-    res.status(403);
-    res.end();
-  }
+  if (!checkAuth(req, res, next)) { return; }
+
   res.end();
 
 
@@ -209,11 +206,8 @@ app.use('/newsletters/no-givers', function (req, res, next) {
 
 
 app.use('/newsletters/no-letter', function (req, res, next) {
-  if (req.query.key !== process.env.MAIL_KEY &&
-      process.env.NODE_ENV !== 'DEV') {
-    res.status(403);
-    res.end();
-  }
+  if (!checkAuth(req, res, next)) { return; }
+
   res.end();
 
   return db.find('users', { 'letter': { '$exists': false }  })
@@ -311,6 +305,165 @@ app.use('/newsletters/no-letter', function (req, res, next) {
 
 });
 
+app.use('/newsletters/gift-list', function (req, res, next) {
+  if (!checkAuth(req, res, next)) { return; }
+
+  res.end();
+
+  return db.aggregate('wishes', [
+    { '$match': { 'givers': { '$exists': true }, 'removed': false } },
+    {
+      '$project': {
+        '_id': 1,
+        'givers': 1,
+        'descr': 1,
+        'type': 1,
+        'address': 1,
+        'userId': 1,
+        'allGivers': '$givers'
+      }
+    },
+    { '$unwind': '$givers' },
+    {
+      '$group': {
+        '_id': '$givers._id',
+        'wishes': {
+          '$addToSet': {
+            '_id': '$_id',
+            'givers': '$allGivers',
+            'descr': '$descr',
+            'type': '$type',
+            'address': '$address',
+            'userId': '$userId'
+          }
+        }
+      }
+    }
+  ])
+  .then(function (groups) {
+    log.log('debug', 'Got %d groups', groups.length, {});
+    return Q.all(_.map(groups, function (group) {
+      return db.findById('users', group._id)
+        .then(function (user) {
+          group.user = user;
+          return group;
+        });
+    }));
+  })
+  .then(function (groups) {
+    return Q.all(_.map(groups, function (group) {
+      return Q.all(_.map(group.wishes, function (wish) {
+        var wishId;
+
+        if (!group.user) {
+          log.log('warn', 'User not found %s', group._id, {});
+          return null;
+        }
+
+
+        log.log('debug', 'Searching for friend with %s', wish.userId, {});
+        return db.findById('users', wish.userId)
+          .then(function (friend) {
+            if (!friend) {
+              log.log('warn', 'Friend not found %s', wish.userId, {});
+              return;
+            }
+
+            wishId = wish._id;
+            wish.friend = _.pick(
+              friend,
+              '_id', 'fbId', 'name', 'gender', 'username');
+
+            log.log(
+              'debug',
+              'Adding notif to %s for %s\'s gift: %s',
+              group.user.username, wish.friend.username, wish.descr, {});
+
+            return addNotif(
+              wishId, { wish: wish }, 'gift-list')(group.user);
+          });
+      }));
+    }));
+  })
+  .then(function () {
+    log.debug('Notifications added');
+    return db.aggregate('notifs', [
+      { '$match': { 'type': 'gift-list', 'sent': false } },
+      {
+        '$group': {
+          '_id': '$to',
+          'wishes': {
+            '$addToSet': {
+              '_id': '$wish._id',
+              'friend': '$wish.friend',
+              'descr': '$wish.descr',
+              'type': '$wish.type',
+              'address': '$wish.address',
+              'userId': '$wish.userId'
+            }
+          }
+        }
+      }
+    ]);
+  })
+  .then(function (groups) {
+    log.log('debug', 'Got notifications %d', groups.length, {});
+    groups = _.map(groups, function (group) {
+      var hash = {};
+      group.wishesByFriend = [];
+
+      _.forEach(group.wishes, function (wish) {
+        var friendsData = hash[wish.userId] || {};
+        hash[wish.userId] = friendsData;
+
+        friendsData.wishes = friendsData.wishes || [];
+        friendsData.wishes.push(_.omit(wish, 'friend'));
+
+        friendsData.friend = wish.friend;
+
+      });
+
+      log.log('debug', 'Hash %j', _.keys(hash), {});
+
+      _.chain(hash).keys().forEach(function (key) {
+        log.log('debug', 'Key %s data %j', key, hash[key]);
+        group.wishesByFriend.push(hash[key]);
+      });
+
+      return group;
+    });
+
+    _.forEach(groups, function (group) {
+      log.log(
+          'debug',
+          'Going to send to %s data %j',
+          group._id,
+          group.wishesByFriend, {});
+
+      analytics.track({
+        'userId': group._id.toString(),
+        'event': 'Gift list update',
+        'properties': {
+          'wishesByFriend': group.wishesByFriend
+        }
+      });
+
+    });
+
+  })
+  .done();
+});
+
+function checkAuth(req, res, next) {
+  if (req.query.key !== process.env.MAIL_KEY &&
+      process.env.NODE_ENV !== 'DEV') {
+    res.status(403);
+    res.end();
+    return false;
+  }
+  return true;
+}
+
 
 function addNotif(aboutId, insertData, type) {
 
@@ -328,15 +481,17 @@ function addNotif(aboutId, insertData, type) {
       type: type
     }, insertHash = { 'sent': false };
 
-    analytics.identify({
-      userId : to._id.toString(),
-      traits : {
-        email : to.email,
-        name : to.name,
-        first_name: to.first_name,
-        gender : to.gender
-      }
-    });
+    if (process.env.NODE_ENV === 'production') {
+      analytics.identify({
+        userId : to._id.toString(),
+        traits : {
+          email : to.email,
+          name : to.name,
+          first_name: to.first_name,
+          gender : to.gender
+        }
+      });
+    }
 
     insertHash = _.extend(insertHash, insertData);
 
