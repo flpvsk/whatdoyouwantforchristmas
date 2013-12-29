@@ -238,7 +238,7 @@ app.use('/newsletters/no-letter', function (req, res, next) {
     })
     .then(function (notifs) {
       _.forEach(notifs, function (notif) {
-        var subj = 'Смотри, что ',
+        var subj = 'вот что ',
             frStr = '',
             frOverTwo,
             name;
