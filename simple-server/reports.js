@@ -17,18 +17,13 @@ app.use('/newsletters/no-givers', function (req, res, next) {
   res.end();
 
 
-  return db.aggregate('wishes', [{
-    '$match': {
-      'removed': false
-    }
-  }, {
-    '$unwind': '$givers'
-  }, {
-    '$group': {
-      '_id': '$userId'
-  }}])
-  .then(function (usersWithGivers) {
-    var idList = _.map(usersWithGivers, function (u) { return u._id; });
+  return db.find('wishes', {
+    'removed': false,
+    'givers.1': { '$exists': true }
+  })
+  .then(function (wishesWithGivers) {
+    var idList = _.map(wishesWithGivers, function (w) { return w.userId; });
+    idList = _.uniq(idList, false, function (id) { return id.toString(); })
 
     return db.aggregate('wishes', [{
 
