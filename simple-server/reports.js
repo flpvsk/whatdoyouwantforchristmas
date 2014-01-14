@@ -449,6 +449,30 @@ app.use('/newsletters/gift-list', function (req, res, next) {
   .done();
 });
 
+app.use('/users/identify', function (req, res, next) {
+
+  if (!checkAuth(req, res, next)) { return; }
+
+  res.end();
+
+  db.find('users').then(function (users) {
+    _.map(users, function (user) {
+      log.debug('identifying', user._id.toString());
+      analytics.identify({
+        userId : user._id.toString(),
+        traits : {
+          email : user.email,
+          name : user.name,
+          first_name: user.first_name,
+          gender : user.gender
+        }
+      });
+    });
+
+  });
+
+});
+
 function checkAuth(req, res, next) {
   if (req.query.key !== process.env.MAIL_KEY &&
       process.env.NODE_ENV !== 'DEV') {
