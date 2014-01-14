@@ -104,6 +104,7 @@ module.exports.user.fetchWishes = function fetchWishes (user) {
 
 module.exports.user.pickFields = function pick(user) {
   return _.pick(user,
+      'email',
       'letter',
       'name',
       'first_name',
