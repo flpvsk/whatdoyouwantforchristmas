@@ -63,53 +63,6 @@ angular.module('clientApp')
       });
     };
 
-    /*
-    $scope.friends = [{
-      name: 'Evgenia Salomatina',
-      username: 'eugen.salomatina',
-      gender: 'female',
-      letter: 'Кастомное письмо. А подарки вот:',
-      wishlist: [{
-        descr: 'Дешевле только тут - табуреты: табуретки для кухни, недорогой кухонный табурет, складные табуреты, дешевые табуретки  купить можно в нашем интернет-магазине',
-        type: 'link',
-        address: 'http://www.mebelklad.ru/index.php?categoryID=20'
-      }, {
-        descr: 'Шампиньоны, нарезанные тонко и вкусно запечёные щи!',
-        givers: [{
-          name: 'Fipa Solo',
-          username: 'fipa.solo'
-        }, {
-          name: 'Andrey Salomatin',
-          username: 'filipovskii.off'
-        }]
-      }]
-    }, {
-      name: 'Andrey Pushkarev',
-      username: 'fealaer',
-      gender: 'male',
-      wishlist: [{
-        descr: 'Доску для сёрфинга'
-      }, {
-        descr: 'Путёвку на двоих к океану'
-      }, {
-        descr: 'Годовой запас еды для Герцога'
-      }]
-    }, {
-      name: 'Ilya Vakhrushev',
-      username: 'ilya.vakhrushev.9',
-      gender: 'male',
-      wishlist: [{
-        descr: 'Бесконечно тонкий байк'
-      }, {
-        descr: 'Вафель'
-      }, {
-        descr: 'Новую работу'
-      }, {
-        descr: 'Кофе'
-      }]
-    }];
-    */
-
     $scope.isLoading = function () {
       return !!$scope.$loading;
     };
